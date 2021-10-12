@@ -3,6 +3,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name = "group")
@@ -16,4 +17,6 @@ public class Group {
     private String name;
     @Column(name="specification", nullable=false)
     private String specification;
+    @OneToMany(mappedBy = "student")
+    private List<Student> students;
 }
