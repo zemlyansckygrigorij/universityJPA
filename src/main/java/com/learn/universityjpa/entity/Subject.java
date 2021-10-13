@@ -6,12 +6,12 @@ import lombok.Setter;
 import javax.persistence.*;
 
 @Entity
+@Getter
+@Setter
 @Table(name = "subject")
 public class Subject {
     @Id
     @GeneratedValue
-    @Getter
-    @Setter
     private Long id;
     @Column(name="name", nullable=false)
     private String name;
