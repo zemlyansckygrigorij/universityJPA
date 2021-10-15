@@ -2,6 +2,8 @@ package com.learn.universityjpa.entity;
 
 import lombok.*;
 
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
@@ -30,6 +32,7 @@ public abstract class Person {
     private String firstName;
     private String secondName;
     private String lastName;
+    @Temporal(TemporalType.DATE)
     private Date dateBirth;
     @Enumerated(EnumType.STRING)
     @Type( type = "pgsql_enum" )
