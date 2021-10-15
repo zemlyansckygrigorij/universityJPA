@@ -8,11 +8,13 @@ import javax.persistence.MappedSuperclass;
 import java.util.Date;
 
 @MappedSuperclass
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @ToString
 @Getter
 @Setter
 public abstract class Person {
     @Id
+    @EqualsAndHashCode.Include()
     @GeneratedValue
     private Long id;
 
