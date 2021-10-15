@@ -1,5 +1,6 @@
 package com.learn.universityjpa.entity;
 
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -9,6 +10,7 @@ import javax.persistence.*;
 @Entity
 @Getter
 @Setter
+@EqualsAndHashCode(callSuper=false)
 @Table(name = "student")
 @NoArgsConstructor
 public class Student  extends Person {
