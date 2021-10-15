@@ -9,6 +9,7 @@ import java.util.Date;
 
 @MappedSuperclass
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
+@NoArgsConstructor
 @ToString
 @Getter
 @Setter
