@@ -6,6 +6,10 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
 import java.util.Date;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import org.hibernate.annotations.Type;
+import org.hibernate.annotations.TypeDef;
 
 @MappedSuperclass
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
@@ -13,6 +17,10 @@ import java.util.Date;
 @ToString
 @Getter
 @Setter
+@TypeDef(
+        name = "pgsql_enum",
+        typeClass = GenderConverter.class
+)
 public abstract class Person {
     @Id
     @EqualsAndHashCode.Include()
@@ -23,5 +31,7 @@ public abstract class Person {
     private String secondName;
     private String lastName;
     private Date dateBirth;
+    @Enumerated(EnumType.STRING)
+    @Type( type = "pgsql_enum" )
     private Gender gender;
 }
