@@ -9,9 +9,11 @@ import java.util.List;
 @Entity
 @Getter
 @Setter
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @Table(name = "groups")
 public class Group {
     @Id
+    @EqualsAndHashCode.Include()
     @GeneratedValue
     private Long id;
     @Column(name="name", nullable=false)
