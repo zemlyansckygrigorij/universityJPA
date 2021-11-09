@@ -1,0 +1,20 @@
+databaseChangeLog:
+  - logicalFilePath: db/changelog/db.changelog-init.yaml
+  - changeSet:
+      id: 1
+      author: Zemlyanskiy_grigoriy
+      changes:
+        - sqlFile:
+            endDelimiter: \nGO
+            splitStatements: true
+            path: /createDatabaseUniversity.sql
+            stripComments: true
+  - changeSet:
+      id: 1
+      author: Zemlyanskiy_grigoriy
+      changes:
+        - sqlFile:
+           endDelimiter: \nGO
+           splitStatements: true
+           path: /initInsert.sql
+           stripComments: true
