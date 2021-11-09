@@ -34,7 +34,7 @@ class TeacherTest {
         teacher.setDateBirth(birth);
         teacher.setCategory("First");
         repo.save(teacher);
-        Teacher teacherFrom = repo.findAll().get(0);
+        Teacher teacherFrom = repo.findAll().get((int) count);
         assertEquals(teacher, teacherFrom);
         assertEquals(teacherFrom.getFirstName(), "FirstName");
         assertEquals(teacherFrom.getSecondName(), "SecondName");
