@@ -12,8 +12,9 @@ import javax.persistence.*;
 public class Subject {
     @Id
     @GeneratedValue
+    @Column(name="id_subject", nullable=false)
     private Long id;
-    @Column(name="name", nullable=false)
+    @Column(name="name_subject", nullable=false)
     private String name;
     @Column(name="description", nullable=false)
     private String description;
