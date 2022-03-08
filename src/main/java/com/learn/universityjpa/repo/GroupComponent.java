@@ -26,7 +26,7 @@ public interface GroupComponent {
      * @param id идентификатор группы.
      * @return группу.
      */
-    Group findByIdOrDie(Long id);
+    Group findByIdOrDie(Long id) throws Exception;
 
     /**
      * Сохраняет группу.
@@ -41,14 +41,20 @@ public interface GroupComponent {
      *
      * @return список студентов .
      */
-    List<Student> findAllStudents();
+    List<Student> findAllStudents(Group group);
 
+    /**
+     * Находит всех группы.
+     *
+     * @return список групп .
+     */
+    List<Group> findAll();
     /**
      * Находит все предметы данной группы.
      *
      * @return список предметов .
      */
-    List<Subject> findAllSubjects();
+    List<Subject> findAllSubjects(Group group);
 
     /**
      * Проверяет наличие студента данной группы.
@@ -56,7 +62,7 @@ public interface GroupComponent {
      * @param  student студент.
      * @return наличие студента в группе
      */
-    boolean checkStudent(Student student);
+    boolean checkStudent(Group group ,Student student);
 
     /**
      * Проверяет наличие студента данной группы.
@@ -64,14 +70,14 @@ public interface GroupComponent {
      * @param  subject предмет.
      * @return наличие предмета в группе
      */
-    boolean checkSubject(Subject subject);
+    boolean checkSubject(Group group ,Subject subject);
 
     /**
      * Добавляет предмет в данную группу.
      * @param  group группа .
      * @param  subject предмет
      */
-    Student addSubject(Group group, Subject subject);
+    Subject addSubject(Group group, Subject subject);
 
     /**
      * Удаляет предмет из данной группы.
@@ -79,7 +85,7 @@ public interface GroupComponent {
      * @param  group группа .
      * @param  subject предмет
      */
-    Student deleteSubject(Group group, Subject subject);
+    Subject deleteSubject(Group group, Subject subject);
 
     /**
      * Добавляет студента в данную группу.
