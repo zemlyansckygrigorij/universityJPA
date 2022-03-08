@@ -22,4 +22,6 @@ public class Group {
     private String specification;
     @OneToMany(targetEntity=Student.class, mappedBy="id",cascade=CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Student> students;
+    @ManyToMany(targetEntity=Subject.class, mappedBy="id",cascade=CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<Subject> subjects;
 }
