@@ -3,7 +3,6 @@ package com.learn.universityjpa.repo;
 import com.learn.universityjpa.entity.Group;
 import com.learn.universityjpa.entity.Student;
 import com.learn.universityjpa.entity.Subject;
-
 import java.util.List;
 import java.util.Optional;
 
@@ -36,69 +35,24 @@ public interface StudentComponent {
     Student commit(Student student);
 
     /**
-     * Находит всех студентов данной группы.
+     * Находит  группу данного студента.
      *
-     * @return список студентов .
+     * @return группу.
      */
-    List<Student> findGroup(Group group);
+    Optional<Group> findGroup(Group group);
 
     /**
-     * Находит всех группы.
+     * Находит  список предметов данного студента.
      *
-     * @return список групп .
+     * @return Находит  список предметов.
      */
-    List<Group> findAll();
-    /**
-     * Находит все предметы данной группы.
-     *
-     * @return список предметов .
-     */
-    List<Subject> findAllSubjects(Group group);
+    List<Subject> findAllSubjects(Student student);
 
     /**
-     * Проверяет наличие студента данной группы.
-     *
-     * @param  student студент.
-     * @return наличие студента в группе
-     */
-    boolean checkStudent(Group group ,Student student);
-
-    /**
-     * Проверяет наличие студента данной группы.
+     * Проверяет наличие предмета  студента .
      *
      * @param  subject предмет.
      * @return наличие предмета в группе
      */
-    boolean checkSubject(Group group ,Subject subject);
-
-    /**
-     * Добавляет предмет в данную группу.
-     * @param  group группа .
-     * @param  subject предмет
-     */
-    Subject addSubject(Group group, Subject subject);
-
-    /**
-     * Удаляет предмет из данной группы.
-     *
-     * @param  group группа .
-     * @param  subject предмет
-     */
-    Subject deleteSubject(Group group, Subject subject);
-
-    /**
-     * Добавляет студента в данную группу.
-     *
-     * @param  group группа .
-     * @param  student студент
-     */
-    Student addStudent(Group group, Student student);
-
-    /**
-     *  Удаляет  студента из данную группу.
-     *
-     * @param  group группа .
-     * @param  student студент
-     */
-    Student deleteStudent(Group group, Student student);
+    boolean checkSubject(Student student ,Subject subject);
 }
