@@ -39,7 +39,7 @@ public interface StudentComponent {
      *
      * @return группу.
      */
-    Optional<Group> findGroup(Group group);
+    Group findGroup(Student student);
 
     /**
      * Находит  список предметов данного студента.
