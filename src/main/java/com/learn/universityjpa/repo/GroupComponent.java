@@ -54,7 +54,7 @@ public interface GroupComponent {
      *
      * @return список предметов .
      */
-    List<Subject> findAllSubjects(Group group);
+   // List<Subject> findAllSubjects(Group group);
 
     /**
      * Проверяет наличие студента данной группы.
@@ -77,7 +77,7 @@ public interface GroupComponent {
      * @param  group группа .
      * @param  subject предмет
      */
-    Subject addSubject(Group group, Subject subject);
+ //   Subject addSubject(Group group, Subject subject);
 
     /**
      * Удаляет предмет из данной группы.
@@ -85,7 +85,7 @@ public interface GroupComponent {
      * @param  group группа .
      * @param  subject предмет
      */
-    Subject deleteSubject(Group group, Subject subject);
+   // Subject deleteSubject(Group group, Subject subject);
 
     /**
      * Добавляет студента в данную группу.
