@@ -46,7 +46,7 @@ public interface StudentComponent {
      *
      * @return Находит  список предметов.
      */
-    List<Subject> findAllSubjects(Student student);
+  //  List<Subject> findAllSubjects(Student student);
 
     /**
      * Проверяет наличие предмета  студента .
@@ -54,5 +54,5 @@ public interface StudentComponent {
      * @param  subject предмет.
      * @return наличие предмета в группе
      */
-    boolean checkSubject(Student student ,Subject subject);
+  //  boolean checkSubject(Student student ,Subject subject);
 }
