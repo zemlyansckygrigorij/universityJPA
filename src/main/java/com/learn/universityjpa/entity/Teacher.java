@@ -9,14 +9,19 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
+/**
+ * @author Grigoriy Zemlyanskiy
+ * @version 1.0
+ * class Teacher
+ */
 @Entity
 @Getter
 @Setter
-@EqualsAndHashCode(callSuper=false)
+@EqualsAndHashCode(callSuper = false)
 @NoArgsConstructor
 @Table(name = "teacher")
 public class Teacher extends Person {
-    @Column(name="category", nullable=false)
+    @Column(name = "category", nullable = false)
     private String category;
     @Override
     public String toString() {

@@ -2,10 +2,15 @@ package com.learn.universityjpa.entity;
 
 import org.hibernate.HibernateException;
 import org.hibernate.engine.spi.SharedSessionContractImplementor;
+
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Types;
-
+/**
+ *  @author Grigoriy Zemlyanskiy
+ *  @version 1.0
+ * class for Convert value gender
+ */
 public class GenderConverter extends org.hibernate.type.EnumType  {
     public void nullSafeSet(
             PreparedStatement st,

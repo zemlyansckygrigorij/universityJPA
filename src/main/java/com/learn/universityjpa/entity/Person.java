@@ -1,18 +1,30 @@
 package com.learn.universityjpa.entity;
 
-import lombok.*;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.MappedSuperclass;
-import java.util.Date;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
 import org.hibernate.annotations.Type;
 import org.hibernate.annotations.TypeDef;
 
+import java.util.Date;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.MappedSuperclass;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+
+
+/**
+ * @author Grigoriy Zemlyanskiy
+ *
+ * @version 1.0
+ * abstract class Person
+ */
 @MappedSuperclass
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @NoArgsConstructor
@@ -35,6 +47,6 @@ public abstract class Person {
     @Temporal(TemporalType.DATE)
     private Date dateBirth;
     @Enumerated(EnumType.STRING)
-    @Type( type = "pgsql_enum" )
+    @Type(type = "pgsql_enum")
     private Gender gender;
 }

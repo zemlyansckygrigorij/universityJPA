@@ -9,9 +9,14 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * @author Grigoriy Zemlyanskiy
+ * @version 1.0
+ * class GroupComponentImpl
+ */
 @RequiredArgsConstructor
 @Component
-public class GroupComponentImpl implements GroupComponent{
+public class GroupComponentImpl implements GroupComponent {
     private final GroupRepository repo;
     @Override
     public Optional<Group> findById(Long id) {
@@ -48,18 +53,30 @@ public class GroupComponentImpl implements GroupComponent{
     @Override
     public boolean checkStudent(Group group, Student student) {
         Optional<List<Student>> optionalStudents = repo.getStudentByIdFromGroup(student.getId(), group.getId());
-        if(optionalStudents.isEmpty()) return false;
-        if(optionalStudents.get().size()>1) return false;
-        if(optionalStudents.get().size()==1) return true;
+        if (optionalStudents.isEmpty()) {
+            return false;
+        }
+        if (optionalStudents.get().size() > 1) {
+            return false;
+        }
+        if (optionalStudents.get().size() == 1) {
+            return true;
+        }
         return false;
     }
 
     @Override
     public boolean checkSubject(Group group, Subject subject) {
         Optional<List<Subject>> optionalSubjects =  repo.getSubjectByIdFromGroup(subject.getId(), group.getId());
-        if(optionalSubjects.isEmpty()) return false;
-        if(optionalSubjects.get().size()>1) return false;
-        if(optionalSubjects.get().size()==1) return true;
+        if (optionalSubjects.isEmpty()) {
+            return false;
+        }
+        if (optionalSubjects.get().size() > 1) {
+            return false;
+        }
+        if (optionalSubjects.get().size() == 1) {
+            return true;
+        }
         return false;
     }
 

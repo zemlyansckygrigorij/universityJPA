@@ -62,7 +62,7 @@ public interface GroupComponent {
      * @param  student студент.
      * @return наличие студента в группе
      */
-    boolean checkStudent(Group group ,Student student);
+    boolean checkStudent(Group group, Student student);
 
     /**
      * Проверяет наличие студента данной группы.
@@ -70,7 +70,7 @@ public interface GroupComponent {
      * @param  subject предмет.
      * @return наличие предмета в группе
      */
-    boolean checkSubject(Group group ,Subject subject);
+    boolean checkSubject(Group group, Subject subject);
 
     /**
      * Добавляет предмет в данную группу.

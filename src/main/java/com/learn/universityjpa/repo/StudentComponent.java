@@ -2,8 +2,8 @@ package com.learn.universityjpa.repo;
 
 import com.learn.universityjpa.entity.Group;
 import com.learn.universityjpa.entity.Student;
-import com.learn.universityjpa.entity.Subject;
-import java.util.List;
+//import com.learn.universityjpa.entity.Subject;
+//import java.util.List;
 import java.util.Optional;
 
 /**
