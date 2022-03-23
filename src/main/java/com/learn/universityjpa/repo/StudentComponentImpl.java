@@ -33,7 +33,7 @@ public class StudentComponentImpl implements StudentComponent {
         return student.getGroup();
     }
 
-    @Override
+ /*   @Override
     public List<Subject> findAllSubjects(Student student) {
         return student.getGroup().getSubjects();
     }
@@ -41,5 +41,5 @@ public class StudentComponentImpl implements StudentComponent {
     @Override
     public boolean checkSubject(Student student, Subject subject) {
         return student.getGroup().getSubjects().contains(subject);
-    }
+    }*/
 }
