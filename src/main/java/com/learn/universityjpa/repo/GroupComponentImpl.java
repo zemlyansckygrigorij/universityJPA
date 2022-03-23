@@ -40,10 +40,10 @@ public class GroupComponentImpl implements GroupComponent{
         return repo.findAll();
     }
 
-    @Override
+  /*  @Override
     public List<Subject> findAllSubjects(Group group) {
         return new ArrayList<>(group.getSubjects());
-    }
+    }*/
 
     @Override
     public boolean checkStudent(Group group, Student student) {
@@ -63,18 +63,18 @@ public class GroupComponentImpl implements GroupComponent{
         return false;
     }
 
-    @Override
+   /* @Override
     public Subject addSubject(Group group, Subject subject) {
         group.getSubjects().add(subject);
         return subject;
     }
-
-    @Override
+*/
+  /*  @Override
     public Subject deleteSubject(Group group, Subject subject) {
         group.getSubjects().remove(subject);
         return subject;
     }
-
+*/
     @Override
     public Student addStudent(Group group, Student student) {
         group.getStudents().add(student);
