@@ -4,16 +4,15 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.util.List;
+import java.util.Set;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import javax.persistence.ManyToMany;
 import javax.persistence.Table;
+
 
 /**
  * @author Grigoriy Zemlyanskiy
@@ -29,13 +28,12 @@ public class Group {
     @Id
     @EqualsAndHashCode.Include()
     @GeneratedValue
+    @Column(name = "id")
     private Long id;
     @Column(name = "name", nullable = false)
     private String name;
     @Column(name = "specification", nullable = false)
     private String specification;
-    @OneToMany(targetEntity = Student.class, mappedBy = "id", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private List<Student> students;
-   /* @ManyToMany(targetEntity = Subject.class, mappedBy = "id", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private List<Subject> subjects;*/
+    @ManyToMany
+    Set<Subject> subjects;
 }
