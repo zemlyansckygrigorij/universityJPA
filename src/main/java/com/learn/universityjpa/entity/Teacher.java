@@ -21,6 +21,7 @@ import javax.persistence.Table;
 @NoArgsConstructor
 @Table(name = "teacher")
 public class Teacher extends Person {
+
     @Column(name = "category", nullable = false)
     private String category;
     @Override
