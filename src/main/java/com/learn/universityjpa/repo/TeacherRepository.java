@@ -9,5 +9,5 @@ import org.springframework.stereotype.Repository;
  * interface TeacherRepository
  */
 @Repository
-public interface TeacherRepository extends JpaRepository<Teacher, Long> {
+interface TeacherRepository extends JpaRepository<Teacher, Long> {
 }
