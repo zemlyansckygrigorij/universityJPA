@@ -10,6 +10,8 @@ import org.hibernate.annotations.Type;
 import org.hibernate.annotations.TypeDef;
 
 import java.util.Date;
+
+import javax.persistence.Column;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
@@ -41,11 +43,20 @@ public abstract class Person {
     @GeneratedValue
     private Long id;
 
+    @Column(name = "first_name", nullable = false)
     private String firstName;
+
+    @Column(name = "second_name", nullable = false)
     private String secondName;
+
+    @Column(name = "last_name", nullable = false)
     private String lastName;
+
+    @Column(name = "date_birth", nullable = false)
     @Temporal(TemporalType.DATE)
     private Date dateBirth;
+
+    @Column(name = "gender", nullable = false)
     @Enumerated(EnumType.STRING)
     @Type(type = "pgsql_enum")
     private Gender gender;
