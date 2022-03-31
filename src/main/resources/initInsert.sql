@@ -1,4 +1,4 @@
-insert into subject(id_subject, name_subject ,description) values
+insert into subject(id, name ,description) values
 (1,'Introduction to Computational Science and Engineering','Follows the same pedagogy as 6.0002 (Introduction to Computational Thinking and Data Science), including Python, but is set in the context of computational science and engineering and uses applications from across science and engineering including dynamics, mechanics, robotics, heat transfer, climate science, chemistry, biology, aerospace and others.
 
 This course provides an introduction to computational algorithms for understanding of scientific phenomena and designing of engineering systems. Topics include: computational algorithms to simulate time-dependent phenomena; optimize and control applications from science and engineering; and quantify uncertainty in problems involving randomness, including an introduction to probability and statistics.
