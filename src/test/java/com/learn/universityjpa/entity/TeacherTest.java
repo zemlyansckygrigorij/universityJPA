@@ -1,6 +1,6 @@
 package com.learn.universityjpa.entity;
 
-import com.learn.universityjpa.repo.TeacherRepository;
+import com.learn.universityjpa.repo.TeacherComponent;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,11 +8,9 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.text.SimpleDateFormat;
 import java.util.Date;
-
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 
 @SpringBootTest
@@ -21,10 +19,11 @@ import static org.junit.jupiter.api.Assertions.*;
 @Transactional
 class TeacherTest {
     @Autowired
-    TeacherRepository repo;
+    TeacherComponent component;
+
     @Test
-    public void makeTest(){
-        long count = repo.findAll().size();
+    public void makeTest() {
+        long count = component.findAll().size();
         Teacher teacher = new Teacher();
         teacher.setFirstName("FirstName");
         teacher.setSecondName("SecondName");
@@ -33,8 +32,8 @@ class TeacherTest {
         Date birth = new Date();
         teacher.setDateBirth(birth);
         teacher.setCategory("First");
-        repo.save(teacher);
-        Teacher teacherFrom = repo.findAll().get((int) count);
+        component.commit(teacher);
+        Teacher teacherFrom = component.findAll().get((int) count);
         assertEquals(teacher, teacherFrom);
         assertEquals(teacherFrom.getFirstName(), "FirstName");
         assertEquals(teacherFrom.getSecondName(), "SecondName");
@@ -42,7 +41,7 @@ class TeacherTest {
         assertEquals(teacherFrom.getGender(), Gender.MALE);
         assertEquals(teacherFrom.getDateBirth(), birth);
         assertEquals(teacherFrom.getCategory(), "First");
-        assertEquals(count+1, repo.findAll().size());
+        assertEquals(count + 1, component.findAll().size());
     }
     @Test
     public void shouldNotAllowNullFirstName() {
@@ -54,6 +53,53 @@ class TeacherTest {
         Date birth = new Date();
         teacher.setDateBirth(birth);
         teacher.setCategory("First");
-        assertThrows(Exception.class,()->repo.save(teacher));
+        assertThrows(Exception.class, ()->component.commit(teacher));
+    }
+    @Test
+    public void shouldNotAllowNullSecondName() {
+        Teacher teacher = new Teacher();
+        teacher.setFirstName("FirstName");
+        teacher.setSecondName(null);
+        teacher.setLastName("LastName");
+        teacher.setGender((Gender.MALE));
+        Date birth = new Date();
+        teacher.setDateBirth(birth);
+        teacher.setCategory("First");
+        assertThrows(Exception.class, ()->component.commit(teacher));
+    }
+    @Test
+    public void shouldNotAllowNullLastName() {
+        Teacher teacher = new Teacher();
+        teacher.setFirstName("FirstName");
+        teacher.setSecondName("SecondName");
+        teacher.setLastName(null);
+        teacher.setGender((Gender.MALE));
+        Date birth = new Date();
+        teacher.setDateBirth(birth);
+        teacher.setCategory("First");
+        assertThrows(Exception.class, ()->component.commit(teacher));
+    }
+    @Test
+    public void shouldNotAllowNullDateBirth() {
+        Teacher teacher = new Teacher();
+        teacher.setFirstName("FirstName");
+        teacher.setSecondName("SecondName");
+        teacher.setLastName("LastName");
+        teacher.setGender((Gender.MALE));
+        teacher.setDateBirth(null);
+        teacher.setCategory("First");
+        assertThrows(Exception.class, ()->component.commit(teacher));
+    }
+    @Test
+    public void shouldNotAllowNullGender() {
+        Teacher teacher = new Teacher();
+        teacher.setFirstName("FirstName");
+        teacher.setSecondName("SecondName");
+        teacher.setLastName("LastName");
+        teacher.setGender((null));
+        Date birth = new Date();
+        teacher.setDateBirth(birth);
+        teacher.setCategory("First");
+        assertThrows(Exception.class, ()->component.commit(teacher));
     }
 }
