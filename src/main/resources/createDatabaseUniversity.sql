@@ -45,10 +45,10 @@ ALTER TABLE public.groups
 
 CREATE TABLE public.subject
 (
-    id_subject integer NOT NULL,
-    name_subject text COLLATE pg_catalog."default" NOT NULL,
+    id integer NOT NULL,
+    name text COLLATE pg_catalog."default" NOT NULL,
     description text COLLATE pg_catalog."default",
-    CONSTRAINT subject_pkey PRIMARY KEY (id_subject)
+    CONSTRAINT subject_pkey PRIMARY KEY (id)
 )
 
     TABLESPACE pg_default;
@@ -112,8 +112,8 @@ ALTER TABLE public.student
 CREATE TABLE public.group_subject
 (
     id integer NOT NULL,
-    id_group integer NOT NULL,
-    id_subject integer NOT NULL,
+    group_id integer NOT NULL,
+    subject_id integer NOT NULL,
     CONSTRAINT group_subject_pkey PRIMARY KEY (id)
 )
 
@@ -129,8 +129,8 @@ ALTER TABLE public.group_subject
 CREATE TABLE public.teacher_subject
 (
     id integer NOT NULL,
-    id_subject integer NOT NULL,
-    id_teacher integer NOT NULL,
+    subject_id integer NOT NULL,
+    teacher_id integer NOT NULL,
     CONSTRAINT teacher_subject_pkey PRIMARY KEY (id)
 )
 
