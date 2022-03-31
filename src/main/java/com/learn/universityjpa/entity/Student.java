@@ -23,8 +23,9 @@ import javax.persistence.Table;
 @EqualsAndHashCode(callSuper = false)
 @Table(name = "student")
 @NoArgsConstructor
-public class Student  extends Person {
-    @ManyToOne(fetch = FetchType.EAGER, cascade = {CascadeType.MERGE, CascadeType.PERSIST})
+public class Student extends Person {
+
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "id_group", nullable = false)
     private Group group;
 }
