@@ -27,14 +27,14 @@ ALTER TYPE public.gender
 
 CREATE TABLE public.teacher
 (
-    id integer NOT NULL,
+    teacher_id integer NOT NULL,
     first_name text COLLATE pg_catalog."default" NOT NULL,
     second_name text COLLATE pg_catalog."default" NOT NULL,
     last_name text COLLATE pg_catalog."default" NOT NULL,
     gender gender NOT NULL,
     category text COLLATE pg_catalog."default" NOT NULL,
     date_birth date NOT NULL,
-    CONSTRAINT teacher_pkey PRIMARY KEY (id)
+    CONSTRAINT teacher_pkey PRIMARY KEY (teacher_id)
 )
 
 TABLESPACE pg_default;
@@ -44,10 +44,10 @@ TABLESPACE pg_default;
 
 CREATE TABLE public.subject
 (
-    id integer NOT NULL,
+    subject_id integer NOT NULL,
     name text COLLATE pg_catalog."default" NOT NULL,
     description text COLLATE pg_catalog."default",
-    CONSTRAINT subject_pkey PRIMARY KEY (id)
+    CONSTRAINT subject_pkey PRIMARY KEY (subject_id)
 )
 
 TABLESPACE pg_default;
@@ -66,10 +66,10 @@ ALTER TABLE public.teacher
 
 CREATE TABLE public.teacher_subject
 (
-    id integer NOT NULL,
-    id_subject integer NOT NULL,
-    id_teacher integer NOT NULL,
-    CONSTRAINT teacher_subject_pkey PRIMARY KEY (id)
+    teacher_subject_id integer NOT NULL,
+    subject_id integer NOT NULL,
+    teacher_id integer NOT NULL,
+    CONSTRAINT teacher_subject_pkey PRIMARY KEY (teacher_subject_id)
 )
 
 TABLESPACE pg_default;
@@ -83,10 +83,10 @@ ALTER TABLE public.teacher_subject
 
 CREATE TABLE public.groups
 (
-    id integer NOT NULL,
+    group_id integer NOT NULL,
     name text COLLATE pg_catalog."default" NOT NULL,
     specification text COLLATE pg_catalog."default" NOT NULL,
-    CONSTRAINT groups_pkey PRIMARY KEY (id)
+    CONSTRAINT groups_pkey PRIMARY KEY (group_id)
 )
 
 TABLESPACE pg_default;
@@ -100,10 +100,10 @@ ALTER TABLE public.groups
 
 CREATE TABLE public.group_subject
 (
-    id integer NOT NULL,
-    id_group integer NOT NULL,
-    id_subject integer NOT NULL,
-    CONSTRAINT group_subject_pkey PRIMARY KEY (id)
+    group_subject_id integer NOT NULL,
+    group_id integer NOT NULL,
+    subject_id integer NOT NULL,
+    CONSTRAINT group_subject_pkey PRIMARY KEY (group_subject_id)
 )
 
 TABLESPACE pg_default;
@@ -118,16 +118,16 @@ ALTER TABLE public.group_subject
 
 CREATE TABLE public.student
 (
-    id integer NOT NULL,
+    student_id integer NOT NULL,
     first_name text COLLATE pg_catalog."default" NOT NULL,
     second_name text COLLATE pg_catalog."default" NOT NULL,
     last_name text COLLATE pg_catalog."default" NOT NULL,
     date_birth date NOT NULL,
     gender gender NOT NULL,
     id_group integer NOT NULL,
-    CONSTRAINT student_pkey PRIMARY KEY (id),
+    CONSTRAINT student_pkey PRIMARY KEY (student_id),
     CONSTRAINT fkbqmqupufmh1gnjjca1ld1ljt5 FOREIGN KEY (id_group)
-        REFERENCES public.groups (id) MATCH SIMPLE
+        REFERENCES public.groups (group_id) MATCH SIMPLE
         ON UPDATE NO ACTION
         ON DELETE NO ACTION
 )
@@ -136,3 +136,5 @@ TABLESPACE pg_default;
 
 ALTER TABLE public.student
     OWNER to postgres;	
+	
+
