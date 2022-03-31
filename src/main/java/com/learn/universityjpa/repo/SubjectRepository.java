@@ -10,5 +10,5 @@ import org.springframework.stereotype.Repository;
  * interface SubjectRepository
  */
 @Repository
-public interface SubjectRepository extends JpaRepository<Subject, Long> {
+interface SubjectRepository extends JpaRepository<Subject, Long> {
 }
