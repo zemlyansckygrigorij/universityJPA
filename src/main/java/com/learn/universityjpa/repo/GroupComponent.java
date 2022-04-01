@@ -1,11 +1,11 @@
 package com.learn.universityjpa.repo;
 
 import com.learn.universityjpa.entity.Group;
-import com.learn.universityjpa.entity.Student;
 import com.learn.universityjpa.entity.Subject;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 /**
  * Компонент работы с данными группы.
@@ -37,32 +37,18 @@ public interface GroupComponent {
     Group commit(Group group);
 
     /**
-     * Находит всех студентов данной группы.
-     *
-     * @return список студентов .
-     */
-    List<Student> findAllStudents(Group group);
-
-    /**
      * Находит всех группы.
      *
      * @return список групп .
      */
     List<Group> findAll();
+
     /**
      * Находит все предметы данной группы.
      *
      * @return список предметов .
      */
-   // List<Subject> findAllSubjects(Group group);
-
-    /**
-     * Проверяет наличие студента данной группы.
-     *
-     * @param  student студент.
-     * @return наличие студента в группе
-     */
-    boolean checkStudent(Group group, Student student);
+    Set<Subject> findAllSubjects(Group group);
 
     /**
      * Проверяет наличие студента данной группы.
@@ -77,7 +63,7 @@ public interface GroupComponent {
      * @param  group группа .
      * @param  subject предмет
      */
- //   Subject addSubject(Group group, Subject subject);
+    Subject addSubject(Group group, Subject subject);
 
     /**
      * Удаляет предмет из данной группы.
@@ -85,21 +71,21 @@ public interface GroupComponent {
      * @param  group группа .
      * @param  subject предмет
      */
-   // Subject deleteSubject(Group group, Subject subject);
+    Subject deleteSubject(Group group, Subject subject);
 
     /**
-     * Добавляет студента в данную группу.
-     *
-     * @param  group группа .
-     * @param  student студент
+     * Найти группу по имени
+     * @param name
+     * @return список групп
+     * @throws Exception
      */
-    Student addStudent(Group group, Student student);
+    List<Group> findByName(String name) throws Exception;
 
     /**
-     *  Удаляет  студента из данную группу.
-     *
-     * @param  group группа .
-     * @param  student студент
+     *  Найти группу по предметам
+     * @param subjects список предметов
+     * @return список групп
+     * @throws Exception
      */
-    Student deleteStudent(Group group, Student student);
+    List<Group> findBySubjects(List<Subject> subjects)throws Exception;
 }
