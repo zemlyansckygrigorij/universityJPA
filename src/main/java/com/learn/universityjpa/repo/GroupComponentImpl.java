@@ -1,13 +1,13 @@
 package com.learn.universityjpa.repo;
 
 import com.learn.universityjpa.entity.Group;
-import com.learn.universityjpa.entity.Student;
 import com.learn.universityjpa.entity.Subject;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
-import java.util.ArrayList;
+
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 /**
  * @author Grigoriy Zemlyanskiy
@@ -18,16 +18,16 @@ import java.util.Optional;
 @Component
 public class GroupComponentImpl implements GroupComponent {
     private final GroupRepository repo;
+
     @Override
     public Optional<Group> findById(Long id) {
-        return repo.findById(id);
+        return this.repo.findById(id);
     }
 
     @Override
     public Group findByIdOrDie(Long id) throws Exception {
         return this.findById(id)
                 .orElseThrow(() -> new Exception("Group by id '" + id + "' not found"));
-
     }
 
     @Override
@@ -35,72 +35,44 @@ public class GroupComponentImpl implements GroupComponent {
         return this.repo.save(group);
     }
 
-    @Override
-    public List<Student> findAllStudents(Group group) {
-        return new ArrayList<>(group.getStudents());
-    }
 
     @Override
     public List<Group> findAll() {
-        return repo.findAll();
+        return this.repo.findAll();
     }
 
-  /*  @Override
-    public List<Subject> findAllSubjects(Group group) {
-        return new ArrayList<>(group.getSubjects());
-    }*/
-
     @Override
-    public boolean checkStudent(Group group, Student student) {
-        Optional<List<Student>> optionalStudents = repo.getStudentByIdFromGroup(student.getId(), group.getId());
-        if (optionalStudents.isEmpty()) {
-            return false;
-        }
-        if (optionalStudents.get().size() > 1) {
-            return false;
-        }
-        if (optionalStudents.get().size() == 1) {
-            return true;
-        }
-        return false;
+    public Set<Subject> findAllSubjects(Group group) {
+        return group.getSubjects();
     }
 
     @Override
     public boolean checkSubject(Group group, Subject subject) {
-        Optional<List<Subject>> optionalSubjects =  repo.getSubjectByIdFromGroup(subject.getId(), group.getId());
-        if (optionalSubjects.isEmpty()) {
-            return false;
-        }
-        if (optionalSubjects.get().size() > 1) {
-            return false;
-        }
-        if (optionalSubjects.get().size() == 1) {
-            return true;
-        }
-        return false;
+        return group.getSubjects().contains(subject);
     }
 
-   /* @Override
+    @Override
     public Subject addSubject(Group group, Subject subject) {
         group.getSubjects().add(subject);
+        this.repo.save(group);
         return subject;
-    }
-*/
-  /*  @Override
-    public Subject deleteSubject(Group group, Subject subject) {
-        group.getSubjects().remove(subject);
-        return subject;
-    }
-*/
-    @Override
-    public Student addStudent(Group group, Student student) {
-        group.getStudents().add(student);
-        return student;
     }
 
     @Override
-    public Student deleteStudent(Group group, Student student) {
-        group.getStudents().remove(student);
-        return student;
+    public Subject deleteSubject(Group group, Subject subject) {
+        group.getSubjects().remove(subject);
+        this.repo.save(group);
+        return subject;
+    }
+
+    @Override
+    public List<Group> findByName(String name) throws Exception {
+        return this.repo.findByName(name).orElseThrow(() -> new Exception("Group by this name '" + name + "' not found"));
+    }
+
+    @Override
+    public List<Group> findBySubjects(List<Subject> subjects) throws Exception {
+        long[] ids = subjects.stream().mapToLong(s ->s.getId()).toArray();
+        return this.repo.findBySubjects(ids).orElseThrow(() -> new Exception("Group not found"));
     }
 }
