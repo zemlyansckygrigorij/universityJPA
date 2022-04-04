@@ -13,8 +13,8 @@ import org.springframework.test.context.jdbc.SqlConfig;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 import static org.junit.Assert.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -50,7 +50,7 @@ class GroupTest {
         subject.setDescription("Description");
         subject.setName("Name");
         subjectComponent.commit(subject);
-        Set<Subject> subjects = new HashSet<>();
+        List<Subject> subjects = new ArrayList<>();
         subjects.add(subject);
 
 
