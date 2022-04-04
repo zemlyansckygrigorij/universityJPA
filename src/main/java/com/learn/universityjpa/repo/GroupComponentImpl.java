@@ -7,7 +7,6 @@ import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 
 /**
  * @author Grigoriy Zemlyanskiy
@@ -42,7 +41,7 @@ public class GroupComponentImpl implements GroupComponent {
     }
 
     @Override
-    public Set<Subject> findAllSubjects(Group group) {
+    public List<Subject> findAllSubjects(Group group) {
         return group.getSubjects();
     }
 
@@ -67,12 +66,13 @@ public class GroupComponentImpl implements GroupComponent {
 
     @Override
     public List<Group> findByName(String name) throws Exception {
-        return this.repo.findByName(name).orElseThrow(() -> new Exception("Group by this name '" + name + "' not found"));
+        return this.repo.findByName(name).orElseThrow(
+                () -> new Exception("Group by this name '" + name + "' not found"));
     }
 
     @Override
     public List<Group> findBySubjects(List<Subject> subjects) throws Exception {
-        long[] ids = subjects.stream().mapToLong(s ->s.getId()).toArray();
+        long[] ids = subjects.stream().mapToLong(s -> s.getId()).toArray();
         return this.repo.findBySubjects(ids).orElseThrow(() -> new Exception("Group not found"));
     }
 }
