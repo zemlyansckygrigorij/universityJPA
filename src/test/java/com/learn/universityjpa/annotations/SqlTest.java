@@ -1,4 +1,4 @@
-package com.learn.universityjpa.testAnnotation;
+package com.learn.universityjpa.annotations;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.test.context.jdbc.Sql;
@@ -14,6 +14,11 @@ import static org.springframework.test.context.jdbc.Sql.ExecutionPhase.AFTER_TES
 import static org.springframework.test.context.jdbc.Sql.ExecutionPhase.BEFORE_TEST_METHOD;
 import static org.springframework.test.context.jdbc.SqlConfig.TransactionMode.ISOLATED;
 
+/**
+ * @author Grigoriy Zemlyanskiy
+ * @version 1.0
+ * annotation SqlTest
+ */
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.METHOD)
 @Test
