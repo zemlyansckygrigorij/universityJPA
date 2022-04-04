@@ -5,7 +5,6 @@ import com.learn.universityjpa.entity.Subject;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 
 /**
  * Компонент работы с данными группы.
@@ -48,7 +47,7 @@ public interface GroupComponent {
      *
      * @return список предметов .
      */
-    Set<Subject> findAllSubjects(Group group);
+    List<Subject> findAllSubjects(Group group);
 
     /**
      * Проверяет наличие студента данной группы.
@@ -74,7 +73,8 @@ public interface GroupComponent {
     Subject deleteSubject(Group group, Subject subject);
 
     /**
-     * Найти группу по имени
+     * Найти группу по имени и падает по ошибке, если не нашел.
+     *
      * @param name
      * @return список групп
      * @throws Exception
@@ -82,7 +82,8 @@ public interface GroupComponent {
     List<Group> findByName(String name) throws Exception;
 
     /**
-     *  Найти группу по предметам
+     *  Найти группу по предметам и падает по ошибке, если не нашел.
+     *
      * @param subjects список предметов
      * @return список групп
      * @throws Exception
