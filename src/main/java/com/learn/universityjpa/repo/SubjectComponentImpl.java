@@ -16,6 +16,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 @Component
 public class SubjectComponentImpl implements  SubjectComponent {
+
     @Autowired
     SubjectRepository repo;
 
