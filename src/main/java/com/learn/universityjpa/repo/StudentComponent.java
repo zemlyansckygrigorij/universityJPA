@@ -2,8 +2,9 @@ package com.learn.universityjpa.repo;
 
 import com.learn.universityjpa.entity.Group;
 import com.learn.universityjpa.entity.Student;
-//import com.learn.universityjpa.entity.Subject;
-//import java.util.List;
+import com.learn.universityjpa.entity.Subject;
+
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -17,6 +18,13 @@ public interface StudentComponent {
      * @return студента.
      */
     Optional<Student> findById(Long id);
+
+    /**
+     * Находит всех студентов.
+     *
+     * @return список студентов .
+     */
+    List<Student> findAll();
 
     /**
      * Ищет студента по идентификатору и падает по ошибке, если не нашел.
@@ -46,7 +54,7 @@ public interface StudentComponent {
      *
      * @return Находит  список предметов.
      */
-  //  List<Subject> findAllSubjects(Student student);
+    List<Subject> findAllSubjects(Student student);
 
     /**
      * Проверяет наличие предмета  студента .
@@ -54,5 +62,13 @@ public interface StudentComponent {
      * @param  subject предмет.
      * @return наличие предмета в группе
      */
-  //  boolean checkSubject(Student student ,Subject subject);
+    boolean checkSubject(Student student, Subject subject);
+
+    /**
+     * Проверяет наличие предмета  студента .
+     *
+     * @param group предмет.
+     * @return наличие предмета в группе
+     */
+    List<Student> findAllFromGroup(Group group) throws Exception;
 }
