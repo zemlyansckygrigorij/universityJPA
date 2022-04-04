@@ -1,9 +1,9 @@
 package com.learn.universityjpa.repo;
 
+import com.learn.universityjpa.annotations.SqlTest;
+
 import com.learn.universityjpa.entity.Group;
 import com.learn.universityjpa.entity.Subject;
-
-import com.learn.universityjpa.testAnnotation.SqlTest;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -19,7 +19,6 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 
 import static org.junit.Assert.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -75,7 +74,7 @@ class GroupComponentImplTest {
         group.setName("Name");
         component.commit(group);
         assertEquals(3, component.findAll().size());
-        List<Group> groups =component.findAll();
+        List<Group> groups = component.findAll();
         assertTrue(groups.contains(group));
     }
 
@@ -98,13 +97,13 @@ class GroupComponentImplTest {
         assertNotNull(group1);
         assertEquals("Computer Science LEVEL first", group1.getName());
 
-        Set<Subject> subjects = group1.getSubjects();
+        List<Subject> subjects = group1.getSubjects();
         assertEquals(4, subjects.size());
 
         Group group2 = component.findById(2L).get();
         assertNotNull(group2);
         assertEquals("Computer Science LEVEL second", group2.getName());
-        Set<Subject> subjects2 = group2.getSubjects();
+        List<Subject> subjects2 = group2.getSubjects();
         assertEquals(3, subjects2.size());
     }
 
@@ -124,7 +123,7 @@ class GroupComponentImplTest {
         subjects.add(subject);
         List<Group> groups = component.findBySubjects(subjects);
         assertEquals(1, groups.size());
-        assertEquals( groups.get(0), component.findByIdOrDie(1L));
+        assertEquals(groups.get(0), component.findByIdOrDie(1L));
     }
 
     @DisplayName("Проверка наличия предмета в расписании группы ")
