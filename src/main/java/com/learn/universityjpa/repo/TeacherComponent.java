@@ -39,6 +39,11 @@ public interface TeacherComponent {
      */
     List<Teacher> findAll();
 
-
+    /**
+     * Находит всех преподавателей по введеному имени.
+     *
+     * @return список студентов .
+     */
+    List<Teacher> getTeachersByName(String name) throws Exception;
 
 }
