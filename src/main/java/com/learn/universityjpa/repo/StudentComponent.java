@@ -71,4 +71,10 @@ public interface StudentComponent {
      * @return наличие предмета в группе
      */
     List<Student> findAllFromGroup(Group group) throws Exception;
+    /**
+     * Находит всех студентов по введеному имени.
+     *
+     * @return список студентов .
+     */
+    List<Student> getStudentsByName(String name) throws Exception;
 }
