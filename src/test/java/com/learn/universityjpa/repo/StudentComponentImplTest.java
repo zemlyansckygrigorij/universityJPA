@@ -54,14 +54,14 @@ class StudentComponentImplTest {
         assertEquals(1, student.getGroup().getId());
     }
 
-    @DisplayName("Проверка поиска группы по Id если такой группы нет выкидывается исключение")
+    @DisplayName("Проверка поиска студента по Id если такого студента нет выкидывается исключение")
     @SqlTest
     void findByIdOrDie() {
         assertThrows(Exception.class, ()-> component.findByIdOrDie(140L));
     }
 
 
-    @DisplayName("Проверка поиска всех студентов ")
+    @DisplayName("Проверка поиска всех студентов")
     @SqlTest
     void findAll() {
         assertEquals(72 , component.findAll().size());
@@ -103,7 +103,7 @@ class StudentComponentImplTest {
         assertFalse(component.checkSubject(student2, subject));
     }
 
-    @DisplayName("Проверка наличия предмета у данного студента")
+    @DisplayName("Проверка поиска студента пол имени")
     @SqlTest
     void getStudentsByName() throws Exception {
         List<Student> students = component.getStudentsByName("Dav");
