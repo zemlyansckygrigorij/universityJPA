@@ -39,4 +39,10 @@ public class TeacherComponentImpl implements TeacherComponent {
     public List<Teacher> findAll() {
         return this.repo.findAll();
     }
+
+    @Override
+    public List<Teacher> getTeachersByName(String name) throws Exception {
+        return repo.getTeachersByName(name).orElseThrow(
+                () -> new Exception("Teachers by name '" + name + "' not found"));
+    }
 }
