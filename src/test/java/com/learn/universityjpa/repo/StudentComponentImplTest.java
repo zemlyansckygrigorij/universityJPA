@@ -16,6 +16,8 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 import static org.junit.Assert.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
@@ -99,5 +101,13 @@ class StudentComponentImplTest {
         Subject subject = component.findAllSubjects(student).get(0);
         assertTrue(component.checkSubject(student, subject));
         assertFalse(component.checkSubject(student2, subject));
+    }
+
+    @DisplayName("Проверка наличия предмета у данного студента")
+    @SqlTest
+    void getStudentsByName() throws Exception {
+        List<Student> students = component.getStudentsByName("Dav");
+        assertEquals(2, students.size());
+        assertEquals(72, component.findAll().size());
     }
 }
