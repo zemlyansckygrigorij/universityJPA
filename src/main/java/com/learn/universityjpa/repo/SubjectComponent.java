@@ -33,11 +33,18 @@ public interface SubjectComponent {
      * @return сохраненный предмет.
      */
     Subject commit(Subject subject);
+
     /**
      * Находит всех предметы.
      *
      * @return список предметов.
      */
     List<Subject> findAll();
-
+    /**
+     * Находит все предметы по введеному имени.
+     *
+     * @param nameSubject имя предмета.
+     * @return список предметов.
+     */
+    List<Subject> getSubjectsByName(String nameSubject) throws Exception;
 }
