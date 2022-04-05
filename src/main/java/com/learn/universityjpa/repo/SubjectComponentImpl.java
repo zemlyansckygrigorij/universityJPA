@@ -39,4 +39,10 @@ public class SubjectComponentImpl implements  SubjectComponent {
     public List<Subject> findAll() {
         return this.repo.findAll();
     }
+
+    @Override
+    public List<Subject> getSubjectsByName(String nameSubject) throws Exception {
+        return this.repo.getSubjectsByName(nameSubject).orElseThrow(
+                () -> new Exception("Subjects by name '" + nameSubject + "' not found"));
+    }
 }
