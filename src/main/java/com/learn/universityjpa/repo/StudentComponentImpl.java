@@ -58,4 +58,9 @@ public class StudentComponentImpl implements StudentComponent {
     public boolean checkSubject(Student student, Subject subject) {
         return student.getGroup().getSubjects().contains(subject);
     }
+    @Override
+    public List<Student> getStudentsByName(String name) throws Exception {
+        return repo.getStudentsByName(name).orElseThrow(
+                () -> new Exception("Student by name '" + name + "' not found"));
+    }
 }
