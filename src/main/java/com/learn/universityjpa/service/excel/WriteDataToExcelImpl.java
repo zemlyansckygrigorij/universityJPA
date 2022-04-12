@@ -267,7 +267,7 @@ public class WriteDataToExcelImpl implements WriteDataToExcel {
 
     private void close() throws IOException {
         currDir = new File("");
-        outputStream = new FileOutputStream(currDir.getAbsolutePath() +filePath);
+        outputStream = new FileOutputStream(currDir.getAbsolutePath() + filePath);
         workbook.write(outputStream);
         workbook.close();
     }
