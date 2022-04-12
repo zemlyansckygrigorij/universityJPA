@@ -21,6 +21,8 @@ import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFFont;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Component;
 
 import java.io.File;
@@ -35,7 +37,11 @@ import java.util.List;
  */
 
 @Component
+@PropertySource("classpath:values.properties")
 public class WriteDataToExcelImpl implements WriteDataToExcel {
+
+    @Value("${spring.dir.excel}")
+    private String filePath;
     @Autowired
     private GroupComponent groupComponent;
     @Autowired
@@ -52,9 +58,6 @@ public class WriteDataToExcelImpl implements WriteDataToExcel {
     private XSSFFont fontRow;
 
     File currDir;
-    String path;
-
-    String fileLocation;
 
     FileOutputStream outputStream;
     public WriteDataToExcelImpl() throws IOException {
@@ -83,10 +86,6 @@ public class WriteDataToExcelImpl implements WriteDataToExcel {
         fontRow.setFontHeightInPoints((short) 10);
         fontRow.setBold(true);
         rowStyle.setFont(fontRow);
-        currDir = new File("");
-        path = currDir.getAbsolutePath() + "\\src\\main\\resources\\files\\excel\\";
-        fileLocation = path + "data.xlsx";
-        outputStream = new FileOutputStream(fileLocation);
     }
 
 
@@ -267,6 +266,8 @@ public class WriteDataToExcelImpl implements WriteDataToExcel {
     }
 
     private void close() throws IOException {
+        currDir = new File("");
+        outputStream = new FileOutputStream(currDir.getAbsolutePath() +filePath);
         workbook.write(outputStream);
         workbook.close();
     }
