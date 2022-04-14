@@ -40,7 +40,7 @@ class WriteDataToExcelImplTest {
     @Autowired
     private WriteDataToExcelImpl writeDataToExcelImpl;
 
-    @DisplayName("Проверка поиска группы по Id")
+    @DisplayName("Проверка создания excel файла")
     @SqlTest
     void writeGroupsToFile() throws IOException, InvalidFormatException {
         String path = new File("").getAbsolutePath() + fileLocation;
