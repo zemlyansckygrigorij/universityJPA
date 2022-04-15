@@ -58,7 +58,7 @@ public class WriteDataToJsonImpl implements WriteDataToJson {
             teacherDetails.put("secondName", teacher.getSecondName());
             teacherDetails.put("lastName", teacher.getLastName());
             teacherDetails.put("dateBirth", teacher.getDateBirth().toString());
-            teacherDetails.put("gender", teacher.getGender());
+            teacherDetails.put("gender", teacher.getGender().toString());
             teacherDetails.put("category", teacher.getCategory());
             teacherList.add(teacherDetails);
         }
@@ -89,7 +89,7 @@ public class WriteDataToJsonImpl implements WriteDataToJson {
             groupDetails.put("secondName", student.getSecondName());
             groupDetails.put("lastName", student.getLastName());
             groupDetails.put("dateBirth", student.getDateBirth().toString());
-            groupDetails.put("gender", student.getGender());
+            groupDetails.put("gender", student.getGender().toString());
             groupDetails.put("group", student.getGroup().getName());
             studentList.add(groupDetails);
         }
