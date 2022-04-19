@@ -1,6 +1,7 @@
 package com.learn.universityjpa.repo;
 
 import com.learn.universityjpa.entity.Subject;
+import com.learn.universityjpa.exceptions.SubjectNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -27,7 +28,8 @@ public class SubjectComponentImpl implements  SubjectComponent {
 
     @Override
     public Subject findByIdOrDie(Long id) throws Exception {
-        return this.repo.findById(id).orElseThrow(() -> new Exception("Subject by id '" + id + "' not found"));
+        return this.repo.findById(id).orElseThrow(
+                () -> new SubjectNotFoundException());
     }
 
     @Override
@@ -43,6 +45,6 @@ public class SubjectComponentImpl implements  SubjectComponent {
     @Override
     public List<Subject> getSubjectsByName(String nameSubject) throws Exception {
         return this.repo.getSubjectsByName(nameSubject).orElseThrow(
-                () -> new Exception("Subjects by name '" + nameSubject + "' not found"));
+                () -> new SubjectNotFoundException());
     }
 }
