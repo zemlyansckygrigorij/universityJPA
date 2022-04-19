@@ -19,17 +19,17 @@ import java.util.Date;
 @RequiredArgsConstructor
 public class TaskLogger {
     /**
-     * Логирует время до выполнения метода отмеченного аннотаций {@link TaskBeginFinishLogging}
+     * Логирует время до выполнения метода отмеченного аннотаций {@link TaskBeginFinishLogging}.
      *
      * @param joinPoint точка применения аспекта.
      */
     @Before("@annotation(com.learn.universityjpa.logging.TaskBeginFinishLogging))")
     public void logScheduledTasksBeforeExecution(final JoinPoint joinPoint) {
-        log.info("Task {} started at [{}]...", getJoinPointName(joinPoint),new Date());
+        log.info("Task {} started at [{}]...", getJoinPointName(joinPoint), new Date());
     }
 
     /**
-     * Логирует время после выполнения метода отмеченного аннотаций {@link TaskBeginFinishLogging}
+     * Логирует время после выполнения метода отмеченного аннотаций {@link TaskBeginFinishLogging}.
      *
      * @param joinPoint точка применения аспекта.
      */
