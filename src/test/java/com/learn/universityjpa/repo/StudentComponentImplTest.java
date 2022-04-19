@@ -7,6 +7,7 @@ import com.learn.universityjpa.entity.Group;
 import com.learn.universityjpa.entity.Student;
 import com.learn.universityjpa.entity.Subject;
 
+import com.learn.universityjpa.exceptions.PersonNotFoundException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
@@ -57,7 +58,7 @@ class StudentComponentImplTest {
     @DisplayName("Проверка поиска студента по Id если такого студента нет выкидывается исключение")
     @SqlTest
     void findByIdOrDie() {
-        assertThrows(Exception.class, ()-> component.findByIdOrDie(140L));
+        assertThrows(PersonNotFoundException.class, ()-> component.findByIdOrDie(140L));
     }
 
 
