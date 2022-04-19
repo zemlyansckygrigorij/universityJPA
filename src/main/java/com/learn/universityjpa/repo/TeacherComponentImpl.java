@@ -1,6 +1,7 @@
 package com.learn.universityjpa.repo;
 
 import com.learn.universityjpa.entity.Teacher;
+import com.learn.universityjpa.exceptions.PersonNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -27,7 +28,8 @@ public class TeacherComponentImpl implements TeacherComponent {
 
     @Override
     public Teacher findByIdOrDie(Long id) throws Exception {
-        return this.repo.findById(id).orElseThrow(()-> new Exception("Subject by id '" + id + "' not found"));
+        return this.repo.findById(id).orElseThrow(
+                ()-> new PersonNotFoundException());
     }
 
     @Override
@@ -43,6 +45,6 @@ public class TeacherComponentImpl implements TeacherComponent {
     @Override
     public List<Teacher> getTeachersByName(String name) throws Exception {
         return repo.getTeachersByName(name).orElseThrow(
-                () -> new Exception("Teachers by name '" + name + "' not found"));
+                () -> new PersonNotFoundException());
     }
 }
