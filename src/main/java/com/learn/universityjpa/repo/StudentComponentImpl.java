@@ -3,6 +3,7 @@ package com.learn.universityjpa.repo;
 import com.learn.universityjpa.entity.Group;
 import com.learn.universityjpa.entity.Student;
 import com.learn.universityjpa.entity.Subject;
+import com.learn.universityjpa.exceptions.PersonNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import java.util.List;
@@ -28,7 +29,7 @@ public class StudentComponentImpl implements StudentComponent {
     @Override
     public Student findByIdOrDie(Long id) throws Exception {
         return this.findById(id)
-                .orElseThrow(() -> new Exception("Student by id '" + id + "' not found"));
+                .orElseThrow(() -> new PersonNotFoundException());
     }
 
     @Override
@@ -46,7 +47,7 @@ public class StudentComponentImpl implements StudentComponent {
 
     public List<Student> findAllFromGroup(Group group) throws Exception {
         return  repo.getStudentsFromGroup(group.getId()).orElseThrow(
-                () -> new Exception("Student by id '" + group.getId() + "' not found"));
+                () -> new PersonNotFoundException());
     }
 
    @Override
@@ -61,6 +62,6 @@ public class StudentComponentImpl implements StudentComponent {
     @Override
     public List<Student> getStudentsByName(String name) throws Exception {
         return repo.getStudentsByName(name).orElseThrow(
-                () -> new Exception("Student by name '" + name + "' not found"));
+                () -> new PersonNotFoundException());
     }
 }
