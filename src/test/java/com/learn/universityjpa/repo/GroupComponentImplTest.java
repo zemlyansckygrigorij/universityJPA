@@ -5,6 +5,7 @@ import com.learn.universityjpa.annotations.SqlTest;
 import com.learn.universityjpa.entity.Group;
 import com.learn.universityjpa.entity.Subject;
 
+import com.learn.universityjpa.exceptions.GroupNotFoundException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
@@ -63,7 +64,7 @@ class GroupComponentImplTest {
     @DisplayName("Проверка поиска группы по Id и выброс исключение если такой группы нет")
     @SqlTest
     void findByIdOrDieTest() {
-        assertThrows(Exception.class, ()-> component.findByIdOrDie(4L));
+        assertThrows(GroupNotFoundException.class, ()-> component.findByIdOrDie(4L));
     }
 
     @DisplayName("Проверка сохранения группы")
