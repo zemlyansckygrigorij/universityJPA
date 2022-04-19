@@ -2,6 +2,7 @@ package com.learn.universityjpa.repo;
 
 import com.learn.universityjpa.entity.Group;
 import com.learn.universityjpa.entity.Subject;
+import com.learn.universityjpa.exceptions.GroupNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -26,7 +27,7 @@ public class GroupComponentImpl implements GroupComponent {
     @Override
     public Group findByIdOrDie(Long id) throws Exception {
         return this.findById(id)
-                .orElseThrow(() -> new Exception("Group by id '" + id + "' not found"));
+                .orElseThrow(() -> new GroupNotFoundException());
     }
 
     @Override
@@ -67,12 +68,13 @@ public class GroupComponentImpl implements GroupComponent {
     @Override
     public List<Group> findByName(String name) throws Exception {
         return this.repo.findByName(name).orElseThrow(
-                () -> new Exception("Group by this name '" + name + "' not found"));
+                () -> new GroupNotFoundException());
     }
 
     @Override
     public List<Group> findBySubjects(List<Subject> subjects) throws Exception {
         long[] ids = subjects.stream().mapToLong(s -> s.getId()).toArray();
-        return this.repo.findBySubjects(ids).orElseThrow(() -> new Exception("Group not found"));
+        return this.repo.findBySubjects(ids).orElseThrow(
+                () -> new GroupNotFoundException());
     }
 }
