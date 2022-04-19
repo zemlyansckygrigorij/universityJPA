@@ -3,6 +3,7 @@ package com.learn.universityjpa.repo;
 import com.learn.universityjpa.annotations.SqlTest;
 import com.learn.universityjpa.entity.Subject;
 
+import com.learn.universityjpa.exceptions.SubjectNotFoundException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
@@ -50,7 +51,7 @@ class SubjectComponentImplTest {
     @DisplayName("Проверка поиска предмета по Id если такого предмета нет выкидывается исключение")
     @SqlTest
     void findByIdOrDie() {
-        assertThrows(Exception.class, ()-> component.findByIdOrDie(140L));
+        assertThrows(SubjectNotFoundException.class, ()-> component.findByIdOrDie(140L));
     }
 
 
