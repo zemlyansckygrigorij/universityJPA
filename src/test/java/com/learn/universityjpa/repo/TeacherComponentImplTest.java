@@ -3,6 +3,7 @@ package com.learn.universityjpa.repo;
 import com.learn.universityjpa.annotations.SqlTest;
 import com.learn.universityjpa.entity.Gender;
 import com.learn.universityjpa.entity.Teacher;
+import com.learn.universityjpa.exceptions.PersonNotFoundException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
@@ -48,7 +49,7 @@ class TeacherComponentImplTest {
     @DisplayName("Проверка поиска преподавателя по Id если такого преподавателя нет выкидывается исключение")
     @SqlTest
     void findByIdOrDie() {
-        assertThrows(Exception.class, ()-> component.findByIdOrDie(140L));
+        assertThrows(PersonNotFoundException.class, ()-> component.findByIdOrDie(140L));
     }
 
 
