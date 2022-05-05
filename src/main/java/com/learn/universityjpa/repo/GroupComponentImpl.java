@@ -77,4 +77,9 @@ public class GroupComponentImpl implements GroupComponent {
         return this.repo.findBySubjects(ids).orElseThrow(
                 () -> new GroupNotFoundException());
     }
+
+    @Override
+    public void deleteGroupById(Long id) {
+        this.repo.deleteById(id);
+    }
 }
