@@ -89,4 +89,11 @@ public interface GroupComponent {
      * @throws Exception
      */
     List<Group> findBySubjects(List<Subject> subjects)throws Exception;
+
+    /**
+     * Удалить группу по по идентификатору.
+     *
+     * @param id идентификатор группы.
+     */
+    void deleteGroupById(Long id);
 }
