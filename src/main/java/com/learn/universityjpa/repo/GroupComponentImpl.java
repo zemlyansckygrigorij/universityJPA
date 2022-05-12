@@ -82,4 +82,9 @@ public class GroupComponentImpl implements GroupComponent {
     public void deleteGroupById(Long id) {
         this.repo.deleteById(id);
     }
+
+    @Override
+    public void updateGroupById(Long id, Group group) {
+        int result = this.repo.updateGroupById(group.getName(), group.getSpecification(), id);
+    }
 }
