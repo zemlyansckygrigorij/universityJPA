@@ -13,6 +13,9 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.jdbc.Sql;
+import org.springframework.test.context.jdbc.SqlConfig;
+import org.springframework.test.context.jdbc.SqlGroup;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import org.springframework.transaction.annotation.Transactional;
@@ -26,6 +29,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.springframework.test.context.jdbc.Sql.ExecutionPhase.BEFORE_TEST_METHOD;
+import static org.springframework.test.context.jdbc.SqlConfig.TransactionMode.ISOLATED;
 
 
 @SpringBootTest
@@ -156,4 +161,22 @@ class GroupComponentImplTest {
         component.deleteSubject(group, subject);
         assertFalse(component.checkSubject(group, subject));
     }
+
+    @DisplayName("Проверка изменения группы ")
+    @Test
+    @SqlGroup({
+             @Sql(
+                scripts = "/db/sql/insert.sql ",
+                executionPhase = BEFORE_TEST_METHOD,
+                config = @SqlConfig(transactionMode = ISOLATED))
+    })
+    void updateGroupByIdTest() throws Exception {
+        Group group = component.findByIdOrDie(1L);
+        group.setName("TestName2");
+        group.setSpecification("TestSpecification2");
+        component.updateGroupById(group.getId(), group);
+        Group groupNew = component.findByIdOrDie(1L);
+        assertEquals(groupNew.getName(), "TestName2");
+        assertEquals(groupNew.getSpecification(), "TestSpecification2");
+   }
 }
