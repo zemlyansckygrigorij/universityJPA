@@ -24,6 +24,10 @@ import static org.springframework.test.context.jdbc.SqlConfig.TransactionMode.IS
 @Test
 @SqlGroup({
         @Sql(
+                scripts = "/db/sql/clean.sql ",
+                executionPhase = BEFORE_TEST_METHOD,
+                config = @SqlConfig(transactionMode = ISOLATED)),
+        @Sql(
                 scripts = "/db/sql/insert.sql ",
                 executionPhase = BEFORE_TEST_METHOD,
                 config = @SqlConfig(transactionMode = ISOLATED)),
