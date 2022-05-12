@@ -96,4 +96,12 @@ public interface GroupComponent {
      * @param id идентификатор группы.
      */
     void deleteGroupById(Long id);
+
+    /**
+     * Обновить группу по по идентификатору.
+     *
+     * @param id идентификатор группы.
+     * @param  group группа .
+     */
+    void updateGroupById(Long id, Group group);
 }
