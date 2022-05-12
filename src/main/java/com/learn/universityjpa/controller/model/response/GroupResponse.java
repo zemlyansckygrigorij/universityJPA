@@ -7,7 +7,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 
 /**
- * Данные группы.
+ * Ответ по данным группы.
  */
 @Schema(description = "Данные группы")
 @Data
