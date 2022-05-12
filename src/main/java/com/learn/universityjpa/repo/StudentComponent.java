@@ -67,14 +67,30 @@ public interface StudentComponent {
     /**
      * Проверяет наличие предмета  студента .
      *
-     * @param group предмет.
-     * @return наличие предмета в группе
+     * @param group группа.
+     * @return список студентов
      */
     List<Student> findAllFromGroup(Group group) throws Exception;
+
+    /**
+     * Проверяет наличие предмета  студента .
+     *
+     * @param id группы.
+     * @return список студентов
+     */
+    List<Student> findAllByGroupId(long id) throws Exception;
+
     /**
      * Находит всех студентов по введеному имени.
      *
      * @return список студентов .
      */
     List<Student> getStudentsByName(String name) throws Exception;
+
+    /**
+     * Удалить студента по по идентификатору.
+     *
+     * @param id идентификатор студента.
+     */
+    void deleteStudentById(Long id);
 }
