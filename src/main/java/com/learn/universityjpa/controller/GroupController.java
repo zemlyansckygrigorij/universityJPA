@@ -2,9 +2,11 @@ package com.learn.universityjpa.controller;
 
 import com.learn.universityjpa.controller.model.request.GroupRequest;
 import com.learn.universityjpa.controller.model.response.GroupResponse;
+import com.learn.universityjpa.controller.model.response.StudentResponse;
 import com.learn.universityjpa.controller.model.response.SubjectResponse;
 import com.learn.universityjpa.entity.Group;
 import com.learn.universityjpa.repo.GroupComponent;
+import com.learn.universityjpa.repo.StudentComponent;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.validation.annotation.Validated;
@@ -35,7 +37,7 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class GroupController {
     private final GroupComponent groupComponent;
-
+    private final StudentComponent studentComponent;
     @GetMapping()
     public List<GroupResponse> getAllGroups() {
         return groupComponent.findAll().stream().map(
@@ -56,6 +58,14 @@ public class GroupController {
     ) throws Exception {
         return groupComponent.findByIdOrDie(id).getSubjects().stream().map(
                 (x)-> new SubjectResponse(x)
+        ).collect(Collectors.toList());
+    }
+    @GetMapping("/{id}/students")
+    public List<StudentResponse> getStudentsByGroupId(
+            @PathVariable(name = "id") final long id
+    ) throws Exception {
+        return studentComponent.findAllByGroupId(id).stream().map(
+                (x)-> new StudentResponse(x)
         ).collect(Collectors.toList());
     }
     @PostMapping()
