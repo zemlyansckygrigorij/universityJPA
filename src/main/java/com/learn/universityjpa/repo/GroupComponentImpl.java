@@ -1,13 +1,16 @@
 package com.learn.universityjpa.repo;
 
 import com.learn.universityjpa.entity.Group;
+import com.learn.universityjpa.entity.Student;
 import com.learn.universityjpa.entity.Subject;
 import com.learn.universityjpa.exceptions.GroupNotFoundException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 /**
  * @author Grigoriy Zemlyanskiy
@@ -18,7 +21,8 @@ import java.util.Optional;
 @Component
 public class GroupComponentImpl implements GroupComponent {
     private final GroupRepository repo;
-
+    @Autowired
+    private StudentComponent studentComponent;
     @Override
     public Optional<Group> findById(Long id) {
         return this.repo.findById(id);
@@ -79,12 +83,17 @@ public class GroupComponentImpl implements GroupComponent {
     }
 
     @Override
-    public void deleteGroupById(Long id) {
+    public void deleteGroupById(Long id) throws Exception {
+        List<Student> students = studentComponent.findAll();
+        List<Student> studentsByIdGroup = students.stream()
+                .filter((s) -> s.getGroup().getId() == id)
+                .collect(Collectors.toList());
+        studentsByIdGroup.stream().peek((s)->studentComponent.deleteStudentById(s.getId()));
         this.repo.deleteById(id);
     }
 
     @Override
     public void updateGroupById(Long id, Group group) {
-        int result = this.repo.updateGroupById(group.getName(), group.getSpecification(), id);
+        this.repo.updateGroupById(group.getName(), group.getSpecification(), id);
     }
 }
