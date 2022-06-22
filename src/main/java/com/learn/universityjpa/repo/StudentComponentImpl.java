@@ -6,6 +6,7 @@ import com.learn.universityjpa.entity.Subject;
 import com.learn.universityjpa.exceptions.PersonNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
+import java.text.ParseException;
 import java.util.List;
 import java.util.Optional;
 
@@ -49,6 +50,10 @@ public class StudentComponentImpl implements StudentComponent {
         return  repo.getStudentsFromGroup(group.getId()).orElseThrow(
                 () -> new PersonNotFoundException());
     }
+    public List<Student> findAllByGroupId(long id) throws Exception {
+        return findAllFromGroup(groupComponent.findByIdOrDie(id));
+    }
+
 
    @Override
     public List<Subject> findAllSubjects(Student student) {
@@ -63,5 +68,23 @@ public class StudentComponentImpl implements StudentComponent {
     public List<Student> getStudentsByName(String name) throws Exception {
         return repo.getStudentsByName(name).orElseThrow(
                 () -> new PersonNotFoundException());
+    }
+
+    @Override
+    public void deleteStudentById(Long id) {
+        repo.deleteById(id);
+    }
+
+    @Override
+    public void updateStudentById(Long id, Student student) throws ParseException {
+        int result = this.repo.updateStudentById(
+                id,
+                student.getFirstName(),
+                student.getSecondName(),
+                student.getLastName(),
+                student.getGender(),
+                student.getGroup(),
+                student.getDateBirth()
+        );
     }
 }
