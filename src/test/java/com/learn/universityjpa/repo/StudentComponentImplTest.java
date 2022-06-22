@@ -14,16 +14,24 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.jdbc.Sql;
+import org.springframework.test.context.jdbc.SqlConfig;
+import org.springframework.test.context.jdbc.SqlGroup;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 import static org.junit.Assert.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.springframework.test.context.jdbc.Sql.ExecutionPhase.BEFORE_TEST_METHOD;
+import static org.springframework.test.context.jdbc.SqlConfig.TransactionMode.ISOLATED;
 
 @SpringBootTest
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -104,11 +112,58 @@ class StudentComponentImplTest {
         assertFalse(component.checkSubject(student2, subject));
     }
 
-    @DisplayName("Проверка поиска студента пол имени")
+    @DisplayName("Проверка поиска студента по имени")
     @SqlTest
     void getStudentsByName() throws Exception {
         List<Student> students = component.getStudentsByName("Dav");
         assertEquals(2, students.size());
         assertEquals(72, component.findAll().size());
+    }
+
+    @DisplayName("Проверка удаления студента по id")
+    @SqlTest
+    void deleteStudentById() throws Exception {
+        Student student = component.findByIdOrDie(1L);
+        assertNotNull(student);
+        component.deleteStudentById(1L);
+        Optional<Student> studentNew = component.findById(1L);
+        assertTrue(studentNew.isEmpty());
+    }
+
+    @DisplayName("Проверка изменения данных студента по id")
+    @Test
+    @SqlGroup({
+            @Sql(
+                    scripts = "/db/sql/clean.sql ",
+                    executionPhase = BEFORE_TEST_METHOD,
+                    config = @SqlConfig(transactionMode = ISOLATED)),
+            @Sql(
+                    scripts = "/db/sql/insert.sql ",
+                    executionPhase = BEFORE_TEST_METHOD,
+                    config = @SqlConfig(transactionMode = ISOLATED)),
+            @Sql(
+                    scripts = "/db/sql/insertStudent.sql ",
+                    executionPhase = BEFORE_TEST_METHOD,
+                    config = @SqlConfig(transactionMode = ISOLATED))
+    })
+    void updateStudentById() throws Exception {
+        Date birth = new Date();
+        Student student = new Student();
+        student.setFirstName("testFirstName");
+        student.setSecondName("testSecondName");
+        student.setLastName("testLastName");
+        student.setDateBirth(birth);
+        student.setGender(Gender.FEMALE);
+        student.setGroup(groupComponent.findByIdOrDie(2L));
+        component.updateStudentById(1L, student);
+
+        Student studentNew = component.findByIdOrDie(1L);
+        assertNotNull(studentNew);
+        assertEquals("testFirstName", studentNew.getFirstName());
+        assertEquals("testSecondName", studentNew.getSecondName());
+        assertEquals("testLastName", studentNew.getLastName());
+        assertEquals("FEMALE", studentNew.getGender().toString());
+        assertEquals("2", studentNew.getGroup().getId().toString());
+        assertEquals(new SimpleDateFormat("yyyy-MM-dd").format(birth), studentNew.getDateBirth().toString());
     }
 }
