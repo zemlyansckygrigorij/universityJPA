@@ -4,6 +4,7 @@ import com.learn.universityjpa.entity.Group;
 import com.learn.universityjpa.entity.Student;
 import com.learn.universityjpa.entity.Subject;
 
+import java.text.ParseException;
 import java.util.List;
 import java.util.Optional;
 
@@ -93,4 +94,12 @@ public interface StudentComponent {
      * @param id идентификатор студента.
      */
     void deleteStudentById(Long id);
+
+    /**
+     * Обновить студента по по идентификатору.
+     *
+     * @param id идентификатор группы.
+     * @param  student студента .
+     */
+    void updateStudentById(Long id, Student student) throws ParseException;
 }
