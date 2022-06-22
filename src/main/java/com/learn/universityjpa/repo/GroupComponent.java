@@ -95,7 +95,7 @@ public interface GroupComponent {
      *
      * @param id идентификатор группы.
      */
-    void deleteGroupById(Long id);
+    void deleteGroupById(Long id) throws Exception;
 
     /**
      * Обновить группу по по идентификатору.
