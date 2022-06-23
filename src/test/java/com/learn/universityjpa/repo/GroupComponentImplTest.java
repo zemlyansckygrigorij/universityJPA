@@ -5,6 +5,7 @@ import com.learn.universityjpa.annotations.SqlTest;
 import com.learn.universityjpa.entity.Group;
 import com.learn.universityjpa.entity.Subject;
 
+import com.learn.universityjpa.exceptions.GroupHasStudentsException;
 import com.learn.universityjpa.exceptions.GroupNotFoundException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -25,6 +26,7 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.junit.Assert.assertNotNull;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -179,4 +181,24 @@ class GroupComponentImplTest {
         assertEquals(groupNew.getName(), "TestName2");
         assertEquals(groupNew.getSpecification(), "TestSpecification2");
    }
+
+    @DisplayName("Проверка удаления  группы ")
+    @SqlTest
+    void deleteGroupById() throws Exception {
+        assertThrows(GroupHasStudentsException.class, ()-> component.deleteGroupById(1L));
+
+        Group group = new Group();
+        group.setSpecification("Specification");
+        group.setName("Name");
+        component.commit(group);
+        assertEquals(3, component.findAll().size());
+        Optional<Group> groupOpt = component.findByName("Name").stream().findFirst();
+        assertTrue(groupOpt.isPresent());
+
+        long id = groupOpt.get().getId();
+        component.deleteGroupById(id);
+        assertEquals(2, component.findAll().size());
+        Optional<Group> groupOptNew = component.findByName("Name").stream().findFirst();
+        assertTrue(groupOptNew.isEmpty());
+    }
 }
