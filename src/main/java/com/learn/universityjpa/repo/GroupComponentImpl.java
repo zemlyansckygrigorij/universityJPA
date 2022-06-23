@@ -3,6 +3,7 @@ package com.learn.universityjpa.repo;
 import com.learn.universityjpa.entity.Group;
 import com.learn.universityjpa.entity.Student;
 import com.learn.universityjpa.entity.Subject;
+import com.learn.universityjpa.exceptions.GroupHasStudentsException;
 import com.learn.universityjpa.exceptions.GroupNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -88,7 +89,9 @@ public class GroupComponentImpl implements GroupComponent {
         List<Student> studentsByIdGroup = students.stream()
                 .filter((s) -> s.getGroup().getId() == id)
                 .collect(Collectors.toList());
-        studentsByIdGroup.stream().peek((s)->studentComponent.deleteStudentById(s.getId()));
+        if (studentsByIdGroup.size() > 0) {
+           throw new GroupHasStudentsException();
+        }
         this.repo.deleteById(id);
     }
 
