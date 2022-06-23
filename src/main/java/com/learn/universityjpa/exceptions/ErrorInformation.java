@@ -12,6 +12,7 @@ import lombok.RequiredArgsConstructor;
 @Getter
 public enum ErrorInformation {
    GROUP_NOT_FOUND("Данная группа не найдена. Проверьте параметры поиска."),
+   GROUP_HAS_STUDENTS("Удаление данной группы невозможно. Она содержит студентов."),
    PERSON_NOT_FOUND("Данный человек не найден. Проверьте параметры поиска."),
    SUBJECT_NOT_FOUND("Данный предмет не найден. Проверьте параметры поиска.");
    /** Краткое описание ошибки. */
