@@ -81,6 +81,7 @@ public class GroupController {
     ) throws Exception {
         groupComponent.deleteGroupById(id);
     }
+
     @PutMapping("/{id}")
     public void updateGroup(@RequestBody GroupRequest request,
             @PathVariable(name = "id") final long id
