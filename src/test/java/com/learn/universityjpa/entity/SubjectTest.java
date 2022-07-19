@@ -2,6 +2,7 @@ package com.learn.universityjpa.entity;
 
 
 import com.learn.universityjpa.repo.SubjectComponent;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,6 +33,7 @@ class SubjectTest {
             executionPhase = AFTER_TEST_METHOD,
             config = @SqlConfig(transactionMode = ISOLATED)
     )
+    @DisplayName("1. Проверка вставки предмета.")
     public void makeTest() {
 
         long count = subjectComponent.findAll().size();
@@ -39,7 +41,6 @@ class SubjectTest {
         Subject subject = new Subject();
         subject.setDescription("Description");
         subject.setName("Name");
-
 
         subjectComponent.commit(subject);
 
@@ -49,6 +50,8 @@ class SubjectTest {
         assertEquals(subjectFrom.getName(), "Name");
         assertEquals(count + 1, subjectComponent.findAll().size());
     }
+
+    @DisplayName("2. Проверка вставки предмета c отсутствием описания.")
     @Test
     public void shouldNotAllowNullDescription() {
         Subject subject = new Subject();
@@ -56,6 +59,8 @@ class SubjectTest {
         subject.setName("Name");
         assertThrows(Exception.class, () -> subjectComponent.commit(subject));
     }
+
+    @DisplayName("3. Проверка вставки предмета c отсутствием имени.")
     @Test
     public void shouldNotAllowNullName() {
         Subject subject = new Subject();
