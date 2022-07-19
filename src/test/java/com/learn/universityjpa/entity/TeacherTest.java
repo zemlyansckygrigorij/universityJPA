@@ -1,6 +1,7 @@
 package com.learn.universityjpa.entity;
 
 import com.learn.universityjpa.repo.TeacherComponent;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +22,7 @@ class TeacherTest {
     @Autowired
     TeacherComponent component;
 
+    @DisplayName("1. Проверка вставки преподавателя.")
     @Test
     public void makeTest() {
         long count = component.findAll().size();
@@ -43,6 +45,8 @@ class TeacherTest {
         assertEquals(teacherFrom.getCategory(), "First");
         assertEquals(count + 1, component.findAll().size());
     }
+
+    @DisplayName("2. Проверка вставки преподавателя c отсутствием имени.")
     @Test
     public void shouldNotAllowNullFirstName() {
         Teacher teacher = new Teacher();
@@ -55,6 +59,8 @@ class TeacherTest {
         teacher.setCategory("First");
         assertThrows(Exception.class, ()->component.commit(teacher));
     }
+
+    @DisplayName("3. Проверка вставки преподавателя c отсутствием отчества.")
     @Test
     public void shouldNotAllowNullSecondName() {
         Teacher teacher = new Teacher();
@@ -67,6 +73,7 @@ class TeacherTest {
         teacher.setCategory("First");
         assertThrows(Exception.class, ()->component.commit(teacher));
     }
+    @DisplayName("4. Проверка вставки преподавателя c отсутствием фамилии.")
     @Test
     public void shouldNotAllowNullLastName() {
         Teacher teacher = new Teacher();
@@ -79,6 +86,8 @@ class TeacherTest {
         teacher.setCategory("First");
         assertThrows(Exception.class, ()->component.commit(teacher));
     }
+
+    @DisplayName("2. Проверка вставки преподавателя c отсутствием даты рождения.")
     @Test
     public void shouldNotAllowNullDateBirth() {
         Teacher teacher = new Teacher();
@@ -90,6 +99,8 @@ class TeacherTest {
         teacher.setCategory("First");
         assertThrows(Exception.class, ()->component.commit(teacher));
     }
+
+    @DisplayName("2. Проверка вставки преподавателя c отсутствием пола.")
     @Test
     public void shouldNotAllowNullGender() {
         Teacher teacher = new Teacher();
