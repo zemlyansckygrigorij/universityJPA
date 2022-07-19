@@ -8,6 +8,8 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.Getter;
+import lombok.Setter;
+
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -20,6 +22,7 @@ import java.util.stream.Collectors;
 @Schema(description = "Данные группы")
 @Data
 @Getter
+@Setter
 @AllArgsConstructor
 public class GroupResponse {
 
@@ -35,14 +38,16 @@ public class GroupResponse {
     @JsonProperty("specification")
     private String specification;
 
-    @Schema(description = "предметы данной группы")
+    @Schema(description = "Предметы данной группы")
     @JsonProperty(value = "subjects")
     private List<SubjectJson> subjects = new ArrayList<>();
 
-    @Schema(description = "студенты данной группы")
+    @Schema(description = "Студенты данной группы")
     @JsonProperty(value = "students")
     private List<StudentJson> students = new ArrayList<>();
 
+    @Getter
+    @Setter
     class SubjectJson {
         private Long id;
         private String name;
@@ -54,6 +59,8 @@ public class GroupResponse {
         }
     }
 
+    @Getter
+    @Setter
     class StudentJson {
         private Long id;
         private String firstName;
