@@ -1,27 +1,22 @@
 package com.learn.universityjpa.entity;
 
+import com.learn.universityjpa.annotations.SqlTest;
 import com.learn.universityjpa.repo.GroupComponent;
 import com.learn.universityjpa.repo.SubjectComponent;
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.jdbc.Sql;
-import org.springframework.test.context.jdbc.SqlConfig;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import static org.junit.Assert.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.springframework.test.context.jdbc.Sql.ExecutionPhase.AFTER_TEST_METHOD;
-import static org.springframework.test.context.jdbc.SqlConfig.TransactionMode.ISOLATED;
 
 
 @SpringBootTest
@@ -39,35 +34,25 @@ class GroupTest {
         assertNotNull(component);
     }
 
-    @Test
-    @Sql(
-            scripts = "/db/sql/entity/Group/clean-up.sql",
-            executionPhase = AFTER_TEST_METHOD,
-            config = @SqlConfig(transactionMode = ISOLATED)
-    )
-    public void insertTest() {
-        Subject subject = new Subject();
-        subject.setDescription("Description");
-        subject.setName("Name");
-        subjectComponent.commit(subject);
-        List<Subject> subjects = new ArrayList<>();
-        subjects.add(subject);
 
+    @DisplayName("1. Проверка вставки группы.")
+    @SqlTest
+    public void insertTest() throws Exception {
 
         long count = component.findAll().size();
-        assertEquals(count, 0);
+        assertEquals(count, 2);
         Group group = new Group();
         group.setSpecification("Specification");
         group.setName("Name");
-        group.setSubjects(subjects);
         component.commit(group);
-        Group groupFrom = component.findAll().get(0);
+        Group groupFrom = component.findByName("Name").get(0);
+        assertTrue(true);
         assertEquals(groupFrom.getSpecification(), "Specification");
         assertEquals(groupFrom.getName(), "Name");
-        assertTrue(groupFrom.getSubjects().contains(subject));
         assertEquals(count + 1, component.findAll().size());
     }
 
+    @DisplayName("2. Проверка вставки группы без спецификации.")
     @Test
     public void shouldNotAllowNullSpecification() {
         Group group = new Group();
@@ -76,6 +61,7 @@ class GroupTest {
         assertThrows(Exception.class, ()-> component.commit(group));
     }
 
+    @DisplayName("3. Проверка вставки группы без имени.")
     @Test
     public void shouldNotAllowNullName() {
         Group group = new Group();
