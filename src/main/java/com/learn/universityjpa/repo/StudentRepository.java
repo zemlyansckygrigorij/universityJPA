@@ -29,7 +29,7 @@ interface StudentRepository extends JpaRepository<Student, Long> {
     @Query(value
             = "select * "
             + "from student  "
-            + "where id_group = :groupId ",
+            + "where group_id = :groupId ",
             nativeQuery = true)
     Optional<List<Student>> getStudentsFromGroup(@Param("groupId") Long groupId);
 
