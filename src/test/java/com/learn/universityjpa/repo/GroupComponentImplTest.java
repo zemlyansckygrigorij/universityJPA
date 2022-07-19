@@ -45,19 +45,19 @@ class GroupComponentImplTest {
     @Autowired
     SubjectComponent subjectComponent;
 
-    @DisplayName("Проверка подключения элемента component")
+    @DisplayName("1. Проверка подключения элемента component.")
     @Test
     public void checkGroupComponent() {
         assertNotNull(component);
     }
 
-    @DisplayName("Проверка подключения элемента subjectComponent")
+    @DisplayName("2. Проверка подключения элемента subjectComponent.")
     @Test
     public void checkSubjectComponent() {
         assertNotNull(subjectComponent);
     }
 
-    @DisplayName("Проверка поиска группы по Id")
+    @DisplayName("3. Проверка поиска группы по Id.")
     @SqlTest
     void  findByIdTest() {
         assertEquals(2, component.findAll().size());
@@ -68,13 +68,13 @@ class GroupComponentImplTest {
         assertEquals("Computer Science LEVEL first", group.getName());
     }
 
-    @DisplayName("Проверка поиска группы по Id и выброс исключение если такой группы нет")
+    @DisplayName("4. Проверка поиска группы по Id и выброс исключение если такой группы нет.")
     @SqlTest
     void findByIdOrDieTest() {
         assertThrows(GroupNotFoundException.class, ()-> component.findByIdOrDie(4L));
     }
 
-    @DisplayName("Проверка сохранения группы")
+    @DisplayName("5. Проверка сохранения группы.")
     @SqlTest
     void commitTest() {
         Group group = new Group();
@@ -86,7 +86,7 @@ class GroupComponentImplTest {
         assertTrue(groups.contains(group));
     }
 
-    @DisplayName("Проверка поиска всех групп")
+    @DisplayName("6. Проверка поиска всех групп.")
     @SqlTest
     void findAllTest() {
         assertEquals(2, this.component.findAll().size());
@@ -97,7 +97,7 @@ class GroupComponentImplTest {
         assertEquals("Computer Science LEVEL second", group2.getName());
     }
 
-    @DisplayName("Проверка поиска всех предметов данной группы")
+    @DisplayName("7. Проверка поиска всех предметов данной группы.")
     @SqlTest
     void findAllSubjectsTest() {
         assertEquals(7, this.subjectComponent.findAll().size());
@@ -115,7 +115,7 @@ class GroupComponentImplTest {
         assertEquals(3, subjects2.size());
     }
 
-    @DisplayName("Проверка поиска группы по имени")
+    @DisplayName("8. Проверка поиска группы по имени.")
     @SqlTest
     void findByNameTest() throws Exception {
         Group group = component.findByName("LEVEL first").get(0);
@@ -123,7 +123,7 @@ class GroupComponentImplTest {
         assertEquals(1, group.getId());
     }
 
-    @DisplayName("Проверка поиска группы по предметам ")
+    @DisplayName("9. Проверка поиска группы по предметам.")
     @SqlTest
     void findBySubjectsTest() throws Exception {
         Subject subject = subjectComponent.findAll().get(0);
@@ -134,7 +134,7 @@ class GroupComponentImplTest {
         assertEquals(groups.get(0), component.findByIdOrDie(1L));
     }
 
-    @DisplayName("Проверка наличия предмета в расписании группы ")
+    @DisplayName("10. Проверка наличия предмета в расписании группы.")
     @SqlTest
     void checkSubjectTest() throws Exception {
         Group group = component.findByIdOrDie(1L);
@@ -144,7 +144,7 @@ class GroupComponentImplTest {
         assertFalse(component.checkSubject(group, subject2));
     }
 
-    @DisplayName("Проверка добавления предмета в расписания группы ")
+    @DisplayName("11. Проверка добавления предмета в расписания группы.")
     @SqlTest
     void addSubjectTest() throws Exception {
         Group group = component.findByIdOrDie(1L);
@@ -154,7 +154,7 @@ class GroupComponentImplTest {
         assertTrue(component.checkSubject(group, subject));
     }
 
-    @DisplayName("Проверка удаления предмета из расписания группы ")
+    @DisplayName("12. Проверка удаления предмета из расписания группы.")
     @SqlTest
     void deleteSubjectTest() throws Exception {
         Group group = component.findByIdOrDie(1L);
@@ -164,7 +164,7 @@ class GroupComponentImplTest {
         assertFalse(component.checkSubject(group, subject));
     }
 
-    @DisplayName("Проверка изменения группы ")
+    @DisplayName("13. Проверка изменения группы.")
     @Test
     @SqlGroup({
              @Sql(
@@ -182,7 +182,7 @@ class GroupComponentImplTest {
         assertEquals(groupNew.getSpecification(), "TestSpecification2");
    }
 
-    @DisplayName("Проверка удаления  группы ")
+    @DisplayName("14. Проверка удаления группы.")
     @SqlTest
     void deleteGroupById() throws Exception {
         assertThrows(GroupHasStudentsException.class, ()-> component.deleteGroupById(1L));
@@ -200,5 +200,51 @@ class GroupComponentImplTest {
         assertEquals(2, component.findAll().size());
         Optional<Group> groupOptNew = component.findByName("Name").stream().findFirst();
         assertTrue(groupOptNew.isEmpty());
+    }
+
+    @DisplayName("15. заполнение данными.")
+    @Test
+    @SqlGroup({
+            @Sql(
+                    scripts = "/db/sql/clean.sql ",
+                    executionPhase = BEFORE_TEST_METHOD,
+                    config = @SqlConfig(transactionMode = ISOLATED)),
+            @Sql(
+                    scripts = "/db/sql/insert.sql ",
+                    executionPhase = BEFORE_TEST_METHOD,
+                    config = @SqlConfig(transactionMode = ISOLATED)),
+            @Sql(
+                    scripts = "/db/sql/insertSubject.sql ",
+                    executionPhase = BEFORE_TEST_METHOD,
+                    config = @SqlConfig(transactionMode = ISOLATED)),
+            @Sql(
+                    scripts = "/db/sql/insertStudent.sql ",
+                    executionPhase = BEFORE_TEST_METHOD,
+                    config = @SqlConfig(transactionMode = ISOLATED)),
+
+            @Sql(
+                    scripts = "/db/sql/insertGS.sql ",
+                    executionPhase = BEFORE_TEST_METHOD,
+                    config = @SqlConfig(transactionMode = ISOLATED)),
+            @Sql(
+                    scripts = "/db/sql/insertTeacher.sql ",
+                    executionPhase = BEFORE_TEST_METHOD,
+                    config = @SqlConfig(transactionMode = ISOLATED)),
+            @Sql(
+            scripts = "/db/sql/insertTS.sql ",
+            executionPhase = BEFORE_TEST_METHOD,
+            config = @SqlConfig(transactionMode = ISOLATED))
+    })
+    void insertTest() throws Exception {
+        assertNotNull(component);
+    }
+    @DisplayName("16. Создание базы данных.")
+    @Test
+    @Sql(
+            scripts = "/db/sql/create.sql ",
+            executionPhase = BEFORE_TEST_METHOD,
+            config = @SqlConfig(transactionMode = ISOLATED))
+    void createTableTest() throws Exception {
+        assertNotNull(component);
     }
 }
