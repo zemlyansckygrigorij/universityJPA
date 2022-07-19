@@ -39,7 +39,7 @@ public class StudentComponentImpl implements StudentComponent {
     }
 
     public List<Student> findAll() {
-        return  repo.findAll();
+        return repo.findAll();
     }
     @Override
     public Group findGroup(Student student) {
@@ -71,7 +71,10 @@ public class StudentComponentImpl implements StudentComponent {
     }
 
     @Override
-    public void deleteStudentById(Long id) {
+    public void deleteStudentById(Long id) throws Exception {
+        if (!repo.existsById(id)) {
+            return;
+        }
         repo.deleteById(id);
     }
 
