@@ -85,6 +85,9 @@ public class GroupComponentImpl implements GroupComponent {
 
     @Override
     public void deleteGroupById(Long id) throws Exception {
+        if (Optional.ofNullable(findByIdOrDie(id)).isEmpty()) {
+            return;
+        }
         List<Student> students = studentComponent.findAll();
         List<Student> studentsByIdGroup = students.stream()
                 .filter((s) -> s.getGroup().getId() == id)
