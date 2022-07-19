@@ -5,9 +5,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
@@ -25,7 +23,7 @@ import javax.persistence.Table;
 @NoArgsConstructor
 public class Student extends Person {
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name = "id_group", nullable = false)
+    @ManyToOne
+    @JoinColumn(name = "group_id", nullable = false)
     private Group group;
 }
