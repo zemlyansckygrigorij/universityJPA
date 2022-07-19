@@ -7,6 +7,6 @@ package com.learn.universityjpa.exceptions;
  */
 public class SubjectNotFoundException  extends BaseException  {
     public SubjectNotFoundException() {
-        super(ErrorInformation.PERSON_NOT_FOUND.getDescription());
+        super(ErrorInformation.SUBJECT_NOT_FOUND.getDescription());
     }
 }
