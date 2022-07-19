@@ -23,7 +23,7 @@ public interface StudentComponent {
     /**
      * Находит всех студентов.
      *
-     * @return список студентов .
+     * @return список студентов.
      */
     List<Student> findAll();
 
@@ -31,7 +31,7 @@ public interface StudentComponent {
      * Ищет студента по идентификатору и падает по ошибке, если не нашел.
      *
      * @param id идентификатор студента.
-     * @return студента.
+     * @return студент.
      */
     Student findByIdOrDie(Long id) throws Exception;
 
@@ -39,14 +39,14 @@ public interface StudentComponent {
      * Сохраняет студента.
      *
      * @param student студент для сохранения.
-     * @return сохраненная студент.
+     * @return сохраненный студент.
      */
     Student commit(Student student);
 
     /**
      * Находит  группу данного студента.
      *
-     * @return группу.
+     * @return группа.
      */
     Group findGroup(Student student);
 
@@ -58,15 +58,15 @@ public interface StudentComponent {
     List<Subject> findAllSubjects(Student student);
 
     /**
-     * Проверяет наличие предмета  студента .
+     * Проверяет наличие предмета студента.
      *
      * @param  subject предмет.
-     * @return наличие предмета в группе
+     * @return наличие предмета у студента.
      */
     boolean checkSubject(Student student, Subject subject);
 
     /**
-     * Проверяет наличие предмета  студента .
+     * Находит всех студентов данной группы.
      *
      * @param group группа.
      * @return список студентов
@@ -74,7 +74,7 @@ public interface StudentComponent {
     List<Student> findAllFromGroup(Group group) throws Exception;
 
     /**
-     * Проверяет наличие предмета  студента .
+     * Находит всех студентов данной группы по идентификатору.
      *
      * @param id группы.
      * @return список студентов
@@ -84,7 +84,7 @@ public interface StudentComponent {
     /**
      * Находит всех студентов по введеному имени.
      *
-     * @return список студентов .
+     * @return список студентов.
      */
     List<Student> getStudentsByName(String name) throws Exception;
 
@@ -93,13 +93,13 @@ public interface StudentComponent {
      *
      * @param id идентификатор студента.
      */
-    void deleteStudentById(Long id);
+    void deleteStudentById(Long id) throws Exception;
 
     /**
      * Обновить студента по по идентификатору.
      *
      * @param id идентификатор группы.
-     * @param  student студента .
+     * @param  student студент.
      */
     void updateStudentById(Long id, Student student) throws ParseException;
 }
