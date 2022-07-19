@@ -50,7 +50,7 @@ public interface GroupComponent {
     List<Subject> findAllSubjects(Group group);
 
     /**
-     * Проверяет наличие студента данной группы.
+     * Проверяет наличие предмета в данной группе.
      *
      * @param  subject предмет.
      * @return наличие предмета в группе
@@ -88,7 +88,7 @@ public interface GroupComponent {
      * @return список групп
      * @throws Exception
      */
-    List<Group> findBySubjects(List<Subject> subjects)throws Exception;
+    List<Group> findBySubjects(List<Subject> subjects) throws Exception;
 
     /**
      * Удалить группу по по идентификатору.
