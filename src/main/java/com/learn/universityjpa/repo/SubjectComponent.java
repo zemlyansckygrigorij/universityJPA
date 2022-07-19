@@ -1,19 +1,21 @@
 package com.learn.universityjpa.repo;
 
 import com.learn.universityjpa.entity.Subject;
+import com.learn.universityjpa.entity.Teacher;
 
+import java.text.ParseException;
 import java.util.List;
 import java.util.Optional;
 
 /**
- * Компонент работы с данными предметами .
+ * Компонент работы с данными предметов.
  */
 public interface SubjectComponent {
 
     /**
      * Ищет предмет по идентификатору.
      *
-     * @param id идентификатор группы.
+     * @param id идентификатор предмета.
      * @return предмет.
      */
     Optional<Subject> findById(Long id);
@@ -21,7 +23,7 @@ public interface SubjectComponent {
     /**
      * Ищет предмет  по идентификатору и падает по ошибке, если не нашел.
      *
-     * @param id идентификатор группы.
+     * @param id идентификатор предмета.
      * @return предмет.
      */
     Subject findByIdOrDie(Long id) throws Exception;
@@ -29,7 +31,7 @@ public interface SubjectComponent {
     /**
      * Сохраняет предмет.
      *
-     * @param subject группа для сохранения.
+     * @param subject предмет для сохранения.
      * @return сохраненный предмет.
      */
     Subject commit(Subject subject);
@@ -40,6 +42,7 @@ public interface SubjectComponent {
      * @return список предметов.
      */
     List<Subject> findAll();
+
     /**
      * Находит все предметы по введеному имени.
      *
@@ -47,4 +50,27 @@ public interface SubjectComponent {
      * @return список предметов.
      */
     List<Subject> getSubjectsByName(String nameSubject) throws Exception;
+
+    /**
+     * Удалить предмета по по идентификатору.
+     *
+     * @param id идентификатор предмета.
+     */
+    void deleteSubjectById(Long id);
+
+    /**
+     * Обновить предмет по по идентификатору.
+     *
+     * @param id идентификатор предмета.
+     * @param  subject предмет.
+     */
+    void updateSubjectById(Long id, Subject subject) throws ParseException;
+
+    /**
+     * добавить преподавателя данному предмету.
+     *
+     * @param idTeacher идентификатор преподавателя.
+     * @param  idSubject идентификатор предмета.
+     */
+     Teacher addTeacher(long idTeacher, long idSubject) throws Exception;
 }
