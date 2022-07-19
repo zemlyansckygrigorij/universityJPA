@@ -1,4 +1,4 @@
-insert into group_subject(id,group_id, subject_id ) values
+insert into group_subject(id, group_id, subject_id ) values
  (1,1,1),
  (2,1,3),
  (3,1,5),
