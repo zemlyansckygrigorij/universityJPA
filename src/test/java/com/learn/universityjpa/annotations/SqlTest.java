@@ -49,6 +49,10 @@ import static org.springframework.test.context.jdbc.SqlConfig.TransactionMode.IS
                 executionPhase = BEFORE_TEST_METHOD,
                 config = @SqlConfig(transactionMode = ISOLATED)),
         @Sql(
+                scripts = "/db/sql/insertTS.sql ",
+                executionPhase = BEFORE_TEST_METHOD,
+                config = @SqlConfig(transactionMode = ISOLATED)),
+        @Sql(
                 scripts = "/db/sql/clean.sql ",
                 executionPhase = AFTER_TEST_METHOD,
                 config = @SqlConfig(transactionMode = ISOLATED))
