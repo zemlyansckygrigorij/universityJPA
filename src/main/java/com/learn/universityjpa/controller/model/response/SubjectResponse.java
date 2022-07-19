@@ -31,11 +31,11 @@ public class SubjectResponse {
     @JsonProperty("description")
     private String description;
 
-    @Schema(description = "группы содержащие данный предмет")
+    @Schema(description = "Группы, содержащие данный предмет")
     @JsonProperty(value = "groups")
     private List<Long> groups;
 
-    @Schema(description = "преподаватели обучащие данный предмет")
+    @Schema(description = "Преподаватели, обучащие данному предмету")
     @JsonProperty(value = "teachers")
     private List<Long> teachers;
 
