@@ -65,7 +65,7 @@ insert into teacher(id, first_name ,second_name,last_name,gender,category,date_b
 ;
 
 
-insert into student(id, first_name ,second_name,last_name,gender,date_birth,id_group) values
+insert into student(id, first_name ,second_name,last_name,gender,date_birth,group_id) values
 (1,'Bradley','Alexander','Abbe','MALE','02-03-99',1),
 (2,'Martin','Quinn','Abbett','MALE','01-04-00',2),
 (3,'Max','Mendoza','Alan','MALE','02-05-01',1),
