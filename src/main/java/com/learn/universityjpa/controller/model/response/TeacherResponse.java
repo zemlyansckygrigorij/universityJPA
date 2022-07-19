@@ -7,6 +7,8 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.Getter;
+import lombok.Setter;
+
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -51,6 +53,8 @@ public class TeacherResponse {
     @JsonProperty(value = "subjects")
     private List<SubjectJson> subjects;
 
+    @Getter
+    @Setter
     class SubjectJson {
         private Long id;
         private String name;
