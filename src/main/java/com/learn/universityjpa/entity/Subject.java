@@ -5,15 +5,16 @@ import lombok.Setter;
 
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
-
 
 /**
  * @author Grigoriy Zemlyanskiy
@@ -33,10 +34,17 @@ public class Subject {
     @Column(name = "description", nullable = false)
     private String description;
 
-    @ManyToMany
+    @ManyToMany(cascade = CascadeType.MERGE, fetch = FetchType.LAZY)
     @JoinTable(
             name = "group_subject",
             joinColumns = @JoinColumn(name = "subject_id"),
             inverseJoinColumns = @JoinColumn(name = "group_id"))
     List<Group> groups;
+
+    @ManyToMany(cascade = CascadeType.MERGE, fetch = FetchType.LAZY)
+    @JoinTable(
+            name = "teacher_subject",
+            joinColumns = @JoinColumn(name = "subject_id"),
+            inverseJoinColumns = @JoinColumn(name = "teacher_id"))
+    List<Teacher> teachers;
 }
