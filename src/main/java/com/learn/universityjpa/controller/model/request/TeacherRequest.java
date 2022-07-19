@@ -16,12 +16,13 @@ import java.util.Date;
 @Getter
 @AllArgsConstructor
 public class TeacherRequest {
+
     @Schema(description = "Идентификатор преподавателя")
     @JsonProperty("id")
     private Long id;
 
-    @JsonProperty("firstName")
     @Schema(description = "Имя преподавателя")
+    @JsonProperty("firstName")
     private String firstName;
 
     @Schema(description = "Отчество преподавателя")
