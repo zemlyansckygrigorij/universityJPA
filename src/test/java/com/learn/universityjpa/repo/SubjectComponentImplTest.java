@@ -126,4 +126,5 @@ class SubjectComponentImplTest {
         Optional<Subject> subjectNew = component.findById(1L);
         assertTrue(subjectNew.isEmpty());
     }
+
 }

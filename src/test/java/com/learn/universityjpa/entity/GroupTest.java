@@ -3,7 +3,6 @@ package com.learn.universityjpa.entity;
 import com.learn.universityjpa.annotations.SqlTest;
 import com.learn.universityjpa.repo.GroupComponent;
 import com.learn.universityjpa.repo.SubjectComponent;
-
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
@@ -12,12 +11,10 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
-
 import static org.junit.Assert.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-
 
 @SpringBootTest
 @RunWith(SpringJUnit4ClassRunner.class)

@@ -23,7 +23,7 @@ public class SubjectComponentImpl implements  SubjectComponent {
     @Autowired
     SubjectRepository repo;
     @Autowired
-    private  TeacherComponent   teacherComponent;
+    private  TeacherComponent teacherComponent;
 
     @Override
     public Optional<Subject> findById(Long id) {
