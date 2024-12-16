@@ -48,7 +48,9 @@ class SubjectComponentImplTest {
     @DisplayName("2. Проверка поиска предмета по Id.")
     @SqlTest
     void findById() {
-        Subject subject = component.findById(1L).get();
+        Optional<Subject> subjectOpt = component.findById(1L);
+        assertTrue(subjectOpt.isPresent());
+        Subject subject = component.findById(1L).orElseThrow();
         assertNotNull(subject);
         assertEquals("Introduction to Computational Science and Engineering", subject.getName());
         assertTrue(subject.getDescription()
@@ -100,7 +102,7 @@ class SubjectComponentImplTest {
                     config = @SqlConfig(transactionMode = ISOLATED)),
     })
     void updateSubjectById() throws ParseException {
-        Subject subject = component.findById(1L).get();
+        Subject subject = component.findById(1L).orElseThrow();
         assertNotNull(subject);
         assertEquals("Introduction to Computational Science and Engineering", subject.getName());
         assertTrue(subject.getDescription()
@@ -109,7 +111,7 @@ class SubjectComponentImplTest {
         subject.setName("testName");
         subject.setDescription("testtDescription");
         component.updateSubjectById(1L, subject);
-        Subject subjectNew = component.findById(1L).get();
+        Subject subjectNew = component.findById(1L).orElseThrow();
         assertNotNull(subjectNew);
         assertEquals("testName", subjectNew.getName());
         assertEquals("testtDescription", subjectNew.getDescription());
@@ -118,7 +120,6 @@ class SubjectComponentImplTest {
     @DisplayName("7. Проверка удаления предмета по Id.")
     @SqlTest
     void deleteSubjectById() throws Exception {
-        int count = component.findAll().size();
         Subject subject = component.findByIdOrDie(1L);
         assertNotNull(subject);
         component.deleteSubjectById(1L);

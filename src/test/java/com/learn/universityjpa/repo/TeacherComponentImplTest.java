@@ -51,7 +51,7 @@ class TeacherComponentImplTest {
     @DisplayName("2. Проверка поиска преподавателя по Id.")
     @SqlTest
     void findById() {
-        Teacher teacher = component.findById(1L).get();
+        Teacher teacher = component.findById(1L).orElseThrow();
         assertNotNull(teacher);
         assertEquals(1, teacher.getId());
         assertEquals("Oliver", teacher.getFirstName());
@@ -90,11 +90,9 @@ class TeacherComponentImplTest {
     @DisplayName("6. Проверка удаления преподавателя по Id.")
     @SqlTest
     void deleteTeacherById() throws Exception {
-        int count = component.findAll().size();
         Teacher teacher = component.findByIdOrDie(1L);
         assertNotNull(teacher);
         component.deleteTeacherById(1L);
-
         Optional<Teacher> teacherNew = component.findById(1L);
         assertTrue(teacherNew.isEmpty());
     }
