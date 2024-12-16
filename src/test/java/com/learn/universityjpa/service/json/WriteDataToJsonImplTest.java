@@ -34,7 +34,6 @@ class WriteDataToJsonImplTest {
     private ReaderJsonImpl readerJsonImpl;
     @DisplayName("Проверка создания json файлов")
     @SqlTest
-    @SuppressWarnings("unchecked")
     void create() throws Exception {
         String path = new File("").getAbsolutePath() + filePath;
         assertNotNull(writeDataToJson);

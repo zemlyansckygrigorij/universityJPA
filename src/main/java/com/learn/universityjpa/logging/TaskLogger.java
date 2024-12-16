@@ -7,7 +7,6 @@ import org.aspectj.lang.annotation.After;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
 import org.springframework.stereotype.Component;
-
 import java.util.Date;
 
 /**
@@ -20,7 +19,6 @@ import java.util.Date;
 public class TaskLogger {
     /**
      * Логирует время до выполнения метода отмеченного аннотаций {@link TaskBeginFinishLogging}.
-     *
      * @param joinPoint точка применения аспекта.
      */
     @Before("@annotation(com.learn.universityjpa.logging.TaskBeginFinishLogging))")
@@ -30,7 +28,6 @@ public class TaskLogger {
 
     /**
      * Логирует время после выполнения метода отмеченного аннотаций {@link TaskBeginFinishLogging}.
-     *
      * @param joinPoint точка применения аспекта.
      */
     @After("@annotation(com.learn.universityjpa.logging.TaskBeginFinishLogging))")

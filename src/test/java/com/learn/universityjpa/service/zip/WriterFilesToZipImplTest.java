@@ -9,13 +9,11 @@ import org.springframework.context.annotation.PropertySource;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
-
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.List;
-
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @SpringBootTest
@@ -37,6 +35,7 @@ class WriterFilesToZipImplTest {
         File folder = new File(pathFiles);
         File[] listOfFiles = folder.listFiles();
         List<String> list = new ArrayList<>();
+        assert listOfFiles != null;
         for (File file : listOfFiles) {
             if (file.isFile()) {
                 list.add(file.getAbsolutePath());

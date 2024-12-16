@@ -1,8 +1,6 @@
 package com.learn.universityjpa.repo;
 
 import com.learn.universityjpa.entity.Subject;
-import com.learn.universityjpa.entity.Teacher;
-
 import java.text.ParseException;
 import java.util.List;
 import java.util.Optional;
@@ -21,7 +19,7 @@ public interface SubjectComponent {
     Optional<Subject> findById(Long id);
 
     /**
-     * Ищет предмет  по идентификатору и падает по ошибке, если не нашел.
+     * Ищет предмет по идентификатору и падает по ошибке, если не нашел.
      *
      * @param id идентификатор предмета.
      * @return предмет.
@@ -44,7 +42,7 @@ public interface SubjectComponent {
     List<Subject> findAll();
 
     /**
-     * Находит все предметы по введеному имени.
+     * Находит все предметы по имени.
      *
      * @param nameSubject имя предмета.
      * @return список предметов.
@@ -52,25 +50,17 @@ public interface SubjectComponent {
     List<Subject> getSubjectsByName(String nameSubject) throws Exception;
 
     /**
-     * Удалить предмета по по идентификатору.
+     * Удалить предмета по идентификатору.
      *
      * @param id идентификатор предмета.
      */
     void deleteSubjectById(Long id);
 
     /**
-     * Обновить предмет по по идентификатору.
+     * Обновить предмет по идентификатору.
      *
      * @param id идентификатор предмета.
      * @param  subject предмет.
      */
     void updateSubjectById(Long id, Subject subject) throws ParseException;
-
-    /**
-     * добавить преподавателя данному предмету.
-     *
-     * @param idTeacher идентификатор преподавателя.
-     * @param  idSubject идентификатор предмета.
-     */
-     Teacher addTeacher(long idTeacher, long idSubject) throws Exception;
 }

@@ -4,9 +4,9 @@ import com.learn.universityjpa.entity.Group;
 import com.learn.universityjpa.entity.Student;
 import com.learn.universityjpa.entity.Subject;
 import com.learn.universityjpa.exceptions.PersonNotFoundException;
-import lombok.RequiredArgsConstructor;
+//import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import java.text.ParseException;
 import java.util.List;
 import java.util.Optional;
 
@@ -15,13 +15,19 @@ import java.util.Optional;
  * @version 1.0
  * class StudentComponentImpl
  */
-@RequiredArgsConstructor
+//@RequiredArgsConstructor
 @Component
 public class StudentComponentImpl implements StudentComponent {
 
     private final StudentRepository repo;
-    private final GroupComponent groupComponent;
+    @Autowired
+    private GroupComponent groupComponent;
 
+    @Autowired
+    public StudentComponentImpl(StudentRepository repo/*,GroupComponent groupComponent*/){
+        this.repo = repo;
+       // this.groupComponent = groupComponent;
+    }
     @Override
     public Optional<Student> findById(Long id) {
         return repo.findById(id);
@@ -30,7 +36,7 @@ public class StudentComponentImpl implements StudentComponent {
     @Override
     public Student findByIdOrDie(Long id) throws Exception {
         return this.findById(id)
-                .orElseThrow(() -> new PersonNotFoundException());
+                .orElseThrow(PersonNotFoundException::new);
     }
 
     @Override
@@ -41,15 +47,18 @@ public class StudentComponentImpl implements StudentComponent {
     public List<Student> findAll() {
         return repo.findAll();
     }
+
     @Override
     public Group findGroup(Student student) {
         return student.getGroup();
     }
 
-    public List<Student> findAllFromGroup(Group group) throws Exception {
-        return  repo.getStudentsFromGroup(group.getId()).orElseThrow(
-                () -> new PersonNotFoundException());
+    public List<Student> findAllFromGroup(Group group) {
+        return  repo
+                .getStudentsFromGroup(group.getId())
+                .orElseThrow(PersonNotFoundException::new);
     }
+
     public List<Student> findAllByGroupId(long id) throws Exception {
         return findAllFromGroup(groupComponent.findByIdOrDie(id));
     }
@@ -65,13 +74,12 @@ public class StudentComponentImpl implements StudentComponent {
         return student.getGroup().getSubjects().contains(subject);
     }
     @Override
-    public List<Student> getStudentsByName(String name) throws Exception {
-        return repo.getStudentsByName(name).orElseThrow(
-                () -> new PersonNotFoundException());
+    public List<Student> getStudentsByName(String name) {
+        return repo.getStudentsByName(name).orElseThrow(PersonNotFoundException::new);
     }
 
     @Override
-    public void deleteStudentById(Long id) throws Exception {
+    public void deleteStudentById(Long id) {
         if (!repo.existsById(id)) {
             return;
         }
@@ -79,8 +87,8 @@ public class StudentComponentImpl implements StudentComponent {
     }
 
     @Override
-    public void updateStudentById(Long id, Student student) throws ParseException {
-        int result = this.repo.updateStudentById(
+    public void updateStudentById(Long id, Student student) {
+        this.repo.updateStudentById(
                 id,
                 student.getFirstName(),
                 student.getSecondName(),

@@ -2,10 +2,7 @@ package com.learn.universityjpa.repo;
 
 import com.learn.universityjpa.annotations.SqlTest;
 
-import com.learn.universityjpa.entity.Gender;
-import com.learn.universityjpa.entity.Group;
-import com.learn.universityjpa.entity.Student;
-import com.learn.universityjpa.entity.Subject;
+import com.learn.universityjpa.entity.*;
 
 import com.learn.universityjpa.exceptions.PersonNotFoundException;
 import org.junit.jupiter.api.DisplayName;
@@ -56,7 +53,9 @@ class StudentComponentImplTest {
     @DisplayName("2. Проверка поиска студента по Id.")
     @SqlTest
     void findById() {
-        Student student = component.findById(1L).get();
+        Optional<Student> studentOpt = component.findById(1L);
+        assertTrue(studentOpt.isPresent());
+        Student student = studentOpt.get();
         assertNotNull(student);
         assertEquals(1, student.getId());
         assertEquals("Bradley", student.getFirstName());
@@ -190,17 +189,17 @@ class StudentComponentImplTest {
     @Test
     void getAllStudentsByGender() {
         Map<Gender, List<Student>> map = new HashMap<>();
-        Set<Gender> genders =  component.findAll().stream().map(s -> s.getGender()).collect(Collectors.toSet());
-        component.findAll().stream().filter(s ->s.getGender().equals(Gender.MALE)).collect(Collectors.toList());
+        Set<Gender> genders =  component.findAll().stream().map(Person::getGender).collect(Collectors.toSet());
+       // component.findAll().stream().filter(s ->s.getGender().equals(Gender.MALE)).collect(Collectors.toList());
 
-        genders.stream().forEach(
-                g-> {
+        genders.forEach(
+                g->
                     map.put(g, component
                             .findAll()
                             .stream()
                             .filter(s ->s.getGender().equals(g))
-                            .collect(Collectors.toList()));
-                }
+                            .collect(Collectors.toList()))
+
         );
         assertEquals(map.get(Gender.MALE).size(), 32);
     }

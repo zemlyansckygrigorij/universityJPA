@@ -4,25 +4,19 @@ import com.learn.universityjpa.entity.Group;
 import com.learn.universityjpa.entity.Student;
 import com.learn.universityjpa.entity.Subject;
 import com.learn.universityjpa.entity.Teacher;
-
 import com.learn.universityjpa.repo.GroupComponent;
 import com.learn.universityjpa.repo.StudentComponent;
 import com.learn.universityjpa.repo.SubjectComponent;
 import com.learn.universityjpa.repo.TeacherComponent;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Component;
-
 import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
-
 import java.io.File;
-
 import java.util.List;
-
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -41,17 +35,21 @@ import javax.xml.transform.stream.StreamResult;
 @Component
 @PropertySource("classpath:values.properties")
 public class WriteDataToXMLImpl implements WriteDataToXML {
-    @Autowired
-    private GroupComponent groupComponent;
-    @Autowired
-    SubjectComponent subjectComponent;
-    @Autowired
-    private StudentComponent studentComponent;
-    @Autowired
-    private TeacherComponent teacherComponent;
+    private final GroupComponent groupComponent;
+    private final SubjectComponent subjectComponent;
+    private final StudentComponent studentComponent;
+    private final TeacherComponent teacherComponent;
 
     @Value("${spring.dir.xml}")
     private String filePath;
+
+    @Autowired
+    public WriteDataToXMLImpl(GroupComponent groupComponent, SubjectComponent subjectComponent, StudentComponent studentComponent, TeacherComponent teacherComponent) {
+        this.groupComponent = groupComponent;
+        this.subjectComponent = subjectComponent;
+        this.studentComponent = studentComponent;
+        this.teacherComponent = teacherComponent;
+    }
 
     @Override
     public void create() {
@@ -60,7 +58,7 @@ public class WriteDataToXMLImpl implements WriteDataToXML {
             createXMLFile(Files.Subjects);
             createXMLFile(Files.Students);
             createXMLFile(Files.Teacher);
-        } catch (ParserConfigurationException | TransformerException ex) { }
+        } catch (ParserConfigurationException | TransformerException e) { e.printStackTrace();}
     }
 
     private void createXMLFile(Files file) throws ParserConfigurationException, TransformerException {
@@ -100,9 +98,7 @@ public class WriteDataToXMLImpl implements WriteDataToXML {
         List<Teacher> teachers = teacherComponent.findAll();
         Element root = document.createElement("teachers");
         document.appendChild(root);
-        for (int i = 0; i < teachers.size(); i++) {
-            Teacher teacher = teachers.get(i);
-
+        for(Teacher teacher:  teachers){
             Element studentEl = document.createElement("teacher");
             root.appendChild(studentEl);
 
@@ -148,9 +144,7 @@ public class WriteDataToXMLImpl implements WriteDataToXML {
         List<Student> students = studentComponent.findAll();
         Element root = document.createElement("students");
         document.appendChild(root);
-
-        for (int i = 0; i < students.size(); i++) {
-            Student student = students.get(i);
+        for (Student student: students) {
 
             Element studentEl = document.createElement("student");
             root.appendChild(studentEl);
@@ -193,15 +187,12 @@ public class WriteDataToXMLImpl implements WriteDataToXML {
         }
     }
 
-
     private void createSubjectsDocument(Document document) {
         List<Subject> subjects = subjectComponent.findAll();
         Element root = document.createElement("subjects");
         document.appendChild(root);
 
-        for (int i = 0; i < subjects.size(); i++) {
-
-            Subject subject = subjects.get(i);
+        for (Subject subject: subjects) {
 
             Element subjectEl = document.createElement("subject");
             root.appendChild(subjectEl);
@@ -234,8 +225,7 @@ public class WriteDataToXMLImpl implements WriteDataToXML {
         Element root = document.createElement("groups");
         document.appendChild(root);
 
-        for (int i = 0; i < groups.size(); i++) {
-            Group group = groups.get(i);
+        for (Group group: groups) {
             Element groupEl = document.createElement("group");
             root.appendChild(groupEl);
 
@@ -260,8 +250,6 @@ public class WriteDataToXMLImpl implements WriteDataToXML {
             groupEl.setAttributeNode(attr1);
         }
     }
-
-
 
     private StreamResult getStreamResult(String path) {
         return new StreamResult(new File(path));

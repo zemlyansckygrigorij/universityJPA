@@ -12,7 +12,6 @@ import com.learn.universityjpa.repo.StudentComponent;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.validation.annotation.Validated;
-
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -21,17 +20,15 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
 import java.util.List;
 import java.util.stream.Collectors;
 
 /**
  * @author Grigoriy Zemlyanskiy
  * @version 1.0
- * class StudentControlle
+ * class StudentController
  * для работы с web сайтом /students
  */
-
 @RestController
 @Validated
 @Tag(name = "API работы со студентами")
@@ -43,9 +40,11 @@ public class StudentController {
 
     @GetMapping()
     public List<StudentResponse>  getAllStudents() {
-        return studentComponent.findAll().stream().map(
-                (x)-> new StudentResponse(x)
-        ).collect(Collectors.toList());
+        return studentComponent
+                .findAll()
+                .stream()
+                .map(StudentResponse::new)
+                .collect(Collectors.toList());
     }
 
     @GetMapping("/{id}")
@@ -59,9 +58,11 @@ public class StudentController {
     public List<StudentResponse> getStudentByGroupId(
             @PathVariable(name = "id") final long id
     ) throws Exception {
-        return studentComponent.findAllByGroupId(id).stream().map(
-                (x)-> new StudentResponse(x)
-        ).collect(Collectors.toList());
+        return studentComponent
+                .findAllByGroupId(id)
+                .stream()
+                .map(StudentResponse::new)
+                .collect(Collectors.toList());
     }
 
     @GetMapping("/{id}/group")
@@ -75,31 +76,36 @@ public class StudentController {
     public List<SubjectResponse> findAllSubjects(
             @PathVariable(name = "id") final long id
     ) throws Exception {
-        return studentComponent.findByIdOrDie(id).getGroup().getSubjects().stream().map(
-                (x)-> new SubjectResponse(x)
-        ).collect(Collectors.toList());
+        return studentComponent
+                .findByIdOrDie(id)
+                .getGroup()
+                .getSubjects()
+                .stream()
+                .map(SubjectResponse::new)
+                .collect(Collectors.toList());
     }
 
     @GetMapping("/name/{name}")
-    public  List<StudentResponse> findStudentsByName(@PathVariable(name = "name") final String name
+    public  List<StudentResponse> findStudentsByName(
+            @PathVariable(name = "name") final String name
     ) throws Exception {
-        return studentComponent.getStudentsByName(name).stream().map(
-                (x)-> new StudentResponse(x)
-        ).collect(Collectors.toList());
+        return studentComponent
+                .getStudentsByName(name)
+                .stream()
+                .map(StudentResponse::new)
+                .collect(Collectors.toList());
     }
 
-    @GetMapping("/{id}/checksubject")
+    @GetMapping("/{id}/check_subject")
     public boolean checkSubject(@RequestBody final String name,
             @PathVariable(name = "id") final long id
-
     ) throws Exception {
         return studentComponent
                 .findByIdOrDie(id)
                 .getGroup()
                 .getSubjects()
                 .stream()
-                .filter((x)->x.getName().equals(name))
-                .count() > 0;
+                .anyMatch((x)->x.getName().equals(name));
     }
 
     @PostMapping()
@@ -107,6 +113,7 @@ public class StudentController {
         Student student = studentBuilder(request);
         return new StudentResponse(studentComponent.commit(student));
     }
+
     @DeleteMapping("/{id}")
     public void deleteById(
             @PathVariable(name = "id") final long id
@@ -115,8 +122,9 @@ public class StudentController {
     }
 
     @PutMapping("/{id}")
-    public void updateStudent(@RequestBody StudentRequest request,
-                            @PathVariable(name = "id") final long id
+    public void updateStudent(
+            @RequestBody StudentRequest request,
+            @PathVariable(name = "id") final long id
     ) throws Exception {
         studentComponent.updateStudentById(id, studentBuilder(request));
     }
@@ -127,12 +135,14 @@ public class StudentController {
         student.setSecondName(request.getSecondName());
         student.setLastName(request.getLastName());
 
-        if (request.getGender().toString().equals("FEMALE")) {
+        if (request.getGender().equals("FEMALE")) {
             student.setGender(Gender.FEMALE);
         }
-        if (request.getGender().toString().equals("MALE")) {
+
+        if (request.getGender().equals("MALE")) {
             student.setGender(Gender.MALE);
         }
+
         student.setDateBirth(request.getDateBirth());
 
         Group group = groupComponent.findByIdOrDie(request.getGroupId());

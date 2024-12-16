@@ -17,27 +17,21 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.web.util.NestedServletException;
-
+import java.util.Objects;
 import java.util.Optional;
-
 import static org.assertj.core.api.Assertions.assertThat;
-
 import static org.hamcrest.Matchers.aMapWithSize;
 import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.is;
-
-import static org.junit.Assert.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @AutoConfigureMockMvc
@@ -53,7 +47,7 @@ class GroupControllerTest {
     @Autowired
     private GroupComponent groupComponent;
     @Test
-    public void contextLoads() throws Exception {
+    public void contextLoads() {
         assertThat(controller).isNotNull();
     }
 
@@ -112,12 +106,12 @@ class GroupControllerTest {
     @DisplayName("4. Проверка наличия предмета в группе по Id.")
     @SqlTest
     void checkSubject() throws Exception {
-        this.mockMvc.perform(get("/groups/1/checksubject")
+        this.mockMvc.perform(get("/groups/1/check_subject")
                         .content("Introduction to Computational Science and Engineering"))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(content().string(containsString("true")));
-        this.mockMvc.perform(get("/groups/1/checksubject")
+        this.mockMvc.perform(get("/groups/1/check_subject")
                         .content("Linear Algebra and Optimization"))
                 .andDo(print())
                 .andExpect(status().isOk())
@@ -153,7 +147,7 @@ class GroupControllerTest {
                 .andExpect(content().string(containsString("testSpecification")))
                 .andExpect(jsonPath("$", hasSize(3)));
         Optional<Group> groupOpt = groupComponent.findByName("testName").stream().findFirst();
-        assertNotNull(groupOpt.get());
+        assertTrue(groupOpt.isPresent());
     }
 
     @DisplayName("7. Проверка удаления группы по Id.")
@@ -191,33 +185,27 @@ class GroupControllerTest {
 
     @DisplayName("8. Проверка удаления группы, содержащей студентов по Id.")
     @SqlTest
-    void deleteByIdGroupWithStudents() throws Exception {
+    void deleteByIdGroupWithStudents() {
 
-        assertThrows(NestedServletException.class, ()-> {
-            this.mockMvc.perform(MockMvcRequestBuilders
-                            .delete("/groups/{id}", "1")
-                            .contentType(MediaType.APPLICATION_JSON)
-                            .accept(MediaType.APPLICATION_JSON))
-                    .andExpect(status().isInternalServerError())
-                    .andExpect(result -> assertTrue(result.getResolvedException() instanceof GroupHasStudentsException))
-                    .andExpect(
-                            result ->
-                                    assertEquals(
-                                            "Удаление данной группы невозможно. Она содержит студентов.",
-                                            result.getResolvedException().getMessage()
-                                    )
-                    );
-        });
+        assertThrows(NestedServletException.class,  ()-> this.mockMvc.perform(MockMvcRequestBuilders
+                        .delete("/groups/{id}", "1")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isInternalServerError())
+                .andExpect(result -> assertTrue(result.getResolvedException() instanceof GroupHasStudentsException))
+                .andExpect(
+                        result ->
+                                assertEquals(
+                                        "Удаление данной группы невозможно. Она содержит студентов.",
+                                        Objects.requireNonNull(result.getResolvedException()).getMessage()
+                                )
+                ));
     }
 
     @DisplayName("9. Проверка изменения группы по Id.")
     @SqlTest
     public void changeGroup() throws Exception {
-        Group group1 = new Group();
-        group1.setName("testName3");
-        group1.setSpecification("testSpecification3");
-        group1.setId(1L);
-        GroupRequest groupRequest = new GroupRequest(group1);
+        GroupRequest groupRequest = new GroupRequest(1L,"testName3","testSpecification3");
         mockMvc.perform(MockMvcRequestBuilders
                         .put("/groups/1")
                         .content(asJsonString(groupRequest))

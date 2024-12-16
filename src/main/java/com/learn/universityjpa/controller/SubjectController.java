@@ -37,17 +37,22 @@ public class SubjectController {
 
     @GetMapping()
     public List<SubjectResponse> getAllSubjects() {
-        return subjectComponent.findAll().stream().map(
-                (x)-> new SubjectResponse(x)
-        ).collect(Collectors.toList());
+        return subjectComponent
+                .findAll()
+                .stream()
+                .map(SubjectResponse::new)
+                .collect(Collectors.toList());
     }
 
     @GetMapping("/name/{name}")
     public List<SubjectResponse> findSubjectsByName(@PathVariable(name = "name") final String name) throws Exception {
-        return subjectComponent.getSubjectsByName(name).stream().map(
-                (x)-> new SubjectResponse(x)
-        ).collect(Collectors.toList());
+        return subjectComponent
+                .getSubjectsByName(name)
+                .stream()
+                .map(SubjectResponse::new)
+                .collect(Collectors.toList());
     }
+
     @GetMapping("/{id}")
     public SubjectResponse getSubjectById(
             @PathVariable(name = "id") final long id
@@ -56,7 +61,7 @@ public class SubjectController {
     }
 
     @PostMapping()
-    public SubjectResponse createSubject(@RequestBody SubjectRequest request) throws Exception {
+    public SubjectResponse createSubject(@RequestBody SubjectRequest request) {
         return new SubjectResponse(subjectComponent.commit(subjectBuilder(request)));
     }
 
@@ -74,7 +79,7 @@ public class SubjectController {
         subjectComponent.updateSubjectById(id, subjectBuilder(request));
     }
 
-    public Subject subjectBuilder(SubjectRequest request) throws Exception {
+    public Subject subjectBuilder(SubjectRequest request) {
         Subject subject = new Subject();
         subject.setName(request.getName());
         subject.setDescription(request.getDescription());

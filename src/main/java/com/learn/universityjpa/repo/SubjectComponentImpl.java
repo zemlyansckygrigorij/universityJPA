@@ -1,13 +1,9 @@
 package com.learn.universityjpa.repo;
 
 import com.learn.universityjpa.entity.Subject;
-import com.learn.universityjpa.entity.Teacher;
 import com.learn.universityjpa.exceptions.SubjectNotFoundException;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-
-import java.text.ParseException;
 import java.util.List;
 import java.util.Optional;
 
@@ -20,10 +16,8 @@ import java.util.Optional;
 @Component
 public class SubjectComponentImpl implements  SubjectComponent {
 
-    @Autowired
-    SubjectRepository repo;
-    @Autowired
-    private  TeacherComponent teacherComponent;
+   // @Autowired
+    private final SubjectRepository repo;
 
     @Override
     public Optional<Subject> findById(Long id) {
@@ -32,8 +26,7 @@ public class SubjectComponentImpl implements  SubjectComponent {
 
     @Override
     public Subject findByIdOrDie(Long id) throws Exception {
-        return this.repo.findById(id).orElseThrow(
-                () -> new SubjectNotFoundException());
+        return this.repo.findById(id).orElseThrow(SubjectNotFoundException::new);
     }
 
     @Override
@@ -47,9 +40,8 @@ public class SubjectComponentImpl implements  SubjectComponent {
     }
 
     @Override
-    public List<Subject> getSubjectsByName(String nameSubject) throws Exception {
-        return this.repo.getSubjectsByName(nameSubject).orElseThrow(
-                () -> new SubjectNotFoundException());
+    public List<Subject> getSubjectsByName(String nameSubject) {
+        return this.repo.getSubjectsByName(nameSubject).orElseThrow(SubjectNotFoundException::new);
     }
 
     @Override
@@ -61,20 +53,11 @@ public class SubjectComponentImpl implements  SubjectComponent {
     }
 
     @Override
-    public void updateSubjectById(Long id, Subject subject) throws ParseException {
+    public void updateSubjectById(Long id, Subject subject) {
         this.repo.updateSubjectById(
                 id,
                 subject.getName(),
                 subject.getDescription()
         );
-    }
-
-    @Override
-    public Teacher addTeacher(long idTeacher, long idSubject) throws Exception {
-        Teacher teacher =  teacherComponent.findByIdOrDie(idTeacher);
-        Subject subject =  findByIdOrDie(idSubject);
-        subject.getTeachers().add(teacher);
-        this.repo.save(subject);
-        return teacher;
     }
 }

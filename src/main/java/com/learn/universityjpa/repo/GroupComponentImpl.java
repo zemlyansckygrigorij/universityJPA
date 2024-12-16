@@ -5,11 +5,10 @@ import com.learn.universityjpa.entity.Student;
 import com.learn.universityjpa.entity.Subject;
 import com.learn.universityjpa.exceptions.GroupHasStudentsException;
 import com.learn.universityjpa.exceptions.GroupNotFoundException;
-import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -18,12 +17,19 @@ import java.util.stream.Collectors;
  * @version 1.0
  * class GroupComponentImpl
  */
-@RequiredArgsConstructor
+//@RequiredArgsConstructor
 @Component
 public class GroupComponentImpl implements GroupComponent {
     private final GroupRepository repo;
     @Autowired
-    private StudentComponent studentComponent;
+    private  StudentComponent studentComponent;
+
+    @Autowired
+    public GroupComponentImpl(GroupRepository repo/*, StudentComponent studentComponent*/){
+        this.repo = repo;
+      //  this.studentComponent = studentComponent;
+    }
+
     @Override
     public Optional<Group> findById(Long id) {
         return this.repo.findById(id);
@@ -31,8 +37,7 @@ public class GroupComponentImpl implements GroupComponent {
 
     @Override
     public Group findByIdOrDie(Long id) throws Exception {
-        return this.findById(id)
-                .orElseThrow(() -> new GroupNotFoundException());
+        return this.findById(id).orElseThrow(GroupNotFoundException::new);
     }
 
     @Override
@@ -71,16 +76,14 @@ public class GroupComponentImpl implements GroupComponent {
     }
 
     @Override
-    public List<Group> findByName(String name) throws Exception {
-        return this.repo.findByName(name).orElseThrow(
-                () -> new GroupNotFoundException());
+    public List<Group> findByName(String name) {
+        return this.repo.findByName(name).orElseThrow(GroupNotFoundException::new);
     }
 
     @Override
-    public List<Group> findBySubjects(List<Subject> subjects) throws Exception {
-        long[] ids = subjects.stream().mapToLong(s -> s.getId()).toArray();
-        return this.repo.findBySubjects(ids).orElseThrow(
-                () -> new GroupNotFoundException());
+    public List<Group> findBySubjects(List<Subject> subjects) {
+        long[] ids = subjects.stream().mapToLong(Subject::getId).toArray();
+        return this.repo.findBySubjects(ids).orElseThrow(GroupNotFoundException::new);
     }
 
     @Override
@@ -90,9 +93,9 @@ public class GroupComponentImpl implements GroupComponent {
         }
         List<Student> students = studentComponent.findAll();
         List<Student> studentsByIdGroup = students.stream()
-                .filter((s) -> s.getGroup().getId() == id)
+                .filter((s) -> Objects.equals(s.getGroup().getId(), id))
                 .collect(Collectors.toList());
-        if (studentsByIdGroup.size() > 0) {
+        if (!studentsByIdGroup.isEmpty()) {
            throw new GroupHasStudentsException();
         }
         this.repo.deleteById(id);

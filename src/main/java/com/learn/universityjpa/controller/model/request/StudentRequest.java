@@ -2,7 +2,6 @@ package com.learn.universityjpa.controller.model.request;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.learn.universityjpa.entity.Student;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -45,15 +44,5 @@ public class StudentRequest {
     @Schema(description = "Идентификатор группы студента")
     @JsonProperty("groupId")
     private Long groupId;
-
-    public StudentRequest(Student student) {
-        this.id = student.getId();
-        this.firstName = student.getFirstName();
-        this.secondName = student.getSecondName();
-        this.lastName = student.getLastName();
-        this.groupId = student.getGroup().getId();
-        this.dateBirth = student.getDateBirth();
-        this.gender = student.getGender().toString();
-    }
 }
 

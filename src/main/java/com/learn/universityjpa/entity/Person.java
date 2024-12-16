@@ -5,12 +5,9 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
-
 import org.hibernate.annotations.Type;
 import org.hibernate.annotations.TypeDef;
-
 import java.util.Date;
-
 import javax.persistence.Column;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -22,7 +19,6 @@ import javax.persistence.TemporalType;
 
 /**
  * @author Grigoriy Zemlyanskiy
- *
  * @version 1.0
  * abstract class Person
  */

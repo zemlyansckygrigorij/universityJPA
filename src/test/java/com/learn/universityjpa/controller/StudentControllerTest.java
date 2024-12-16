@@ -18,15 +18,12 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
-
+import java.util.Objects;
 import java.util.Optional;
-
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.is;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -35,12 +32,11 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @AutoConfigureMockMvc
 class StudentControllerTest {
 
-    private String studentBody = "{\n" +
+    private final String studentBody = "{\n" +
             "        \"firstName\":\"FirstName\",\n" +
             "        \"secondName\":\"SecondName\",\n" +
             "        \"lastName\": \"LastName\",\n" +
@@ -61,7 +57,7 @@ class StudentControllerTest {
 
     @DisplayName("1. Загрузка контекста.")
     @Test
-    public void contextLoads() throws Exception {
+    public void contextLoads(){
         assertThat(controller).isNotNull();
     }
 
@@ -222,10 +218,10 @@ class StudentControllerTest {
     @DisplayName("8. Проверка наличия предмета у студента по Id.")
     @SqlTest
     void checkSubject() throws Exception {
-        this.mockMvc.perform(get("/students/1/checksubject")
+        this.mockMvc.perform(get("/students/1/check_subject")
                         .content("Linear Algebra and Optimization")).andDo(print()).andExpect(status().isOk())
                 .andExpect(content().string(containsString("false")));
-        this.mockMvc.perform(get("/students/1/checksubject")
+        this.mockMvc.perform(get("/students/1/check_subject")
                         .content("Introduction to Computational Science and Engineering"))
                 .andDo(print())
                 .andExpect(status().isOk())
@@ -257,9 +253,9 @@ class StudentControllerTest {
                 .andExpect(jsonPath("$.group", is("Computer Science LEVEL first")));
 
         Optional<Student> studentOpt =  studentComponent.getStudentsByName("FirstName").stream().findFirst();
-        assertTrue(studentOpt.isPresent());
+        Assertions.assertTrue(studentOpt.isPresent());
         Student studentNew = studentOpt.get();
-        assertNotNull(studentNew);
+        Assertions.assertNotNull(studentNew);
         assertEquals("FirstName", studentNew.getFirstName());
         assertEquals("SecondName", studentNew.getSecondName());
         assertEquals("LastName", studentNew.getLastName());
@@ -282,26 +278,24 @@ class StudentControllerTest {
                 .andExpect(jsonPath("$", hasSize(71)));
 
         Optional<Student> studentOpt = studentComponent.findById(1L);
-        assertTrue(studentOpt.isEmpty());
+        Assertions.assertTrue(studentOpt.isEmpty());
 
-        assertThrows(AssertionError.class, ()-> {
-            this.mockMvc.perform(MockMvcRequestBuilders
-                            .delete("/students/{id}", "1")
-                            .contentType(MediaType.APPLICATION_JSON)
-                            .accept(MediaType.APPLICATION_JSON))
-                    .andExpect(status().isInternalServerError())
-                    .andExpect(result -> Assertions.assertTrue(
-                                    result.getResolvedException() instanceof PersonNotFoundException
-                            )
-                    )
-                    .andExpect(
-                            result ->
-                                    assertEquals(
-                                            "Данный человек не найден. Проверьте параметры поиска.",
-                                            result.getResolvedException().getMessage()
-                                    )
-                    );
-        });
+        assertThrows(AssertionError.class, ()-> this.mockMvc.perform(MockMvcRequestBuilders
+                        .delete("/students/{id}", "1")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isInternalServerError())
+                .andExpect(result -> Assertions.assertTrue(
+                                result.getResolvedException() instanceof PersonNotFoundException
+                        )
+                )
+                .andExpect(
+                        result ->
+                                assertEquals(
+                                        "Данный человек не найден. Проверьте параметры поиска.",
+                                        Objects.requireNonNull(result.getResolvedException()).getMessage()
+                                )
+                ));
 
     }
 

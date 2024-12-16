@@ -3,21 +3,15 @@ package com.learn.universityjpa.repo;
 import com.learn.universityjpa.entity.Gender;
 import com.learn.universityjpa.entity.Group;
 import com.learn.universityjpa.entity.Student;
-
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
-
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
-
 import javax.transaction.Transactional;
-
-
-
 
 /**
  * @author Grigoriy Zemlyanskiy
@@ -25,7 +19,7 @@ import javax.transaction.Transactional;
  * interface StudentRepository
  */
 @Repository
-interface StudentRepository extends JpaRepository<Student, Long> {
+public interface StudentRepository extends JpaRepository<Student, Long> {
     @Query(value
             = "select * "
             + "from student  "
@@ -49,7 +43,7 @@ interface StudentRepository extends JpaRepository<Student, Long> {
             " s.group = ?6, " +
             " s.dateBirth = ?7 " +
             "  where s.id = ?1 ")
-    int updateStudentById(
+    void updateStudentById(
             Long id,
             String firstName,
             String secondName,

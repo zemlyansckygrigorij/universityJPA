@@ -62,7 +62,8 @@ class GroupComponentImplTest {
     void  findByIdTest() {
         assertEquals(2, component.findAll().size());
         Optional<Group> groupOpt =  component.findById(1L);
-        Group group = groupOpt.get();
+        assertTrue( groupOpt.isPresent());
+        Group group = groupOpt.orElseThrow();
         assertNotNull(group);
         assertEquals(1, group.getId());
         assertEquals("Computer Science LEVEL first", group.getName());
@@ -90,10 +91,13 @@ class GroupComponentImplTest {
     @SqlTest
     void findAllTest() {
         assertEquals(2, this.component.findAll().size());
-        Optional<Group> groupOpt =  component.findById(1L);
-        Group group1 = component.findById(1L).get();
+        Optional<Group> groupOpt1 = component.findById(1L);
+        assertTrue(groupOpt1.isPresent());
+        Group group1 = groupOpt1.get();
         assertEquals("Computer Science LEVEL first", group1.getName());
-        Group group2 = component.findById(2L).get();
+        Optional<Group> groupOpt2 = component.findById(2L);
+        assertTrue(groupOpt2.isPresent());
+        Group group2 = groupOpt2.get();
         assertEquals("Computer Science LEVEL second", group2.getName());
     }
 
@@ -101,15 +105,17 @@ class GroupComponentImplTest {
     @SqlTest
     void findAllSubjectsTest() {
         assertEquals(7, this.subjectComponent.findAll().size());
-        Group group1 = component.findById(1L).get();
-        assertNotNull(group1);
+        Optional<Group> groupOpt1 = component.findById(1L);
+        assertTrue(groupOpt1.isPresent());
+        Group group1 = groupOpt1.get();
         assertEquals("Computer Science LEVEL first", group1.getName());
 
         List<Subject> subjects = group1.getSubjects();
         assertEquals(4, subjects.size());
 
-        Group group2 = component.findById(2L).get();
-        assertNotNull(group2);
+        Optional<Group> groupOpt2 = component.findById(2L);
+        assertTrue(groupOpt2.isPresent());
+        Group group2 = groupOpt2.get();
         assertEquals("Computer Science LEVEL second", group2.getName());
         List<Subject> subjects2 = group2.getSubjects();
         assertEquals(3, subjects2.size());
@@ -235,7 +241,7 @@ class GroupComponentImplTest {
             executionPhase = BEFORE_TEST_METHOD,
             config = @SqlConfig(transactionMode = ISOLATED))
     })
-    void insertTest() throws Exception {
+    void insertTest()  {
         assertNotNull(component);
     }
     @DisplayName("16. Создание базы данных.")
@@ -244,7 +250,7 @@ class GroupComponentImplTest {
             scripts = "/db/sql/create.sql ",
             executionPhase = BEFORE_TEST_METHOD,
             config = @SqlConfig(transactionMode = ISOLATED))
-    void createTableTest() throws Exception {
+    void createTableTest()  {
         assertNotNull(component);
     }
 }

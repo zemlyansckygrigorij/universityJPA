@@ -1,12 +1,7 @@
 package com.learn.universityjpa.service.zip;
 
 import org.springframework.stereotype.Component;
-
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-
+import java.io.*;
 import java.util.List;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
@@ -20,42 +15,32 @@ import java.util.zip.ZipOutputStream;
 public class WriterFilesToZipImpl implements WriterFilesToZip {
     @Override
     public void create(List<String> srcFiles, String filepath) throws IOException {
-        String zipFile = filepath;
 
-        try {
 
+        try(FileOutputStream fos = new FileOutputStream(filepath);
+            ZipOutputStream zos = new ZipOutputStream(fos)) {
             // create byte buffer
             byte[] buffer = new byte[1024];
 
-            FileOutputStream fos = new FileOutputStream(zipFile);
+            srcFiles.forEach(filePath->{
+                File srcFile = new File(filePath);
+                try(FileInputStream fis= new FileInputStream(srcFile)) {
+                    zos.putNextEntry(new ZipEntry(srcFile.getName()));
+                    int length;
 
-            ZipOutputStream zos = new ZipOutputStream(fos);
-
-            for (int i = 0; i < srcFiles.size(); i++) {
-
-                File srcFile = new File(srcFiles.get(i));
-
-                FileInputStream fis = new FileInputStream(srcFile);
-
-                // begin writing a new ZIP entry, positions the stream to the start of the entry data
-                zos.putNextEntry(new ZipEntry(srcFile.getName()));
-
-                int length;
-
-                while ((length = fis.read(buffer)) > 0) {
-                    zos.write(buffer, 0, length);
+                    while (true) {
+                        if (!((length = fis.read(buffer)) > 0)) break;
+                        zos.write(buffer, 0, length);
+                    }
+                    zos.closeEntry();
+                } catch (FileNotFoundException e) {
+                    throw new RuntimeException(e);
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
                 }
-
-                zos.closeEntry();
-
-                // close the InputStream
-                fis.close();
-
-            }
-
-            // close the ZipOutputStream
-            zos.close();
-        } catch (IOException ioe) {
+            });
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 }

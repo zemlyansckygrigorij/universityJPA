@@ -24,17 +24,16 @@ public class ReaderJsonImpl implements ReaderJson {
         try (FileReader reader = new FileReader(path)) {
             //Read JSON file
             Object obj = jsonParser.parse(reader);
-
             employeeList = (JSONArray) obj;
-
         } catch (FileNotFoundException e) {
-
+            e.printStackTrace();
         } catch (IOException e) {
-
+            e.printStackTrace();
         } catch (ParseException e) {
-
+            e.printStackTrace();
         }
-        Optional<JSONArray> employeeListOpt = Optional.of(employeeList);
+
+        Optional<JSONArray> employeeListOpt = Optional.ofNullable(employeeList);
         return employeeListOpt.orElseThrow(() -> new Exception("error read"));
     }
 }

@@ -1,14 +1,11 @@
 package com.learn.universityjpa.controller.model.request;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.learn.universityjpa.entity.Subject;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.Getter;
 import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
 
 /**
  * Запрос по данным предмета.
@@ -34,28 +31,7 @@ public class SubjectRequest {
     @JsonProperty(value = "groups")
     private List<Long> groups;
 
-    @Schema(description = "Преподаватели, обучащие данному предмету")
+    @Schema(description = "Преподаватели, обучающие данному предмету")
     @JsonProperty(value = "teachers")
     private List<Long> teachers;
-
-
-    public SubjectRequest(Subject subject) {
-        this.id = subject.getId();
-        this.name = subject.getName();
-        this.description = subject.getDescription();
-        if (Optional.ofNullable(subject.getGroups()).isPresent()) {
-            this.groups = subject
-                    .getGroups()
-                    .stream()
-                    .map((x) -> x.getId())
-                    .collect(Collectors.toList());
-        }
-        if (Optional.ofNullable(subject.getTeachers()).isPresent()) {
-            this.teachers = subject
-                    .getTeachers()
-                    .stream()
-                    .map((x) -> x.getId())
-                    .collect(Collectors.toList());
-        }
-    }
 }

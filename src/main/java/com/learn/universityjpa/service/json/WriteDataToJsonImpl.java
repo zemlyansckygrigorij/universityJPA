@@ -14,7 +14,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Component;
-
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -50,8 +49,7 @@ public class WriteDataToJsonImpl implements WriteDataToJson {
     private void createJsonFileTeachers() {
         JSONArray teacherList = new JSONArray();
         List<Teacher> teachers = teacherComponent.findAll();
-        for (int i = 0; i < teachers.size(); i++) {
-            Teacher teacher = teachers.get(i);
+        for (Teacher teacher: teachers ) {
             JSONObject teacherDetails = new JSONObject();
             teacherDetails.put("id", teacher.getId());
             teacherDetails.put("firstName", teacher.getFirstName());
@@ -68,8 +66,8 @@ public class WriteDataToJsonImpl implements WriteDataToJson {
     private void createJsonFileSubjects() {
         JSONArray subjectList = new JSONArray();
         List<Subject> subjects = subjectComponent.findAll();
-        for (int i = 0; i < subjects.size(); i++) {
-            Subject subject = subjects.get(i);
+
+        for (Subject subject: subjects ) {
             JSONObject subjectDetails = new JSONObject();
             subjectDetails.put("id", subject.getId());
             subjectDetails.put("name", subject.getName());
@@ -81,8 +79,7 @@ public class WriteDataToJsonImpl implements WriteDataToJson {
     private void createJsonFileStudents() {
         JSONArray studentList = new JSONArray();
         List<Student> students = studentComponent.findAll();
-        for (int i = 0; i < students.size(); i++) {
-            Student student = students.get(i);
+        for (Student student : students) {
             JSONObject groupDetails = new JSONObject();
             groupDetails.put("id",  student.getId());
             groupDetails.put("firstName", student.getFirstName());
@@ -99,8 +96,7 @@ public class WriteDataToJsonImpl implements WriteDataToJson {
     private void createJsonFileGroups() {
         JSONArray groupList = new JSONArray();
         List<Group> groups = groupComponent.findAll();
-        for (int i = 0; i < groups.size(); i++) {
-            Group group = groups.get(i);
+        for (Group group : groups) {
             JSONObject groupDetails = new JSONObject();
             groupDetails.put("id", group.getId());
             groupDetails.put("name", group.getName());
@@ -109,6 +105,7 @@ public class WriteDataToJsonImpl implements WriteDataToJson {
         }
         writeJsonFile(groupList, "groups.json");
     }
+
     private void writeJsonFile(JSONArray list, String fileName) {
         //Write JSON file
         try (FileWriter file = new FileWriter(new File("").getAbsolutePath() + filePath + fileName)) {
@@ -117,7 +114,7 @@ public class WriteDataToJsonImpl implements WriteDataToJson {
             file.flush();
 
         } catch (IOException e) {
-
+            e.printStackTrace();
         }
     }
 }

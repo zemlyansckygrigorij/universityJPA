@@ -9,6 +9,8 @@ import lombok.Getter;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
+import com.learn.universityjpa.entity.Group;
+import com.learn.universityjpa.entity.Teacher;
 
 /**
  * Данные полученные с контроллера о предмете.
@@ -35,7 +37,7 @@ public class SubjectResponse {
     @JsonProperty(value = "groups")
     private List<Long> groups;
 
-    @Schema(description = "Преподаватели, обучащие данному предмету")
+    @Schema(description = "Преподаватели, обучающие данному предмету")
     @JsonProperty(value = "teachers")
     private List<Long> teachers;
 
@@ -47,14 +49,14 @@ public class SubjectResponse {
             this.groups = subject
                     .getGroups()
                     .stream()
-                    .map((x) -> x.getId())
+                    .map(Group::getId)
                     .collect(Collectors.toList());
         }
         if (Optional.ofNullable(subject.getTeachers()).isPresent()) {
             this.teachers = subject
                     .getTeachers()
                     .stream()
-                    .map((x) -> x.getId())
+                    .map(Teacher::getId)
                     .collect(Collectors.toList());
         }
     }

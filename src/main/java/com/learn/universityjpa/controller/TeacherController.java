@@ -5,7 +5,6 @@ import com.learn.universityjpa.controller.model.response.SubjectResponse;
 import com.learn.universityjpa.controller.model.response.TeacherResponse;
 import com.learn.universityjpa.entity.Gender;
 import com.learn.universityjpa.entity.Teacher;
-import com.learn.universityjpa.repo.SubjectComponent;
 import com.learn.universityjpa.repo.TeacherComponent;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
@@ -20,9 +19,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
 import java.util.List;
-
 import java.util.stream.Collectors;
 
 /**
@@ -37,18 +34,17 @@ import java.util.stream.Collectors;
 @RequestMapping("/teachers")
 @RequiredArgsConstructor
 public class TeacherController {
-    @Autowired
     private TeacherComponent teacherComponent;
-
-    @Autowired
-    private SubjectComponent subjectComponent;
+    public TeacherController( @Autowired TeacherComponent teacherComponent){
+       this.teacherComponent = teacherComponent;
+    }
 
     @GetMapping()
     public List<TeacherResponse> getAllTeachers() {
         return teacherComponent
                 .findAll()
                 .stream()
-                .map((x)->new TeacherResponse(x))
+                .map(TeacherResponse::new)
                 .collect(Collectors.toList());
     }
 
@@ -61,25 +57,29 @@ public class TeacherController {
 
     @GetMapping("/name/{name}")
     public List<TeacherResponse> findTeachersByName(@PathVariable(name = "name") final String name) throws Exception {
-        return teacherComponent.getTeachersByName(name).stream().map(
-                (x)-> new TeacherResponse(x)
-        ).collect(Collectors.toList());
+        return teacherComponent
+                .getTeachersByName(name)
+                .stream()
+                .map(TeacherResponse::new)
+                .collect(Collectors.toList());
     }
 
     @PostMapping()
-    public TeacherResponse createTeacher(@RequestBody TeacherRequest request) throws Exception {
+    public TeacherResponse createTeacher(@RequestBody TeacherRequest request) {
         return new TeacherResponse(teacherComponent.commit(teacherBuilder(request)));
     }
+
     @DeleteMapping("/{id}")
     public void deleteById(
             @PathVariable(name = "id") final long id
     ) throws Exception {
         teacherComponent.deleteTeacherById(id);
     }
+
     @PutMapping("/{id}")
     public void updateTeacher(@RequestBody TeacherRequest request,
                             @PathVariable(name = "id") final long id
-    ) throws Exception {
+    ) {
         teacherComponent.updateTeacherById(id, teacherBuilder(request));
     }
 
@@ -87,12 +87,15 @@ public class TeacherController {
     public List<SubjectResponse> findAllSubjects(
             @PathVariable(name = "id") final long id
     ) throws Exception {
-        return teacherComponent.findByIdOrDie(id).getSubjects().stream().map(
-                (x)-> new SubjectResponse(x)
-        ).collect(Collectors.toList());
+        return teacherComponent
+                .findByIdOrDie(id)
+                .getSubjects()
+                .stream()
+                .map(SubjectResponse::new)
+                .collect(Collectors.toList());
     }
 
-    @GetMapping("/{id}/checksubject")
+    @GetMapping("/{id}/check_subject")
     public boolean checkSubject(@RequestBody final String name,
                                 @PathVariable(name = "id") final long id
     ) throws Exception {
@@ -100,8 +103,7 @@ public class TeacherController {
                 .findByIdOrDie(id)
                 .getSubjects()
                 .stream()
-                .filter((x)->x.getName().equals(name))
-                .count() > 0;
+                .anyMatch((x)->x.getName().equals(name));
     }
 
     @PutMapping("/{id}/addSubject/{idSubject}")
@@ -121,16 +123,16 @@ public class TeacherController {
        teacherComponent.deleteSubject(id, idSubject);
     }
 
-    public Teacher teacherBuilder(TeacherRequest request) throws Exception {
+    public Teacher teacherBuilder(TeacherRequest request) {
         Teacher teacher = new Teacher();
         teacher.setFirstName(request.getFirstName());
         teacher.setSecondName(request.getSecondName());
         teacher.setLastName(request.getLastName());
 
-        if (request.getGender().toString().equals("FEMALE")) {
+        if (request.getGender().equals("FEMALE")) {
             teacher.setGender(Gender.FEMALE);
         }
-        if (request.getGender().toString().equals("MALE")) {
+        if (request.getGender().equals("MALE")) {
             teacher.setGender(Gender.MALE);
         }
         teacher.setDateBirth(request.getDateBirth());

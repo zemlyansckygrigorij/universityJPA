@@ -3,7 +3,6 @@ package com.learn.universityjpa.repo;
 import com.learn.universityjpa.entity.Group;
 import com.learn.universityjpa.entity.Student;
 import com.learn.universityjpa.entity.Subject;
-
 import java.text.ParseException;
 import java.util.List;
 import java.util.Optional;
@@ -44,16 +43,16 @@ public interface StudentComponent {
     Student commit(Student student);
 
     /**
-     * Находит  группу данного студента.
+     * Находит группу данного студента.
      *
      * @return группа.
      */
     Group findGroup(Student student);
 
     /**
-     * Находит  список предметов данного студента.
+     * Находит список предметов данного студента.
      *
-     * @return Находит  список предметов.
+     * @return Находит список предметов.
      */
     List<Subject> findAllSubjects(Student student);
 
@@ -82,21 +81,21 @@ public interface StudentComponent {
     List<Student> findAllByGroupId(long id) throws Exception;
 
     /**
-     * Находит всех студентов по введеному имени.
+     * Находит всех студентов по имени.
      *
      * @return список студентов.
      */
     List<Student> getStudentsByName(String name) throws Exception;
 
     /**
-     * Удалить студента по по идентификатору.
+     * Удалить студента по идентификатору.
      *
      * @param id идентификатор студента.
      */
     void deleteStudentById(Long id) throws Exception;
 
     /**
-     * Обновить студента по по идентификатору.
+     * Обновить студента по идентификатору.
      *
      * @param id идентификатор группы.
      * @param  student студент.

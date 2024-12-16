@@ -3,6 +3,7 @@ package com.learn.universityjpa.controller;
 import com.learn.universityjpa.annotations.SqlTest;
 import com.learn.universityjpa.entity.Subject;
 import com.learn.universityjpa.repo.SubjectComponent;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,14 +16,10 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
-
 import java.util.Optional;
-
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.is;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -32,7 +29,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @AutoConfigureMockMvc
 class SubjectControllerTest {
-    private String subjectBody = "{\n" +
+    private final String subjectBody = "{\n" +
             "        \"name\":\"getName\",\n" +
             "        \"description\":\"getDescription\"\n" +
             "    \n" +
@@ -50,11 +47,12 @@ class SubjectControllerTest {
 
     @DisplayName("1. Загрузка контекста.")
     @Test
-    public void contextLoads() throws Exception {
+    public void contextLoads() {
         assertThat(controller).isNotNull();
         assertThat(subjectComponent).isNotNull();
         assertThat(restTemplate).isNotNull();
     }
+
     @DisplayName("2. Проверка поиска всех предметов.")
     @SqlTest
     void getAllSubjects() throws Exception {
@@ -200,9 +198,9 @@ class SubjectControllerTest {
                 .andExpect(jsonPath("$.teachers", hasSize(0)));
 
         Optional<Subject> subjectOpt =  subjectComponent.findById((long) idResult);
-        assertTrue(subjectOpt.isPresent());
+        Assertions.assertTrue(subjectOpt.isPresent());
         Subject subjectNew = subjectOpt.get();
-        assertNotNull(subjectNew);
+        Assertions.assertNotNull(subjectNew);
         assertEquals("getName", subjectNew.getName());
         assertEquals("getDescription", subjectNew.getDescription());
 
@@ -222,7 +220,7 @@ class SubjectControllerTest {
                 .andExpect(jsonPath("$", hasSize(6)));
 
         Optional<Subject> subjectOpt =  subjectComponent.findById(1L);
-        assertTrue(subjectOpt.isEmpty());
+        Assertions.assertTrue(subjectOpt.isEmpty());
     }
 
 

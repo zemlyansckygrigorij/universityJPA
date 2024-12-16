@@ -6,7 +6,7 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * Аннотация для обозначения методов для которых нужно логировать начало и конец.
+ * Аннотация для обозначения методов для которых нужно залогировать начало и конец.
  */
 @Target(ElementType.METHOD)
 @Retention(RetentionPolicy.RUNTIME)

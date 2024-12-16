@@ -8,7 +8,7 @@ import java.io.IOException;
 public interface WriteDataToExcel {
 
     /**
-     * создает файл с данными.
+     * Создает файл с данными.
      */
    void create() throws IOException;
 }

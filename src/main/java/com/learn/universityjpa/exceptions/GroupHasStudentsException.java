@@ -1,4 +1,5 @@
 package com.learn.universityjpa.exceptions;
+
 /**
  * @author Grigoriy Zemlyanskiy
  * @version 1.0

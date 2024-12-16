@@ -2,13 +2,12 @@ package com.learn.universityjpa.repo;
 
 import com.learn.universityjpa.entity.Subject;
 import com.learn.universityjpa.entity.Teacher;
-
 import java.text.ParseException;
 import java.util.List;
 import java.util.Optional;
 
 /**
- * Компонент работы с данными преподавателей .
+ * Компонент работы с данными преподавателей.
  */
 public interface TeacherComponent {
 
@@ -39,26 +38,26 @@ public interface TeacherComponent {
     /**
      * Находит всех преподавателей.
      *
-     * @return список преподавателей .
+     * @return список преподавателей.
      */
     List<Teacher> findAll();
 
     /**
-     * Находит всех преподавателей по введеному имени.
+     * Находит всех преподавателей по введенному имени.
      *
      * @return список преподавателей.
      */
     List<Teacher> getTeachersByName(String name) throws Exception;
 
     /**
-     * Удалить преподавателя по по идентификатору.
+     * Удалить преподавателя по идентификатору.
      *
      * @param id идентификатор преподавателя.
      */
     void deleteTeacherById(Long id);
 
     /**
-     * Обновить преподавателя по по идентификатору.
+     * Обновить преподавателя по идентификатору.
      *
      * @param id идентификатор преподавателя.
      * @param  teacher преподаватель.

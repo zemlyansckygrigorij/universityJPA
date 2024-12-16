@@ -6,12 +6,9 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
-
 import java.util.List;
 import java.util.Optional;
-
 import javax.transaction.Transactional;
-
 
 /**
  * @author Grigoriy Zemlyanskiy
@@ -22,11 +19,10 @@ import javax.transaction.Transactional;
 interface SubjectRepository extends JpaRepository<Subject, Long> {
 
     @Query(value
-            = "select * "
-            + "from subject  "
-            + "where subject.name LIKE %:nameSubject%",
-            nativeQuery = true)
-    Optional<List<Subject>> getSubjectsByName(@Param("nameSubject") String nameSubject);
+            = "select s "
+            + "from Subject s"
+            + " where s.name LIKE %:name%")
+    Optional<List<Subject>> getSubjectsByName(@Param("name") String name);
 
     @Modifying
     @Transactional // @Modifying annotation should be wrapped up with @Transactional
@@ -34,7 +30,7 @@ interface SubjectRepository extends JpaRepository<Subject, Long> {
             " s.name = ?2, " +
             " s.description = ?3" +
             "  where s.id = ?1 ")
-    int updateSubjectById(
+    void updateSubjectById(
             Long id,
             String name,
             String description

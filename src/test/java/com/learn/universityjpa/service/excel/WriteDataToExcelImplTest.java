@@ -1,16 +1,13 @@
 package com.learn.universityjpa.service.excel;
 
 import com.learn.universityjpa.annotations.SqlTest;
-
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.poi.openxml4j.opc.OPCPackage;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
-
 import org.junit.jupiter.api.DisplayName;
 import org.junit.runner.RunWith;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -18,13 +15,8 @@ import org.springframework.context.annotation.PropertySource;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
-
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
-
-import java.nio.file.Files;
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -44,15 +36,10 @@ class WriteDataToExcelImplTest {
     @SqlTest
     void writeGroupsToFile() throws IOException, InvalidFormatException {
         String path = new File("").getAbsolutePath() + fileLocation;
-
-        boolean result = Files.deleteIfExists(new File(path).toPath());
-
         writeDataToExcelImpl.create();
         File f = new File(path);
 
         assertTrue(f.exists());
-        FileInputStream inputStream = new FileInputStream(f);
-
         OPCPackage pkg = OPCPackage.open(f);
         XSSFWorkbook workbook = new XSSFWorkbook(pkg);
 

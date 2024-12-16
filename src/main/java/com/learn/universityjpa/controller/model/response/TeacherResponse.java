@@ -8,7 +8,6 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
-
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -55,7 +54,7 @@ public class TeacherResponse {
 
     @Getter
     @Setter
-    class SubjectJson {
+    static class SubjectJson {
         private Long id;
         private String name;
         private String description;
@@ -78,7 +77,7 @@ public class TeacherResponse {
             this.subjects = teacher
                     .getSubjects()
                     .stream()
-                    .map((x) -> new SubjectJson(x))
+                    .map(SubjectJson::new)
                     .collect(Collectors.toList());
         }
     }

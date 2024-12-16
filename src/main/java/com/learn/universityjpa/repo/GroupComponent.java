@@ -2,7 +2,6 @@ package com.learn.universityjpa.repo;
 
 import com.learn.universityjpa.entity.Group;
 import com.learn.universityjpa.entity.Subject;
-
 import java.util.List;
 import java.util.Optional;
 
@@ -13,7 +12,6 @@ public interface GroupComponent {
 
     /**
      * Ищет группу по идентификатору.
-     *
      * @param id идентификатор группы.
      * @return группу.
      */
@@ -38,14 +36,14 @@ public interface GroupComponent {
     /**
      * Находит всех группы.
      *
-     * @return список групп .
+     * @return список групп
      */
     List<Group> findAll();
 
     /**
      * Находит все предметы данной группы.
      *
-     * @return список предметов .
+     * @return список предметов
      */
     List<Subject> findAllSubjects(Group group);
 
@@ -59,7 +57,7 @@ public interface GroupComponent {
 
     /**
      * Добавляет предмет в данную группу.
-     * @param  group группа .
+     * @param  group группа
      * @param  subject предмет
      */
     Subject addSubject(Group group, Subject subject);
@@ -67,7 +65,7 @@ public interface GroupComponent {
     /**
      * Удаляет предмет из данной группы.
      *
-     * @param  group группа .
+     * @param  group группа в которой нужно удалить предмет
      * @param  subject предмет
      */
     Subject deleteSubject(Group group, Subject subject);
@@ -75,9 +73,9 @@ public interface GroupComponent {
     /**
      * Найти группу по имени и падает по ошибке, если не нашел.
      *
-     * @param name
+     * @param name имя группы
      * @return список групп
-     * @throws Exception
+     * @throws Exception может выбросить исключение
      */
     List<Group> findByName(String name) throws Exception;
 
@@ -86,22 +84,22 @@ public interface GroupComponent {
      *
      * @param subjects список предметов
      * @return список групп
-     * @throws Exception
+     * @throws Exception может выбросить исключение
      */
     List<Group> findBySubjects(List<Subject> subjects) throws Exception;
 
     /**
-     * Удалить группу по по идентификатору.
+     * Удалить группу по идентификатору.
      *
      * @param id идентификатор группы.
      */
     void deleteGroupById(Long id) throws Exception;
 
     /**
-     * Обновить группу по по идентификатору.
+     * Обновить группу по идентификатору.
      *
      * @param id идентификатор группы.
-     * @param  group группа .
+     * @param  group группа
      */
     void updateGroupById(Long id, Group group);
 }

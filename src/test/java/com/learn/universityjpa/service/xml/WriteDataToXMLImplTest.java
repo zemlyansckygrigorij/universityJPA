@@ -12,22 +12,15 @@ import org.springframework.context.annotation.PropertySource;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
-
 import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
-
 import org.xml.sax.SAXException;
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
-
 import javax.xml.XMLConstants;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -82,18 +75,6 @@ class WriteDataToXMLImplTest {
 
             NodeList list = doc.getElementsByTagName("group");
             assertEquals(2, list.getLength());
-            for (int i = 0; i < list.getLength(); i++) {
-                Node node = list.item(i);
-                if (node.getNodeType() == Node.ELEMENT_NODE) {
-                    Element element = (Element) node;
-
-                    String id = element.getAttribute("id");
-
-                    // get text
-                    String name = element.getElementsByTagName("name").item(0).getTextContent();
-                    String specification = element.getElementsByTagName("specification").item(0).getTextContent();
-                }
-            }
 
             doc = db.parse(new File(path + "students.xml"));
             doc.getDocumentElement().normalize();
@@ -114,6 +95,7 @@ class WriteDataToXMLImplTest {
             assertEquals(9, list.getLength());
 
         } catch (ParserConfigurationException | SAXException | IOException e) {
+            e.printStackTrace();
         }
     }
 }

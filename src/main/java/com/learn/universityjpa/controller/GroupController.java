@@ -9,7 +9,7 @@ import com.learn.universityjpa.repo.GroupComponent;
 import com.learn.universityjpa.repo.StudentComponent;
 import com.learn.universityjpa.repo.SubjectComponent;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -29,22 +29,31 @@ import java.util.stream.Collectors;
  * class GroupController
  * для работы с web сайтом /groups
  */
-
 @RestController
 @Validated
 @Tag(name = "API работы с группами")
 @RequestMapping("/groups")
-@RequiredArgsConstructor
 public class GroupController {
     private final GroupComponent groupComponent;
     private final StudentComponent studentComponent;
     private final SubjectComponent subjectComponent;
 
+    @Autowired
+    public GroupController(GroupComponent groupComponent,
+                           StudentComponent studentComponent,
+                           SubjectComponent subjectComponent){
+        this.groupComponent = groupComponent;
+        this.studentComponent = studentComponent;
+        this.subjectComponent = subjectComponent;
+    }
+
     @GetMapping()
     public List<GroupResponse> getAllGroups() {
-        return groupComponent.findAll().stream().map(
-                (x) -> new GroupResponse(x)
-        ).collect(Collectors.toList());
+        return groupComponent
+                .findAll()
+                .stream()
+                .map(GroupResponse::new)
+                .collect(Collectors.toList());
     }
 
     @GetMapping("/{id}")
@@ -62,11 +71,11 @@ public class GroupController {
                 .findByIdOrDie(id)
                 .getSubjects()
                 .stream()
-                .map((x)-> new SubjectResponse(x))
+                .map(SubjectResponse::new)
                 .collect(Collectors.toList());
     }
 
-    @GetMapping("/{id}/checksubject")
+    @GetMapping("/{id}/check_subject")
     public boolean checkSubject(@RequestBody final String name,
             @PathVariable(name = "id") final long id
     ) throws Exception {
@@ -74,17 +83,18 @@ public class GroupController {
                 .findByIdOrDie(id)
                 .getSubjects()
                 .stream()
-                .filter((x)->x.getName().equals(name))
-                .count() > 0;
+                .anyMatch((x)->x.getName().equals(name));
     }
 
     @GetMapping("/{id}/students")
     public List<StudentResponse> getStudentsByGroupId(
             @PathVariable(name = "id") final long id
     ) throws Exception {
-        return studentComponent.findAllByGroupId(id).stream().map(
-                (x)-> new StudentResponse(x)
-        ).collect(Collectors.toList());
+        return studentComponent
+                .findAllByGroupId(id)
+                .stream()
+                .map(StudentResponse::new)
+                .collect(Collectors.toList());
     }
     @PostMapping()
     public GroupResponse createGroup(@RequestBody GroupRequest request) {
@@ -101,7 +111,7 @@ public class GroupController {
     @PutMapping("/{id}")
     public void updateGroup(@RequestBody GroupRequest request,
             @PathVariable(name = "id") final long id
-    ) throws Exception {
+    ) {
         groupComponent.updateGroupById(id, builder(request));
     }
 
@@ -121,9 +131,11 @@ public class GroupController {
     }
     public Group builder(GroupRequest request) {
         Group group = new Group();
+
         if (Optional.ofNullable(request.getId()).isPresent()) {
             group.setId(request.getId());
         }
+
         group.setName(request.getName());
         group.setSpecification(request.getSpecification());
         return group;

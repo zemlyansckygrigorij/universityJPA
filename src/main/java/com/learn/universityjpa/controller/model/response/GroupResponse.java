@@ -9,7 +9,6 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
-
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -48,7 +47,7 @@ public class GroupResponse {
 
     @Getter
     @Setter
-    class SubjectJson {
+    static class SubjectJson {
         private Long id;
         private String name;
         private String description;
@@ -61,7 +60,7 @@ public class GroupResponse {
 
     @Getter
     @Setter
-    class StudentJson {
+    static class StudentJson {
         private Long id;
         private String firstName;
         private String secondName;
@@ -87,7 +86,7 @@ public class GroupResponse {
             this.students = group
                     .getStudents()
                     .stream()
-                    .map((x) -> new StudentJson(x))
+                    .map(StudentJson::new)
                     .collect(Collectors.toList());
         }
 
@@ -95,7 +94,7 @@ public class GroupResponse {
             this.subjects = group
                     .getSubjects()
                     .stream()
-                    .map((x) -> new SubjectJson(x))
+                    .map(SubjectJson::new)
                     .collect(Collectors.toList());
         }
     }

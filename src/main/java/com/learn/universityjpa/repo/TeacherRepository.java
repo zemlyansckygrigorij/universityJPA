@@ -2,13 +2,11 @@ package com.learn.universityjpa.repo;
 
 import com.learn.universityjpa.entity.Gender;
 import com.learn.universityjpa.entity.Teacher;
-
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
-
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -37,7 +35,8 @@ interface TeacherRepository extends JpaRepository<Teacher, Long> {
             " t.category = ?5," +
             " t.gender = ?6" +
             "  where t.id = ?7")
-    int updateTeacherById(
+
+    void updateTeacherById(
             String firstName,
             String secondName,
             String lastName,

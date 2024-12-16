@@ -1,7 +1,6 @@
 package com.learn.universityjpa.repo;
 
 import com.learn.universityjpa.entity.Group;
-
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -13,14 +12,13 @@ import javax.transaction.Transactional;
 
 
 @Repository
-interface GroupRepository extends JpaRepository<Group, Long> {
+public interface GroupRepository extends JpaRepository<Group, Long> {
 
     @Query(value
-            = "select * "
-            + "from groups  "
-            + "where name  LIKE %:nameGroup% ",
-            nativeQuery = true)
-    Optional<List<Group>> findByName(@Param("nameGroup")String nameGroup);
+            = "select g "
+            + "from Group g "
+            + "where g.name LIKE %:name% ")
+    Optional<List<Group>> findByName(@Param("name")String name);
 
     @Query(value
             = "select * from groups " +
@@ -31,5 +29,5 @@ interface GroupRepository extends JpaRepository<Group, Long> {
     @Modifying
     @Transactional // @Modifying annotation should be wrapped up with @Transactional
     @Query("update Group g set g.name = ?1 , g.specification = ?2  where g.id = ?3")
-    int updateGroupById(String name, String specification, Long id);
+    void updateGroupById(String name, String specification, Long id);
 }

@@ -13,7 +13,6 @@ import java.util.Date;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-
 @SpringBootTest
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration

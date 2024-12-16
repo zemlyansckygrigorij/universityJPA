@@ -4,9 +4,7 @@ import com.learn.universityjpa.entity.Subject;
 import com.learn.universityjpa.entity.Teacher;
 import com.learn.universityjpa.exceptions.PersonNotFoundException;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-
 import java.text.ParseException;
 import java.util.List;
 import java.util.Optional;
@@ -19,12 +17,11 @@ import java.util.Optional;
 @RequiredArgsConstructor
 @Component
 public class TeacherComponentImpl implements TeacherComponent {
-    @Autowired
-    private  SubjectComponent   subjectComponent;
-    @Autowired
-    TeacherRepository repo;
-    @Autowired
-    SubjectRepository subjectRepo;
+    private final SubjectComponent subjectComponent;
+    private final TeacherRepository repo;
+    private final SubjectRepository subjectRepo;
+
+
     @Override
     public Optional<Teacher> findById(Long id) {
         return this.repo.findById(id);
@@ -32,8 +29,10 @@ public class TeacherComponentImpl implements TeacherComponent {
 
     @Override
     public Teacher findByIdOrDie(Long id) throws Exception {
-        return this.repo.findById(id).orElseThrow(
-                ()-> new PersonNotFoundException());
+        return this
+                .repo
+                .findById(id)
+                .orElseThrow(PersonNotFoundException::new);
     }
 
     @Override
@@ -47,9 +46,11 @@ public class TeacherComponentImpl implements TeacherComponent {
     }
 
     @Override
-    public List<Teacher> getTeachersByName(String name) throws Exception {
-        return  this.repo.getTeachersByName(name).orElseThrow(
-                () -> new PersonNotFoundException());
+    public List<Teacher> getTeachersByName(String name) {
+        return  this
+                .repo
+                .getTeachersByName(name)
+                .orElseThrow(PersonNotFoundException::new);
     }
 
     @Override
@@ -59,7 +60,7 @@ public class TeacherComponentImpl implements TeacherComponent {
 
     @Override
     public void updateTeacherById(Long id, Teacher teacher) {
-        int result = this.repo.updateTeacherById(
+         this.repo.updateTeacherById(
                 teacher.getFirstName(),
                 teacher.getSecondName(),
                 teacher.getLastName(),
@@ -90,6 +91,7 @@ public class TeacherComponentImpl implements TeacherComponent {
         this.subjectRepo.save(subject);
         return subject;
     }
+
     public Subject addSubject(long idTeacher, long idSubject) throws Exception {
         Teacher teacher =  findByIdOrDie(idTeacher);
         Subject subject = subjectComponent.findByIdOrDie(idSubject);
@@ -99,6 +101,7 @@ public class TeacherComponentImpl implements TeacherComponent {
         this.subjectRepo.save(subject);
         return subject;
     }
+
     public Subject deleteSubject(long idTeacher, long idSubject) throws Exception {
         Teacher teacher = findByIdOrDie(idTeacher);
         Subject subject = subjectComponent.findByIdOrDie(idSubject);
@@ -108,6 +111,7 @@ public class TeacherComponentImpl implements TeacherComponent {
         this.repo.save(teacher);
         return subject;
     }
+
     @Override
     public Subject deleteSubject(Teacher teacher, Subject subject) throws ParseException {
         if (!teacher.getSubjects().contains(subject)) {

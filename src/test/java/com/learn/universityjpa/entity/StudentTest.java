@@ -14,13 +14,10 @@ import org.springframework.test.context.jdbc.SqlConfig;
 import org.springframework.test.context.jdbc.SqlGroup;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
-
 import java.util.Date;
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-
 import static org.springframework.test.context.jdbc.Sql.ExecutionPhase.BEFORE_TEST_METHOD;
 import static org.springframework.test.context.jdbc.SqlConfig.TransactionMode.ISOLATED;
 
@@ -104,7 +101,7 @@ class StudentTest {
                     executionPhase = BEFORE_TEST_METHOD,
                     config = @SqlConfig(transactionMode = ISOLATED))
     })
-    public void shouldNotAllowNullFirstName() throws Exception {
+    public void shouldNotAllowNullFirstName() {
         Group group = groupComponent.findAll().get(0);
         Date birth = new Date();
         Student student = new Student();
