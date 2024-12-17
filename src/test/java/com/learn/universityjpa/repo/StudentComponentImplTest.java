@@ -1,9 +1,7 @@
 package com.learn.universityjpa.repo;
 
 import com.learn.universityjpa.annotations.SqlTest;
-
 import com.learn.universityjpa.entity.*;
-
 import com.learn.universityjpa.exceptions.PersonNotFoundException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -16,10 +14,8 @@ import org.springframework.test.context.jdbc.SqlConfig;
 import org.springframework.test.context.jdbc.SqlGroup;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
-
 import java.text.SimpleDateFormat;
 import java.util.*;
-import java.util.stream.Collectors;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
