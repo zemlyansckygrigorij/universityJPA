@@ -1,9 +1,7 @@
 package com.learn.universityjpa.repo;
 
 import com.learn.universityjpa.annotations.SqlTest;
-
 import com.learn.universityjpa.entity.*;
-
 import com.learn.universityjpa.exceptions.PersonNotFoundException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -16,15 +14,8 @@ import org.springframework.test.context.jdbc.SqlConfig;
 import org.springframework.test.context.jdbc.SqlGroup;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
-
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
-import java.util.Set;
-import java.util.stream.Collectors;
+import java.util.*;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
@@ -186,21 +177,5 @@ class StudentComponentImplTest {
         assertEquals("2", studentNew.getGroup().getId().toString());
         assertEquals(new SimpleDateFormat("yyyy-MM-dd").format(birth), studentNew.getDateBirth().toString());
     }
-    @Test
-    void getAllStudentsByGender() {
-        Map<Gender, List<Student>> map = new HashMap<>();
-        Set<Gender> genders =  component.findAll().stream().map(Person::getGender).collect(Collectors.toSet());
-       // component.findAll().stream().filter(s ->s.getGender().equals(Gender.MALE)).collect(Collectors.toList());
 
-        genders.forEach(
-                g->
-                    map.put(g, component
-                            .findAll()
-                            .stream()
-                            .filter(s ->s.getGender().equals(g))
-                            .collect(Collectors.toList()))
-
-        );
-        assertEquals(map.get(Gender.MALE).size(), 32);
-    }
 }

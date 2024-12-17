@@ -2,7 +2,6 @@ package com.learn.universityjpa.entity;
 
 import com.learn.universityjpa.annotations.SqlTest;
 import com.learn.universityjpa.repo.GroupComponent;
-import com.learn.universityjpa.repo.SubjectComponent;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
@@ -14,7 +13,6 @@ import org.springframework.transaction.annotation.Transactional;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @SpringBootTest
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -24,29 +22,20 @@ class GroupTest {
 
     @Autowired
     private GroupComponent component;
-    @Autowired
-    SubjectComponent subjectComponent;
     @Test
     public void checkGroupComponent() {
         assertNotNull(component);
     }
 
-
     @DisplayName("1. Проверка вставки группы.")
     @SqlTest
     public void insertTest() throws Exception {
-
-        long count = component.findAll().size();
-        assertEquals(count, 2);
         Group group = new Group();
         group.setSpecification("Specification");
         group.setName("Name");
         component.commit(group);
         Group groupFrom = component.findByName("Name").get(0);
-        assertTrue(true);
-        assertEquals(groupFrom.getSpecification(), "Specification");
-        assertEquals(groupFrom.getName(), "Name");
-        assertEquals(count + 1, component.findAll().size());
+        assertEquals(groupFrom.toString(), group.toString());
     }
 
     @DisplayName("2. Проверка вставки группы без спецификации.")

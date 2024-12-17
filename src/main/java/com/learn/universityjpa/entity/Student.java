@@ -25,4 +25,17 @@ public class Student extends Person {
     @ManyToOne
     @JoinColumn(name = "group_id", nullable = false)
     private Group group;
+
+    @Override
+    public String toString() {
+        return "student {" +
+                "id=" + this.getId() +
+                ", firstName='" + this.getFirstName() + '\'' +
+                ", secondName='" + this.getSecondName() + '\'' +
+                ", lastName='" + this.getLastName() + '\'' +
+                ", dateBirthday=" + this.getDateBirth() +
+                ", group='" + this.group.getName() + '\'' +
+                ", gender=" + this.getGender() +
+                '}';
+    }
 }

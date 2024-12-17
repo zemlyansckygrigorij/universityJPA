@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.Setter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -49,4 +50,11 @@ public class Group {
 
     @OneToMany(mappedBy = "group", orphanRemoval = true, fetch = FetchType.EAGER)
     private List<Student> students = new ArrayList<>();
+
+    public String toString(){
+        return "Group["+"name-"+name
+                +" specification-"+specification
+                +" subjects-["+subjects.stream().map(s->"  "+s.getId()+"-"+s.getName()).collect(Collectors.toSet())+"] "
+                +" students-["+students.stream().map(s->"  "+s.getId()+"-"+s.getFirstName()+" "+s.getSecondName()+" "+s.getLastName()).collect(Collectors.toSet())+"]";
+    }
 }

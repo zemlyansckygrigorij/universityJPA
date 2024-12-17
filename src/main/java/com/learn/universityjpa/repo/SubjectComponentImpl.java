@@ -16,7 +16,6 @@ import java.util.Optional;
 @Component
 public class SubjectComponentImpl implements  SubjectComponent {
 
-   // @Autowired
     private final SubjectRepository repo;
 
     @Override

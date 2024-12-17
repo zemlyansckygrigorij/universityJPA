@@ -4,7 +4,6 @@ import com.learn.universityjpa.entity.Group;
 import com.learn.universityjpa.entity.Student;
 import com.learn.universityjpa.entity.Subject;
 import com.learn.universityjpa.exceptions.PersonNotFoundException;
-//import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import java.util.List;
@@ -15,7 +14,6 @@ import java.util.Optional;
  * @version 1.0
  * class StudentComponentImpl
  */
-//@RequiredArgsConstructor
 @Component
 public class StudentComponentImpl implements StudentComponent {
 
