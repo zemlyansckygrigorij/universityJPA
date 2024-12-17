@@ -3,6 +3,7 @@ package com.learn.universityjpa.entity;
 import lombok.Getter;
 import lombok.Setter;
 import java.util.List;
+import java.util.stream.Collectors;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -47,4 +48,15 @@ public class Subject {
             joinColumns = @JoinColumn(name = "subject_id"),
             inverseJoinColumns = @JoinColumn(name = "teacher_id"))
     List<Teacher> teachers;
+
+    @Override
+    public String toString() {
+        return "subject {"
+                +"id=" + this.getId()
+                +", name='" + this.name+ '\''
+                +", description='" + this.description + '\''
+                +" groups-["+groups.stream().map(g->"  "+g.getId()+"-"+g.getName()).collect(Collectors.toSet())+"] "
+                +" teachers-["+teachers.stream().map(t->"  "+t.getId()+"-"+t.getFirstName()+" "+t.getSecondName()+" "+t.getLastName()).collect(Collectors.toSet())+"] "+
+                '}';
+    }
 }

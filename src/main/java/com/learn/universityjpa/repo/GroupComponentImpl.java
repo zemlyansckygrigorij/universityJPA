@@ -17,7 +17,6 @@ import java.util.stream.Collectors;
  * @version 1.0
  * class GroupComponentImpl
  */
-//@RequiredArgsConstructor
 @Component
 public class GroupComponentImpl implements GroupComponent {
     private final GroupRepository repo;
@@ -25,9 +24,8 @@ public class GroupComponentImpl implements GroupComponent {
     private  StudentComponent studentComponent;
 
     @Autowired
-    public GroupComponentImpl(GroupRepository repo/*, StudentComponent studentComponent*/){
+    public GroupComponentImpl(GroupRepository repo){
         this.repo = repo;
-      //  this.studentComponent = studentComponent;
     }
 
     @Override
