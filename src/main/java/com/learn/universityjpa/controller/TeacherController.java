@@ -34,10 +34,8 @@ import java.util.stream.Collectors;
 @RequestMapping("/teachers")
 @RequiredArgsConstructor
 public class TeacherController {
+    @Autowired
     private TeacherComponent teacherComponent;
-    public TeacherController( @Autowired TeacherComponent teacherComponent){
-       this.teacherComponent = teacherComponent;
-    }
 
     @GetMapping()
     public List<TeacherResponse> getAllTeachers() {

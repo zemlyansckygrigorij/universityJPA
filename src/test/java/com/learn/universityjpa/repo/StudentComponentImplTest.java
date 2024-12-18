@@ -177,5 +177,4 @@ class StudentComponentImplTest {
         assertEquals("2", studentNew.getGroup().getId().toString());
         assertEquals(new SimpleDateFormat("yyyy-MM-dd").format(birth), studentNew.getDateBirth().toString());
     }
-
 }

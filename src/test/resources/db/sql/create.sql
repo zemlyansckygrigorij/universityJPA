@@ -7,7 +7,11 @@ DROP TABLE public.groups;
 DROP TABLE public.teacher;
 DROP TABLE public.subject;
 
+CREATE TYPE public.gender AS ENUM
+    ('MALE', 'FEMALE');
 
+ALTER TYPE public.gender
+    OWNER TO postgres;
 
 
 
