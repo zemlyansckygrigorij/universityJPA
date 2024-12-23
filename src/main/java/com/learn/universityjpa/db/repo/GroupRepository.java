@@ -1,6 +1,6 @@
-package com.learn.universityjpa.repo;
+package com.learn.universityjpa.db.repo;
 
-import com.learn.universityjpa.entity.Group;
+import com.learn.universityjpa.db.entity.Group;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;

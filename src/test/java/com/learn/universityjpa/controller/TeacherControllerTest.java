@@ -1,10 +1,10 @@
 package com.learn.universityjpa.controller;
 
 import com.learn.universityjpa.annotations.SqlTest;
-import com.learn.universityjpa.entity.Gender;
-import com.learn.universityjpa.entity.Teacher;
+import com.learn.universityjpa.db.entity.Gender;
+import com.learn.universityjpa.db.entity.Teacher;
 import com.learn.universityjpa.exceptions.PersonNotFoundException;
-import com.learn.universityjpa.repo.TeacherComponent;
+import com.learn.universityjpa.db.repo.TeacherComponent;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.springframework.beans.factory.annotation.Autowired;

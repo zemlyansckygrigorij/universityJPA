@@ -1,7 +1,8 @@
-package com.learn.universityjpa.repo;
+package com.learn.universityjpa.db.repo;
 
-import com.learn.universityjpa.entity.Group;
-import com.learn.universityjpa.entity.Subject;
+import com.learn.universityjpa.db.entity.Subject;
+import com.learn.universityjpa.db.entity.Group;
+
 import java.util.List;
 import java.util.Optional;
 
