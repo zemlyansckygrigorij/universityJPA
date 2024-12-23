@@ -1,7 +1,7 @@
-package com.learn.universityjpa.repo;
+package com.learn.universityjpa.db.repo;
 
-import com.learn.universityjpa.entity.StudentRedis;
-import com.learn.universityjpa.entity.StudentRedisRepository;
+import com.learn.universityjpa.db.entity.StudentRedis;
+import com.learn.universityjpa.db.entity.StudentRedisRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

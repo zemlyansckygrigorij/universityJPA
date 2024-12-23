@@ -1,4 +1,4 @@
-package com.learn.universityjpa.entity;
+package com.learn.universityjpa.db.entity;
 
 /**
  *  @author Grigoriy Zemlyanskiy

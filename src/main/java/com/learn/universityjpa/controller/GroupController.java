@@ -4,10 +4,10 @@ import com.learn.universityjpa.controller.model.request.GroupRequest;
 import com.learn.universityjpa.controller.model.response.GroupResponse;
 import com.learn.universityjpa.controller.model.response.StudentResponse;
 import com.learn.universityjpa.controller.model.response.SubjectResponse;
-import com.learn.universityjpa.entity.Group;
-import com.learn.universityjpa.repo.GroupComponent;
-import com.learn.universityjpa.repo.StudentComponent;
-import com.learn.universityjpa.repo.SubjectComponent;
+import com.learn.universityjpa.db.entity.Group;
+import com.learn.universityjpa.db.repo.GroupComponent;
+import com.learn.universityjpa.db.repo.StudentComponent;
+import com.learn.universityjpa.db.repo.SubjectComponent;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
@@ -86,7 +86,7 @@ public class GroupController {
                 .anyMatch((x)->x.getName().equals(name));
     }
 
-    @GetMapping("/{id}/students")
+   /* @GetMapping("/{id}/students")
     public List<StudentResponse> getStudentsByGroupId(
             @PathVariable(name = "id") final long id
     ) throws Exception {
@@ -95,7 +95,7 @@ public class GroupController {
                 .stream()
                 .map(StudentResponse::new)
                 .collect(Collectors.toList());
-    }
+    }*/
     @PostMapping()
     public GroupResponse createGroup(@RequestBody GroupRequest request) {
         return  new GroupResponse(groupComponent.commit(builder(request)));

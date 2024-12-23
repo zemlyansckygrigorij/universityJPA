@@ -1,6 +1,6 @@
 package com.learn.universityjpa.controller;
-import com.learn.universityjpa.entity.StudentRedis;
-import com.learn.universityjpa.repo.StudentRedisServiceImple;
+import com.learn.universityjpa.db.entity.StudentRedis;
+import com.learn.universityjpa.db.repo.StudentRedisServiceImple;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.validation.annotation.Validated;

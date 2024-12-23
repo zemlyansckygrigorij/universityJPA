@@ -1,4 +1,4 @@
-package com.learn.universityjpa.entity;
+package com.learn.universityjpa.db.entity;
 
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;

@@ -1,4 +1,4 @@
-package com.learn.universityjpa.entity;
+package com.learn.universityjpa.db.entity;
 
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
