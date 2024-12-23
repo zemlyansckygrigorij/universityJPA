@@ -2,9 +2,9 @@ package com.learn.universityjpa.controller;
 
 import com.learn.universityjpa.controller.model.request.SubjectRequest;
 import com.learn.universityjpa.controller.model.response.SubjectResponse;
-import com.learn.universityjpa.entity.Subject;
-import com.learn.universityjpa.repo.GroupComponent;
-import com.learn.universityjpa.repo.SubjectComponent;
+import com.learn.universityjpa.db.entity.Subject;
+import com.learn.universityjpa.db.repo.GroupComponent;
+import com.learn.universityjpa.db.repo.SubjectComponent;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.validation.annotation.Validated;

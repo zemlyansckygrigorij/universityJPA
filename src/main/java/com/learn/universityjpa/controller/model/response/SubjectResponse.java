@@ -1,7 +1,7 @@
 package com.learn.universityjpa.controller.model.response;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.learn.universityjpa.entity.Subject;
+import com.learn.universityjpa.db.entity.Subject;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -9,8 +9,8 @@ import lombok.Getter;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
-import com.learn.universityjpa.entity.Group;
-import com.learn.universityjpa.entity.Teacher;
+import com.learn.universityjpa.db.entity.Group;
+import com.learn.universityjpa.db.entity.Teacher;
 
 /**
  * Данные полученные с контроллера о предмете.

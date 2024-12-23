@@ -1,9 +1,11 @@
 package com.learn.universityjpa.repo;
 
 import com.learn.universityjpa.annotations.SqlTest;
-import com.learn.universityjpa.entity.Gender;
-import com.learn.universityjpa.entity.Subject;
-import com.learn.universityjpa.entity.Teacher;
+import com.learn.universityjpa.db.entity.Gender;
+import com.learn.universityjpa.db.entity.Subject;
+import com.learn.universityjpa.db.entity.Teacher;
+import com.learn.universityjpa.db.repo.SubjectComponent;
+import com.learn.universityjpa.db.repo.TeacherComponent;
 import com.learn.universityjpa.exceptions.PersonNotFoundException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

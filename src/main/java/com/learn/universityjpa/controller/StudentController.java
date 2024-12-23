@@ -1,16 +1,18 @@
 package com.learn.universityjpa.controller;
 
+import com.learn.universityjpa.cache.component.StudentResponseComponent;
 import com.learn.universityjpa.controller.model.request.StudentRequest;
 import com.learn.universityjpa.controller.model.response.GroupResponse;
 import com.learn.universityjpa.controller.model.response.StudentResponse;
 import com.learn.universityjpa.controller.model.response.SubjectResponse;
-import com.learn.universityjpa.entity.Gender;
-import com.learn.universityjpa.entity.Group;
-import com.learn.universityjpa.entity.Student;
-import com.learn.universityjpa.repo.GroupComponent;
-import com.learn.universityjpa.repo.StudentComponent;
+import com.learn.universityjpa.db.entity.Gender;
+import com.learn.universityjpa.db.entity.Group;
+import com.learn.universityjpa.db.entity.Student;
+import com.learn.universityjpa.db.repo.GroupComponent;
+import com.learn.universityjpa.db.repo.StudentComponent;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -37,24 +39,27 @@ import java.util.stream.Collectors;
 public class StudentController {
     private final StudentComponent studentComponent;
     private final GroupComponent groupComponent;
-
+    @Autowired
+    StudentResponseComponent studentResponseComponent;
     @GetMapping()
     public List<StudentResponse>  getAllStudents() {
-        return studentComponent
+        return studentResponseComponent.findAll();
+       /* return studentComponent
                 .findAll()
                 .stream()
                 .map(StudentResponse::new)
-                .collect(Collectors.toList());
+                .collect(Collectors.toList());*/
     }
 
     @GetMapping("/{id}")
     public StudentResponse getStudentById(
             @PathVariable(name = "id") final long id
     ) throws Exception {
-        return new StudentResponse(studentComponent.findByIdOrDie(id));
+        return studentResponseComponent.findByIdOrDie(id);
+        //return new StudentResponse(studentComponent.findByIdOrDie(id));
     }
 
-    @GetMapping("/group/{id}")
+   /* @GetMapping("/group/{id}")
     public List<StudentResponse> getStudentByGroupId(
             @PathVariable(name = "id") final long id
     ) throws Exception {
@@ -63,7 +68,7 @@ public class StudentController {
                 .stream()
                 .map(StudentResponse::new)
                 .collect(Collectors.toList());
-    }
+    }*/
 
     @GetMapping("/{id}/group")
     public GroupResponse findGroup(
@@ -85,7 +90,7 @@ public class StudentController {
                 .collect(Collectors.toList());
     }
 
-    @GetMapping("/name/{name}")
+   /* @GetMapping("/name/{name}")
     public  List<StudentResponse> findStudentsByName(
             @PathVariable(name = "name") final String name
     ) throws Exception {
@@ -94,7 +99,7 @@ public class StudentController {
                 .stream()
                 .map(StudentResponse::new)
                 .collect(Collectors.toList());
-    }
+    }*/
 
     @GetMapping("/{id}/check_subject")
     public boolean checkSubject(@RequestBody final String name,
@@ -110,15 +115,18 @@ public class StudentController {
 
     @PostMapping()
     public StudentResponse createStudent(@RequestBody StudentRequest request) throws Exception {
-        Student student = studentBuilder(request);
-        return new StudentResponse(studentComponent.commit(student));
+       /* Student student = studentBuilder(request);
+        return new StudentResponse(studentComponent.commit(student));*/
+
+        return studentResponseComponent.commit(studentBuilder(request));
     }
 
     @DeleteMapping("/{id}")
     public void deleteById(
             @PathVariable(name = "id") final long id
     ) throws Exception {
-        studentComponent.deleteStudentById(id);
+       // studentComponent.deleteStudentById(id);
+        studentResponseComponent.deleteStudentById(id);
     }
 
     @PutMapping("/{id}")
