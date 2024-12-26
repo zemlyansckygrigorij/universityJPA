@@ -52,10 +52,27 @@ public class Group {
     private List<Student> students = new ArrayList<>();
 
     public String toString() {
-        return "Group["+"name-" + name
-                + " specification-" + specification
-                + " subjects-[" + subjects.stream().map(s->"  " + s.getId() + "-" + s.getName()).collect(Collectors.toSet()) + "] "
-                + " students-[" + students.stream().map(s->"  " + s.getId() + "-" + s.getFirstName() + " "
-                + s.getSecondName() + " "+s.getLastName()).collect(Collectors.toSet()) + "]";
+        return "Group[" + "name-" + name
+                + " specification-"
+                + specification
+                + " subjects-["
+                    + subjects
+                      .stream()
+                      .map(s->"  " + s.getId() + "-" + s.getName())
+                      .collect(Collectors.toSet())
+                    + "] "
+                + " students-["
+                    + students
+                      .stream()
+                      .map(s->"  "
+                              + s.getId()
+                              + "-"
+                              + s.getFirstName()
+                              + " "
+                              + s.getSecondName()
+                              + " "
+                              + s.getLastName())
+                      .collect(Collectors.toSet())
+                + "]";
     }
 }

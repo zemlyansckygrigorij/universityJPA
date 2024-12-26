@@ -44,7 +44,10 @@ public class WriteDataToXMLImpl implements WriteDataToXML {
     private String filePath;
 
     @Autowired
-    public WriteDataToXMLImpl(GroupComponent groupComponent, SubjectComponent subjectComponent, StudentComponent studentComponent, TeacherComponent teacherComponent) {
+    public WriteDataToXMLImpl(GroupComponent groupComponent,
+                              SubjectComponent subjectComponent,
+                              StudentComponent studentComponent,
+                              TeacherComponent teacherComponent) {
         this.groupComponent = groupComponent;
         this.subjectComponent = subjectComponent;
         this.studentComponent = studentComponent;
@@ -58,7 +61,9 @@ public class WriteDataToXMLImpl implements WriteDataToXML {
             createXMLFile(Files.Subjects);
             createXMLFile(Files.Students);
             createXMLFile(Files.Teacher);
-        } catch (ParserConfigurationException | TransformerException e) { e.printStackTrace();}
+        } catch (ParserConfigurationException | TransformerException e) {
+            e.printStackTrace();
+        }
     }
 
     private void createXMLFile(Files file) throws ParserConfigurationException, TransformerException {
@@ -98,7 +103,7 @@ public class WriteDataToXMLImpl implements WriteDataToXML {
         List<Teacher> teachers = teacherComponent.findAll();
         Element root = document.createElement("teachers");
         document.appendChild(root);
-        for(Teacher teacher:  teachers){
+        for (Teacher teacher:  teachers) {
             Element studentEl = document.createElement("teacher");
             root.appendChild(studentEl);
 

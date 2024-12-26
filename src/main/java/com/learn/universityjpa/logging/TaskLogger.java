@@ -22,12 +22,12 @@ import java.util.concurrent.TimeUnit;
 //@RequiredArgsConstructor
 public class TaskLogger {
 
+    private final Counter customMetricCounter;
+    private final Timer timer;
+    long start;
+
     @Autowired
-    private MeterRegistry meterRegistry;
-    private Counter customMetricCounter;
-    private Timer timer;
-    long start ;
-    public TaskLogger(){
+    public TaskLogger(MeterRegistry meterRegistry) {
         this.customMetricCounter = Counter.builder("custom_metric_name")
                 .description("Description of custom metric")
                 .tags("environment", "development")

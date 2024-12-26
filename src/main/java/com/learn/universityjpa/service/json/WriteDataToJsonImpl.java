@@ -49,7 +49,7 @@ public class WriteDataToJsonImpl implements WriteDataToJson {
     private void createJsonFileTeachers() {
         JSONArray teacherList = new JSONArray();
         List<Teacher> teachers = teacherComponent.findAll();
-        for (Teacher teacher: teachers ) {
+        for (Teacher teacher: teachers) {
             JSONObject teacherDetails = new JSONObject();
             teacherDetails.put("id", teacher.getId());
             teacherDetails.put("firstName", teacher.getFirstName());
@@ -67,7 +67,7 @@ public class WriteDataToJsonImpl implements WriteDataToJson {
         JSONArray subjectList = new JSONArray();
         List<Subject> subjects = subjectComponent.findAll();
 
-        for (Subject subject: subjects ) {
+        for (Subject subject: subjects) {
             JSONObject subjectDetails = new JSONObject();
             subjectDetails.put("id", subject.getId());
             subjectDetails.put("name", subject.getName());

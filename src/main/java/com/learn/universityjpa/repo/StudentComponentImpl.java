@@ -22,7 +22,7 @@ public class StudentComponentImpl implements StudentComponent {
     private GroupComponent groupComponent;
 
     @Autowired
-    public StudentComponentImpl(StudentRepository repo/*,GroupComponent groupComponent*/){
+    public StudentComponentImpl(StudentRepository repo/*,GroupComponent groupComponent*/) {
         this.repo = repo;
        // this.groupComponent = groupComponent;
     }

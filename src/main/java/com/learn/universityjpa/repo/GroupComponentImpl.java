@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
-import java.util.stream.Collectors;
+
 
 /**
  * @author Grigoriy Zemlyanskiy
@@ -24,7 +24,7 @@ public class GroupComponentImpl implements GroupComponent {
     private  StudentComponent studentComponent;
 
     @Autowired
-    public GroupComponentImpl(GroupRepository repo){
+    public GroupComponentImpl(GroupRepository repo) {
         this.repo = repo;
     }
 
@@ -92,7 +92,7 @@ public class GroupComponentImpl implements GroupComponent {
         List<Student> students = studentComponent.findAll();
         List<Student> studentsByIdGroup = students.stream()
                 .filter((s) -> Objects.equals(s.getGroup().getId(), id))
-                .collect(Collectors.toList());
+                .toList();
         if (!studentsByIdGroup.isEmpty()) {
            throw new GroupHasStudentsException();
         }

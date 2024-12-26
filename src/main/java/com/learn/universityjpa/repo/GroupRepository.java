@@ -10,7 +10,11 @@ import java.util.List;
 import java.util.Optional;
 import javax.transaction.Transactional;
 
-
+/**
+ * @author Grigoriy Zemlyanskiy
+ * @version 1.0
+ * interface GroupRepository
+ */
 @Repository
 public interface GroupRepository extends JpaRepository<Group, Long> {
 
