@@ -2,7 +2,7 @@ package com.learn.universityjpa.entity;
 
 import com.learn.universityjpa.annotations.SqlTest;
 import com.learn.universityjpa.db.entity.Group;
-import com.learn.universityjpa.db.repo.GroupComponent;
+import com.learn.universityjpa.db.component.GroupComponent;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;

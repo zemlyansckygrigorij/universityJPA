@@ -3,7 +3,7 @@ package com.learn.universityjpa.cache.component;
 import com.learn.universityjpa.cache.repo.StudentResponseRepository;
 import com.learn.universityjpa.controller.model.response.StudentResponse;
 import com.learn.universityjpa.db.entity.Student;
-import com.learn.universityjpa.db.repo.StudentComponent;
+import com.learn.universityjpa.db.component.StudentComponent;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import java.util.ArrayList;
@@ -43,13 +43,6 @@ public class StudentResponseComponentImpl implements StudentResponseComponent{
     @Override
     public StudentResponse commit(Student student) {
         StudentResponse sr = new StudentResponse(student);
-      /*  sr.setId(student.getId());
-        sr.setFirstName(student.getFirstName());
-        sr.setSecondName(student.getSecondName());
-        sr.setLastName(student.getLastName());
-        sr.setDateBirth(student.getDateBirth().toString());
-        sr.setGender(student.getGender().toString());
-        sr.setGroupName(student.getGroup().getName());*/
         return repo.save(sr);
     }
 

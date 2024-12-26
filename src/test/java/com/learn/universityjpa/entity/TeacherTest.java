@@ -2,7 +2,7 @@ package com.learn.universityjpa.entity;
 
 import com.learn.universityjpa.db.entity.Gender;
 import com.learn.universityjpa.db.entity.Teacher;
-import com.learn.universityjpa.db.repo.TeacherComponent;
+import com.learn.universityjpa.db.component.TeacherComponent;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;

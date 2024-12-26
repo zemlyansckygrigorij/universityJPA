@@ -2,12 +2,11 @@ package com.learn.universityjpa.controller;
 
 import com.learn.universityjpa.controller.model.request.GroupRequest;
 import com.learn.universityjpa.controller.model.response.GroupResponse;
-import com.learn.universityjpa.controller.model.response.StudentResponse;
 import com.learn.universityjpa.controller.model.response.SubjectResponse;
 import com.learn.universityjpa.db.entity.Group;
-import com.learn.universityjpa.db.repo.GroupComponent;
-import com.learn.universityjpa.db.repo.StudentComponent;
-import com.learn.universityjpa.db.repo.SubjectComponent;
+import com.learn.universityjpa.db.component.GroupComponent;
+import com.learn.universityjpa.db.component.StudentComponent;
+import com.learn.universityjpa.db.component.SubjectComponent;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;

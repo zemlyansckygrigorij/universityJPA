@@ -8,8 +8,8 @@ import com.learn.universityjpa.controller.model.response.SubjectResponse;
 import com.learn.universityjpa.db.entity.Gender;
 import com.learn.universityjpa.db.entity.Group;
 import com.learn.universityjpa.db.entity.Student;
-import com.learn.universityjpa.db.repo.GroupComponent;
-import com.learn.universityjpa.db.repo.StudentComponent;
+import com.learn.universityjpa.db.component.GroupComponent;
+import com.learn.universityjpa.db.component.StudentComponent;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,18 +37,15 @@ import java.util.stream.Collectors;
 @RequestMapping("/students")
 @RequiredArgsConstructor
 public class StudentController {
-    private final StudentComponent studentComponent;
+ //   private final StudentComponent studentComponent;
     private final GroupComponent groupComponent;
+
     @Autowired
     StudentResponseComponent studentResponseComponent;
+
     @GetMapping()
     public List<StudentResponse>  getAllStudents() {
         return studentResponseComponent.findAll();
-       /* return studentComponent
-                .findAll()
-                .stream()
-                .map(StudentResponse::new)
-                .collect(Collectors.toList());*/
     }
 
     @GetMapping("/{id}")
@@ -56,32 +53,32 @@ public class StudentController {
             @PathVariable(name = "id") final long id
     ) throws Exception {
         return studentResponseComponent.findByIdOrDie(id);
-        //return new StudentResponse(studentComponent.findByIdOrDie(id));
     }
-
-   /* @GetMapping("/group/{id}")
+/*
+    @GetMapping("/group/{id}")
     public List<StudentResponse> getStudentByGroupId(
             @PathVariable(name = "id") final long id
     ) throws Exception {
-        return studentComponent
+        return studentResponseComponent
                 .findAllByGroupId(id)
                 .stream()
                 .map(StudentResponse::new)
                 .collect(Collectors.toList());
-    }*/
-
+    }
+*/
+    /*
     @GetMapping("/{id}/group")
     public GroupResponse findGroup(
             @PathVariable(name = "id") final long id
     ) throws Exception {
-        return new GroupResponse(studentComponent.findByIdOrDie(id).getGroup());
+        return new GroupResponse(studentResponseComponent.findByIdOrDie(id).getGroup());
     }
-
+*//*
     @GetMapping("/{id}/subjects")
     public List<SubjectResponse> findAllSubjects(
             @PathVariable(name = "id") final long id
     ) throws Exception {
-        return studentComponent
+        return studentResponseComponent
                 .findByIdOrDie(id)
                 .getGroup()
                 .getSubjects()
@@ -89,7 +86,7 @@ public class StudentController {
                 .map(SubjectResponse::new)
                 .collect(Collectors.toList());
     }
-
+*/
    /* @GetMapping("/name/{name}")
     public  List<StudentResponse> findStudentsByName(
             @PathVariable(name = "name") final String name
@@ -100,24 +97,21 @@ public class StudentController {
                 .map(StudentResponse::new)
                 .collect(Collectors.toList());
     }*/
-
+/*
     @GetMapping("/{id}/check_subject")
     public boolean checkSubject(@RequestBody final String name,
             @PathVariable(name = "id") final long id
     ) throws Exception {
-        return studentComponent
+        return studentResponseComponent
                 .findByIdOrDie(id)
                 .getGroup()
                 .getSubjects()
                 .stream()
                 .anyMatch((x)->x.getName().equals(name));
     }
-
+*/
     @PostMapping()
     public StudentResponse createStudent(@RequestBody StudentRequest request) throws Exception {
-       /* Student student = studentBuilder(request);
-        return new StudentResponse(studentComponent.commit(student));*/
-
         return studentResponseComponent.commit(studentBuilder(request));
     }
 
@@ -134,7 +128,7 @@ public class StudentController {
             @RequestBody StudentRequest request,
             @PathVariable(name = "id") final long id
     ) throws Exception {
-        studentComponent.updateStudentById(id, studentBuilder(request));
+        studentResponseComponent.updateStudentById(id, studentBuilder(request));
     }
 
     public Student studentBuilder(StudentRequest request) throws Exception {

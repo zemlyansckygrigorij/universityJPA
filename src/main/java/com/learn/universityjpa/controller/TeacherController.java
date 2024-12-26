@@ -5,7 +5,7 @@ import com.learn.universityjpa.controller.model.response.SubjectResponse;
 import com.learn.universityjpa.controller.model.response.TeacherResponse;
 import com.learn.universityjpa.db.entity.Gender;
 import com.learn.universityjpa.db.entity.Teacher;
-import com.learn.universityjpa.db.repo.TeacherComponent;
+import com.learn.universityjpa.db.component.TeacherComponent;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;

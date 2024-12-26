@@ -2,7 +2,7 @@ package com.learn.universityjpa.controller;
 
 import com.learn.universityjpa.annotations.SqlTest;
 import com.learn.universityjpa.db.entity.Subject;
-import com.learn.universityjpa.db.repo.SubjectComponent;
+import com.learn.universityjpa.db.component.SubjectComponent;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
