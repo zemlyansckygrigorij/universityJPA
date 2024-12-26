@@ -9,7 +9,7 @@ import org.springframework.data.redis.repository.configuration.EnableRedisReposi
 
 @Configuration
 @ComponentScan("com.learn.universityjpa")
-@EnableRedisRepositories(basePackages = "com.learn.universityjpa.entity")
+@EnableRedisRepositories(basePackages = "com.learn.universityjpa.cache.repo")
 public class RedisConfiguration {
     @Bean
     JedisConnectionFactory jedisConnectionFactory() {
