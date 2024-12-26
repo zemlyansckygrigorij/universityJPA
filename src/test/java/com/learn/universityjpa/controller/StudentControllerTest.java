@@ -4,7 +4,7 @@ import com.learn.universityjpa.annotations.SqlTest;
 import com.learn.universityjpa.db.entity.Gender;
 import com.learn.universityjpa.db.entity.Student;
 import com.learn.universityjpa.exceptions.PersonNotFoundException;
-import com.learn.universityjpa.db.repo.StudentComponent;
+import com.learn.universityjpa.db.component.StudentComponent;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
