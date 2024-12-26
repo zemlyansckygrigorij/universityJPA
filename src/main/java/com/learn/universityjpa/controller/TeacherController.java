@@ -35,7 +35,7 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class TeacherController {
     private TeacherComponent teacherComponent;
-    public TeacherController( @Autowired TeacherComponent teacherComponent){
+    public TeacherController(@Autowired TeacherComponent teacherComponent) {
        this.teacherComponent = teacherComponent;
     }
 

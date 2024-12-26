@@ -1,11 +1,11 @@
 package com.learn.universityjpa.entity;
 
 import org.hibernate.HibernateException;
+import org.hibernate.type.EnumType;
 import org.hibernate.engine.spi.SharedSessionContractImplementor;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Types;
-import org.hibernate.type.EnumType;
 
 /**
  *  @author Grigoriy Zemlyanskiy

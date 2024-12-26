@@ -41,7 +41,7 @@ public class GroupController {
     @Autowired
     public GroupController(GroupComponent groupComponent,
                            StudentComponent studentComponent,
-                           SubjectComponent subjectComponent){
+                           SubjectComponent subjectComponent) {
         this.groupComponent = groupComponent;
         this.studentComponent = studentComponent;
         this.subjectComponent = subjectComponent;

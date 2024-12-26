@@ -1,13 +1,17 @@
 package com.learn.universityjpa.logging;
 
-import lombok.RequiredArgsConstructor;
+import io.micrometer.core.instrument.Counter;
+import io.micrometer.core.instrument.MeterRegistry;
+import io.micrometer.core.instrument.Timer;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.After;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import java.util.Date;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Компонент для реализации логирования.
@@ -15,14 +19,30 @@ import java.util.Date;
 @Slf4j
 @Aspect
 @Component
-@RequiredArgsConstructor
+//@RequiredArgsConstructor
 public class TaskLogger {
+
+    @Autowired
+    private MeterRegistry meterRegistry;
+    private Counter customMetricCounter;
+    private Timer timer;
+    long start ;
+    public TaskLogger(){
+        this.customMetricCounter = Counter.builder("custom_metric_name")
+                .description("Description of custom metric")
+                .tags("environment", "development")
+                .register(meterRegistry);
+
+        this.timer =  meterRegistry.timer("app.timer", "type", "ping");
+    }
     /**
      * Логирует время до выполнения метода отмеченного аннотаций {@link TaskBeginFinishLogging}.
      * @param joinPoint точка применения аспекта.
      */
     @Before("@annotation(com.learn.universityjpa.logging.TaskBeginFinishLogging))")
     public void logScheduledTasksBeforeExecution(final JoinPoint joinPoint) {
+        customMetricCounter.increment();
+        start = System.currentTimeMillis();
         log.info("Task {} started at [{}]...", getJoinPointName(joinPoint), new Date());
     }
 
@@ -32,6 +52,7 @@ public class TaskLogger {
      */
     @After("@annotation(com.learn.universityjpa.logging.TaskBeginFinishLogging))")
     public void logScheduledTasksAfterExecution(final JoinPoint joinPoint) {
+        timer.record(System.currentTimeMillis() - start, TimeUnit.MILLISECONDS);
         log.info("...Task {} ended at [{}]", getJoinPointName(joinPoint), new Date());
     }
 
