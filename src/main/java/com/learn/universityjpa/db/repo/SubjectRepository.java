@@ -16,7 +16,7 @@ import javax.transaction.Transactional;
  * interface SubjectRepository
  */
 @Repository
-interface SubjectRepository extends JpaRepository<Subject, Long> {
+public interface SubjectRepository extends JpaRepository<Subject, Long> {
 
     @Query(value
             = "select s "
