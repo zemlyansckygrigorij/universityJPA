@@ -11,6 +11,8 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 import com.learn.universityjpa.db.entity.Group;
 import com.learn.universityjpa.db.entity.Teacher;
+import lombok.NoArgsConstructor;
+import org.springframework.data.redis.core.RedisHash;
 
 /**
  * Данные полученные с контроллера о предмете.
@@ -19,7 +21,8 @@ import com.learn.universityjpa.db.entity.Teacher;
 @Schema(description = "Данные предметов")
 @Data
 @Getter
-@AllArgsConstructor
+@NoArgsConstructor
+@RedisHash("SubjectResponse")
 public class SubjectResponse {
     @Schema(description = "Идентификатор предмета")
     @JsonProperty("id")

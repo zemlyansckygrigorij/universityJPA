@@ -4,10 +4,9 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.learn.universityjpa.db.entity.Subject;
 import com.learn.universityjpa.db.entity.Teacher;
 import io.swagger.v3.oas.annotations.media.Schema;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
+import org.springframework.data.redis.core.RedisHash;
+
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -18,7 +17,8 @@ import java.util.stream.Collectors;
 @Schema(description = "Данные об преподавателе")
 @Data
 @Getter
-@AllArgsConstructor
+@NoArgsConstructor
+@RedisHash("TeacherResponse")
 public class TeacherResponse {
     @Schema(description = "Идентификатор преподавателя")
     @JsonProperty("id")

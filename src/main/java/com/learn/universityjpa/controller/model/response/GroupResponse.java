@@ -5,10 +5,10 @@ import com.learn.universityjpa.db.entity.Group;
 import com.learn.universityjpa.db.entity.Student;
 import com.learn.universityjpa.db.entity.Subject;
 import io.swagger.v3.oas.annotations.media.Schema;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
+import org.springframework.data.redis.core.RedisHash;
+
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -22,8 +22,9 @@ import java.util.stream.Collectors;
 @Data
 @Getter
 @Setter
-@AllArgsConstructor
-public class GroupResponse {
+@NoArgsConstructor
+@RedisHash("GroupResponse")
+public class GroupResponse implements Serializable {
 
     @Schema(description = "Идентификатор группы")
     @JsonProperty("id")

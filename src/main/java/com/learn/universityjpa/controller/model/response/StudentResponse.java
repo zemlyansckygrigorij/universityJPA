@@ -3,7 +3,6 @@ package com.learn.universityjpa.controller.model.response;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.learn.universityjpa.db.entity.Student;
 import io.swagger.v3.oas.annotations.media.Schema;
-import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -19,7 +18,7 @@ import java.io.Serializable;
 @Getter
 @NoArgsConstructor
 @RedisHash("StudentResponse")
-public class StudentResponse  implements Serializable {
+public class StudentResponse implements Serializable {
     @Schema(description = "Идентификатор студента")
     @JsonProperty("id")
     private Long id;
