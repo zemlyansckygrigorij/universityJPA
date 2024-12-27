@@ -12,7 +12,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
  */
 
 @SpringBootApplication
-//@EnableScheduling
+@EnableScheduling
 public class UniversityJpaApplication {
     public static void main(String[] args) {
         SpringApplication.run(UniversityJpaApplication.class, args);

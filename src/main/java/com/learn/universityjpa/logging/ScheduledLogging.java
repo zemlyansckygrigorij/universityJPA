@@ -1,40 +1,51 @@
 package com.learn.universityjpa.logging;
 
-import io.micrometer.core.instrument.*;
-import io.micrometer.core.instrument.composite.CompositeMeterRegistry;
-import io.micrometer.core.instrument.simple.SimpleMeterRegistry;
+import io.micrometer.core.annotation.Timed;
+import io.micrometer.core.instrument.Counter;
+import io.micrometer.core.instrument.Timer;
+import io.micrometer.core.instrument.Tag;
+import io.micrometer.core.instrument.DistributionSummary;
+import io.micrometer.core.instrument.MeterRegistry;
+import io.micrometer.core.instrument.LongTaskTimer;
+import io.micrometer.core.instrument.Gauge;
+
+import org.apache.commons.compress.utils.Lists;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
-
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 
 @Component
+@Timed("people")
 public class ScheduledLogging {
-    private final AtomicInteger testGauge;
-    private final Counter testCounter;
-    private Timer timer;
-    int compositeRegistryGauge;
+    private final AtomicInteger testGauge;//has
+    private final Counter testCounter;//has
 
-    Counter scheduledCounter;
+    private Timer timer;//has
+    Timer timer1;//has
+    int compositeRegistryGauge; //has
 
-    Counter counter;
-    Counter counter1;
-    List<Tag> list = new ArrayList<>();
+    Counter scheduledCounter;//has
+
+    Counter counter;//has
+    Counter counter1;//has
+
+    Counter counter12;// has
+    List<Tag> list = new ArrayList<>();//has
     int i=8;
-    DistributionSummary distributionSummary;
+    DistributionSummary distributionSummary;//has
     Timer timer2;
-    public ScheduledLogging(MeterRegistry meterRegistry){
 
-        CompositeMeterRegistry compositeRegistry = new CompositeMeterRegistry();
-        SimpleMeterRegistry oneSimpleMeter = new SimpleMeterRegistry();
+    public ScheduledLogging(MeterRegistry meterRegistry ){
 
 
+
+//has
         testGauge = meterRegistry.gauge("schedule_gauge1", new AtomicInteger(0));
+        //has
         testCounter = meterRegistry.counter("schedule_counter2");
 
         list.add(Tag.of("tag0","value0"));
@@ -46,22 +57,34 @@ public class ScheduledLogging {
         list.add( Tag.of("tag6","value6"));
         list.add(Tag.of("tag7","value7"));
         list.add(Tag.of("tag8","value8"));
+
+
+        //has
         timer = meterRegistry.timer("schedule_timer3",list);
 
-        compositeRegistryGauge = compositeRegistry
+        //has
+        compositeRegistryGauge = meterRegistry
                 .gauge("compositeRegistry_gauge4", 1);
-
+//has
         scheduledCounter = Counter
                 .builder("scheduled_counte5r")
                 .description("scheduled counter appuniversityJPA6")
                 .tags("tag1","tag2")
                 .register(meterRegistry);
 
-        Metrics.addRegistry(new SimpleMeterRegistry());
 
-        Metrics.counter("objects.instance").increment();
 
-        counter = oneSimpleMeter.counter("page.visitors7", "age", "20s");
+//not has
+      //  counter12 =  Metrics.counter("objects.instance");
+
+        counter12 = Counter
+                .builder("objects_instance")
+                .description("scheduled counter appuniversityJPA6")
+                .tags("tag_objects.instance","tag_objects.instance")
+                .register(meterRegistry);
+//not has
+        counter = meterRegistry.counter("page.visitors7", "age", "20s");
+        //has
          counter1 = Counter
                 .builder("instance8")
                 .description("indicates instance count of the object")
@@ -72,8 +95,9 @@ public class ScheduledLogging {
 
 
 
-        SimpleMeterRegistry registry = new SimpleMeterRegistry();
-        Timer timer = registry.timer("app.event9");
+
+        //has
+        timer1 = meterRegistry.timer("app_event9");
         timer.record(() -> {
             try {
                 TimeUnit.MILLISECONDS.sleep(15);
@@ -81,12 +105,12 @@ public class ScheduledLogging {
             }
         });
 
-        timer.record(30, TimeUnit.MILLISECONDS);
+        timer1.record(30, TimeUnit.MILLISECONDS);
 
-
+//has
         LongTaskTimer longTaskTimer = LongTaskTimer
                 .builder("3rdPartyService10")
-                .register(registry);
+                .register(meterRegistry);
 
         LongTaskTimer.Sample currentTaskId = longTaskTimer.start();
         try {
@@ -96,30 +120,33 @@ public class ScheduledLogging {
 
 
 
-
+//noit has
         Gauge gauge = Gauge
                 .builder("cache.size11", list, List::size)
-                .register(registry);
+                .register(meterRegistry);
 
 
-
+//has
         distributionSummary = DistributionSummary
-                .builder("request.size12")
+                .builder("request_size12")
                 .baseUnit("bytes")
-                .register(registry);
+                .register(meterRegistry);
+        //not has
         timer2 = Timer
-                .builder("test.timer13")
+                .builder("test_timer13")
                 .publishPercentiles(0.3, 0.5, 0.95)
                 .publishPercentileHistogram()
-                .register(registry);
+                .register(meterRegistry);
+
+        //not has
         DistributionSummary hist = DistributionSummary
                 .builder("summary14")
                 .serviceLevelObjectives(1, 10, 5)
-                .register(registry);
+                .register(meterRegistry);
 
     }
 
-    @Scheduled(fixedRate = 1000)
+    @Scheduled(fixedRate = 10)
     public void schedulingTask() {
         i++;
         testGauge.set(getRandomNumberInRange(0 , 100));
@@ -131,13 +158,25 @@ public class ScheduledLogging {
         list.add(Tag.of("tag"+i,"value"+i));
         distributionSummary.record(i);
         timer.record(i, TimeUnit.SECONDS);
+//System.out.println("@Scheduled");
 
-
+        getCars();
 
     }
     private int getRandomNumberInRange(int min , int max){
         Random random = new Random();
         return random.nextInt((max-min)+1)+min;
+    }
+
+    //@TaskBeginFinishLogging
+    public List<String> getCars(){
+      //  System.out.println("getCars");
+        return Lists.newArrayList();
+    }
+
+    @Timed
+    public List<String> getJobs(){
+        return Lists.newArrayList();
     }
 }
 

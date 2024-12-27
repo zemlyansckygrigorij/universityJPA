@@ -39,7 +39,7 @@ dependencies {
     implementation group: 'io.swagger.core.v3', name: 'swagger-annotations', version: '2.2.0'
 
 // https://mvnrepository.com/artifact/io.micrometer/micrometer-registry-prometheus
-    implementation group: 'io.micrometer', name: 'micrometer-registry-prometheus', version: '1.0.0-rc.1'
+    implementation group: 'io.micrometer', name: 'micrometer-registry-prometheus'
 
 
     implementation 'junit:junit:4.13.1'
