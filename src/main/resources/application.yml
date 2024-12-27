@@ -9,12 +9,12 @@ spring:
   jpa:
     hibernate:
       ddl-auto: update
-      ## Prometheus
+## Prometheus
 management:
   endpoints:
     web:
       exposure:
-        include: health,prometheus
+        include: prometheus,health,info,metric
   metrics:
     export:
       prometheus:

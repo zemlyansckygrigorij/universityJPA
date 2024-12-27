@@ -34,6 +34,7 @@ public class TaskLogger {
                 .register(meterRegistry);
 
         this.timer =  meterRegistry.timer("app.timer", "type", "ping");
+
     }
     /**
      * Логирует время до выполнения метода отмеченного аннотаций {@link TaskBeginFinishLogging}.

@@ -5,6 +5,7 @@ import com.learn.universityjpa.controller.model.response.GroupResponse;
 import com.learn.universityjpa.controller.model.response.StudentResponse;
 import com.learn.universityjpa.controller.model.response.SubjectResponse;
 import com.learn.universityjpa.entity.Group;
+import com.learn.universityjpa.logging.TaskBeginFinishLogging;
 import com.learn.universityjpa.repo.GroupComponent;
 import com.learn.universityjpa.repo.StudentComponent;
 import com.learn.universityjpa.repo.SubjectComponent;
@@ -46,7 +47,7 @@ public class GroupController {
         this.studentComponent = studentComponent;
         this.subjectComponent = subjectComponent;
     }
-
+//    @TaskBeginFinishLogging
     @GetMapping()
     public List<GroupResponse> getAllGroups() {
         return groupComponent
@@ -55,14 +56,14 @@ public class GroupController {
                 .map(GroupResponse::new)
                 .collect(Collectors.toList());
     }
-
+  //  @TaskBeginFinishLogging
     @GetMapping("/{id}")
     public GroupResponse getGroupById(
             @PathVariable(name = "id") final long id
     ) throws Exception {
         return new GroupResponse(groupComponent.findByIdOrDie(id));
     }
-
+   // @TaskBeginFinishLogging
     @GetMapping("/{id}/subjects")
     public List<SubjectResponse> getSubjectsByGroupId(
             @PathVariable(name = "id") final long id
@@ -74,7 +75,7 @@ public class GroupController {
                 .map(SubjectResponse::new)
                 .collect(Collectors.toList());
     }
-
+  //  @TaskBeginFinishLogging
     @GetMapping("/{id}/check_subject")
     public boolean checkSubject(@RequestBody final String name,
             @PathVariable(name = "id") final long id
@@ -85,7 +86,7 @@ public class GroupController {
                 .stream()
                 .anyMatch((x)->x.getName().equals(name));
     }
-
+  //  @TaskBeginFinishLogging
     @GetMapping("/{id}/students")
     public List<StudentResponse> getStudentsByGroupId(
             @PathVariable(name = "id") final long id
