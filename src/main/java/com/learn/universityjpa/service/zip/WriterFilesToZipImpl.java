@@ -1,9 +1,10 @@
 package com.learn.universityjpa.service.zip;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.List;
@@ -17,6 +18,7 @@ import java.util.zip.ZipOutputStream;
  */
 @Component
 public class WriterFilesToZipImpl implements WriterFilesToZip {
+    private static final Logger logger = LoggerFactory.getLogger(WriterFilesToZipImpl.class);
     @Override
     public void create(List<String> srcFiles, String filepath) throws IOException {
 
@@ -38,14 +40,12 @@ public class WriterFilesToZipImpl implements WriterFilesToZip {
                         zos.write(buffer, 0, length);
                     }
                     zos.closeEntry();
-                } catch (FileNotFoundException e) {
-                    throw new RuntimeException(e);
                 } catch (IOException e) {
-                    throw new RuntimeException(e);
+                    logger.info(e.getMessage());
                 }
             });
         } catch (IOException e) {
-            e.printStackTrace();
+            logger.info(e.getMessage());
         }
     }
 }

@@ -10,6 +10,8 @@ import com.learn.universityjpa.repo.SubjectComponent;
 import com.learn.universityjpa.repo.TeacherComponent;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
@@ -27,6 +29,7 @@ import java.util.List;
 @Component
 @PropertySource("classpath:values.properties")
 public class WriteDataToJsonImpl implements WriteDataToJson {
+    private static final Logger logger = LoggerFactory.getLogger(WriteDataToJsonImpl.class);
     @Autowired
     private GroupComponent groupComponent;
     @Autowired
@@ -114,7 +117,7 @@ public class WriteDataToJsonImpl implements WriteDataToJson {
             file.flush();
 
         } catch (IOException e) {
-            e.printStackTrace();
+            logger.info(e.getMessage());
         }
     }
 }

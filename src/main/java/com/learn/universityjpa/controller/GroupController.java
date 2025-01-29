@@ -5,7 +5,6 @@ import com.learn.universityjpa.controller.model.response.GroupResponse;
 import com.learn.universityjpa.controller.model.response.StudentResponse;
 import com.learn.universityjpa.controller.model.response.SubjectResponse;
 import com.learn.universityjpa.entity.Group;
-import com.learn.universityjpa.logging.TaskBeginFinishLogging;
 import com.learn.universityjpa.repo.GroupComponent;
 import com.learn.universityjpa.repo.StudentComponent;
 import com.learn.universityjpa.repo.SubjectComponent;

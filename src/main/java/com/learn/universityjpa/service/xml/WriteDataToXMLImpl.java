@@ -8,6 +8,8 @@ import com.learn.universityjpa.repo.GroupComponent;
 import com.learn.universityjpa.repo.StudentComponent;
 import com.learn.universityjpa.repo.SubjectComponent;
 import com.learn.universityjpa.repo.TeacherComponent;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
@@ -35,6 +37,7 @@ import javax.xml.transform.stream.StreamResult;
 @Component
 @PropertySource("classpath:values.properties")
 public class WriteDataToXMLImpl implements WriteDataToXML {
+    private static final Logger logger = LoggerFactory.getLogger(WriteDataToXMLImpl.class);
     private final GroupComponent groupComponent;
     private final SubjectComponent subjectComponent;
     private final StudentComponent studentComponent;
@@ -62,7 +65,7 @@ public class WriteDataToXMLImpl implements WriteDataToXML {
             createXMLFile(Files.Students);
             createXMLFile(Files.Teacher);
         } catch (ParserConfigurationException | TransformerException e) {
-            e.printStackTrace();
+            logger.info(e.getMessage());
         }
     }
 

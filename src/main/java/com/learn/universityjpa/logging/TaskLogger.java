@@ -43,7 +43,6 @@ public class TaskLogger {
     @Before("@annotation(com.learn.universityjpa.logging.TaskBeginFinishLogging))")
     public void logScheduledTasksBeforeExecution(final JoinPoint joinPoint) {
         customMetricCounter.increment();
-        System.out.println("@Before");
         start = System.currentTimeMillis();
         log.info("Task {} started at [{}]...", getJoinPointName(joinPoint), new Date());
     }
@@ -54,7 +53,6 @@ public class TaskLogger {
      */
     @After("@annotation(com.learn.universityjpa.logging.TaskBeginFinishLogging))")
     public void logScheduledTasksAfterExecution(final JoinPoint joinPoint) {
-        System.out.println("@After");
         timer.record(System.currentTimeMillis() - start, TimeUnit.MILLISECONDS);
         log.info("...Task {} ended at [{}]  timer- {}", getJoinPointName(joinPoint), new Date(), timer.count());
     }

@@ -5,7 +5,12 @@ import io.micrometer.core.instrument.MeterRegistry;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.EnableAspectJAutoProxy;
-//
+
+/**
+ *  @author Grigoriy Zemlyanskiy
+ *  @version 1.0
+ * class for Convert value gender
+ */
 @Configuration
 @EnableAspectJAutoProxy
 public class AutoTimingConfiguration {
