@@ -8,6 +8,7 @@ import com.learn.universityjpa.db.entity.Group;
 import com.learn.universityjpa.db.repo.GroupComponent;
 import com.learn.universityjpa.db.repo.StudentComponent;
 import com.learn.universityjpa.db.repo.SubjectComponent;
+import com.learn.universityjpa.logging.CounterRequests;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
@@ -41,12 +42,13 @@ public class GroupController {
     @Autowired
     public GroupController(GroupComponent groupComponent,
                            StudentComponent studentComponent,
-                           SubjectComponent subjectComponent){
+                           SubjectComponent subjectComponent) {
         this.groupComponent = groupComponent;
         this.studentComponent = studentComponent;
         this.subjectComponent = subjectComponent;
     }
 
+    @CounterRequests
     @GetMapping()
     public List<GroupResponse> getAllGroups() {
         return groupComponent
@@ -56,6 +58,7 @@ public class GroupController {
                 .collect(Collectors.toList());
     }
 
+    @CounterRequests
     @GetMapping("/{id}")
     public GroupResponse getGroupById(
             @PathVariable(name = "id") final long id
@@ -63,6 +66,7 @@ public class GroupController {
         return new GroupResponse(groupComponent.findByIdOrDie(id));
     }
 
+    @CounterRequests
     @GetMapping("/{id}/subjects")
     public List<SubjectResponse> getSubjectsByGroupId(
             @PathVariable(name = "id") final long id
@@ -75,6 +79,7 @@ public class GroupController {
                 .collect(Collectors.toList());
     }
 
+    @CounterRequests
     @GetMapping("/{id}/check_subject")
     public boolean checkSubject(@RequestBody final String name,
             @PathVariable(name = "id") final long id
@@ -86,7 +91,8 @@ public class GroupController {
                 .anyMatch((x)->x.getName().equals(name));
     }
 
-   /* @GetMapping("/{id}/students")
+    @CounterRequests
+    @GetMapping("/{id}/students")
     public List<StudentResponse> getStudentsByGroupId(
             @PathVariable(name = "id") final long id
     ) throws Exception {
@@ -95,12 +101,15 @@ public class GroupController {
                 .stream()
                 .map(StudentResponse::new)
                 .collect(Collectors.toList());
-    }*/
+    }
+
+    @CounterRequests
     @PostMapping()
     public GroupResponse createGroup(@RequestBody GroupRequest request) {
         return  new GroupResponse(groupComponent.commit(builder(request)));
     }
 
+    @CounterRequests
     @DeleteMapping("/{id}")
     public void deleteById(
             @PathVariable(name = "id") final long id
@@ -108,6 +117,7 @@ public class GroupController {
         groupComponent.deleteGroupById(id);
     }
 
+    @CounterRequests
     @PutMapping("/{id}")
     public void updateGroup(@RequestBody GroupRequest request,
             @PathVariable(name = "id") final long id
@@ -115,6 +125,7 @@ public class GroupController {
         groupComponent.updateGroupById(id, builder(request));
     }
 
+    @CounterRequests
     @PutMapping("/{id}/addSubject/{idSubject}")
     public void addSubject(
             @PathVariable(name = "id") final long id,
@@ -122,6 +133,8 @@ public class GroupController {
     ) throws Exception {
         groupComponent.addSubject(groupComponent.findByIdOrDie(id), subjectComponent.findByIdOrDie(idSubject));
     }
+
+    @CounterRequests
     @PutMapping("/{id}/deleteSubject/{idSubject}")
     public void deleteSubject(
             @PathVariable(name = "id") final long id,
@@ -129,6 +142,7 @@ public class GroupController {
     ) throws Exception {
         groupComponent.deleteSubject(groupComponent.findByIdOrDie(id), subjectComponent.findByIdOrDie(idSubject));
     }
+
     public Group builder(GroupRequest request) {
         Group group = new Group();
 

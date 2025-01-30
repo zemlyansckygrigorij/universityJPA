@@ -57,7 +57,7 @@ class StudentControllerTest {
 
     @DisplayName("1. Загрузка контекста.")
     @Test
-    public void contextLoads(){
+    public void contextLoads() {
         assertThat(controller).isNotNull();
     }
 

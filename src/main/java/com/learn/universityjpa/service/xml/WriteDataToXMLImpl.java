@@ -8,6 +8,8 @@ import com.learn.universityjpa.db.repo.GroupComponent;
 import com.learn.universityjpa.db.repo.StudentComponent;
 import com.learn.universityjpa.db.repo.SubjectComponent;
 import com.learn.universityjpa.db.repo.TeacherComponent;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
@@ -35,6 +37,7 @@ import javax.xml.transform.stream.StreamResult;
 @Component
 @PropertySource("classpath:values.properties")
 public class WriteDataToXMLImpl implements WriteDataToXML {
+    private static final Logger logger = LoggerFactory.getLogger(WriteDataToXMLImpl.class);
     private final GroupComponent groupComponent;
     private final SubjectComponent subjectComponent;
     private final StudentComponent studentComponent;
@@ -44,7 +47,10 @@ public class WriteDataToXMLImpl implements WriteDataToXML {
     private String filePath;
 
     @Autowired
-    public WriteDataToXMLImpl(GroupComponent groupComponent, SubjectComponent subjectComponent, StudentComponent studentComponent, TeacherComponent teacherComponent) {
+    public WriteDataToXMLImpl(GroupComponent groupComponent,
+                              SubjectComponent subjectComponent,
+                              StudentComponent studentComponent,
+                              TeacherComponent teacherComponent) {
         this.groupComponent = groupComponent;
         this.subjectComponent = subjectComponent;
         this.studentComponent = studentComponent;
@@ -58,7 +64,9 @@ public class WriteDataToXMLImpl implements WriteDataToXML {
             createXMLFile(Files.Subjects);
             createXMLFile(Files.Students);
             createXMLFile(Files.Teacher);
-        } catch (ParserConfigurationException | TransformerException e) { e.printStackTrace();}
+        } catch (ParserConfigurationException | TransformerException e) {
+            logger.info(e.getMessage());
+        }
     }
 
     private void createXMLFile(Files file) throws ParserConfigurationException, TransformerException {
@@ -98,7 +106,7 @@ public class WriteDataToXMLImpl implements WriteDataToXML {
         List<Teacher> teachers = teacherComponent.findAll();
         Element root = document.createElement("teachers");
         document.appendChild(root);
-        for(Teacher teacher:  teachers){
+        for (Teacher teacher:  teachers) {
             Element studentEl = document.createElement("teacher");
             root.appendChild(studentEl);
 

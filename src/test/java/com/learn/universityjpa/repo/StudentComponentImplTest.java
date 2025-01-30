@@ -21,7 +21,9 @@ import org.springframework.test.context.jdbc.SqlGroup;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
 import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.Date;
+import java.util.List;
+import java.util.Optional;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
@@ -185,13 +187,4 @@ class StudentComponentImplTest {
         assertEquals(new SimpleDateFormat("yyyy-MM-dd").format(birth), studentNew.getDateBirth().toString());
     }
 
-    @Test
-    void sendStudentToRedis(){
-        component.findAll().forEach(s->{
-            if(studentResponseComponent.findById(s.getId()).isEmpty()){
-                studentResponseComponent.commit(s);
-            }
-        });
-       assertEquals(studentResponseComponent.findAll().size(),3);
-    }
 }

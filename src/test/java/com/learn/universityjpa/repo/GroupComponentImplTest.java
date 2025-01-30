@@ -57,7 +57,7 @@ class GroupComponentImplTest {
     void  findByIdTest() {
         assertEquals(2, component.findAll().size());
         Optional<Group> groupOpt =  component.findById(1L);
-        assertTrue( groupOpt.isPresent());
+        assertTrue(groupOpt.isPresent());
         Group group = groupOpt.orElseThrow();
         assertNotNull(group);
         assertEquals(1, group.getId());

@@ -5,6 +5,7 @@ import com.learn.universityjpa.controller.model.request.StudentRequest;
 import com.learn.universityjpa.controller.model.response.GroupResponse;
 import com.learn.universityjpa.controller.model.response.StudentResponse;
 import com.learn.universityjpa.controller.model.response.SubjectResponse;
+import com.learn.universityjpa.logging.CounterRequests;
 import com.learn.universityjpa.db.entity.Gender;
 import com.learn.universityjpa.db.entity.Group;
 import com.learn.universityjpa.db.entity.Student;
@@ -41,25 +42,27 @@ public class StudentController {
     private final GroupComponent groupComponent;
     @Autowired
     StudentResponseComponent studentResponseComponent;
+
+    @CounterRequests
     @GetMapping()
     public List<StudentResponse>  getAllStudents() {
-        return studentResponseComponent.findAll();
-       /* return studentComponent
+        return studentComponent
                 .findAll()
                 .stream()
                 .map(StudentResponse::new)
-                .collect(Collectors.toList());*/
+                .collect(Collectors.toList());
     }
 
+    @CounterRequests
     @GetMapping("/{id}")
     public StudentResponse getStudentById(
             @PathVariable(name = "id") final long id
     ) throws Exception {
-        return studentResponseComponent.findByIdOrDie(id);
-        //return new StudentResponse(studentComponent.findByIdOrDie(id));
+        return new StudentResponse(studentComponent.findByIdOrDie(id));
     }
 
-   /* @GetMapping("/group/{id}")
+    @CounterRequests
+    @GetMapping("/group/{id}")
     public List<StudentResponse> getStudentByGroupId(
             @PathVariable(name = "id") final long id
     ) throws Exception {
@@ -68,8 +71,9 @@ public class StudentController {
                 .stream()
                 .map(StudentResponse::new)
                 .collect(Collectors.toList());
-    }*/
+    }
 
+    @CounterRequests
     @GetMapping("/{id}/group")
     public GroupResponse findGroup(
             @PathVariable(name = "id") final long id
@@ -77,6 +81,7 @@ public class StudentController {
         return new GroupResponse(studentComponent.findByIdOrDie(id).getGroup());
     }
 
+    @CounterRequests
     @GetMapping("/{id}/subjects")
     public List<SubjectResponse> findAllSubjects(
             @PathVariable(name = "id") final long id
@@ -90,7 +95,8 @@ public class StudentController {
                 .collect(Collectors.toList());
     }
 
-   /* @GetMapping("/name/{name}")
+    @CounterRequests
+    @GetMapping("/name/{name}")
     public  List<StudentResponse> findStudentsByName(
             @PathVariable(name = "name") final String name
     ) throws Exception {
@@ -99,8 +105,9 @@ public class StudentController {
                 .stream()
                 .map(StudentResponse::new)
                 .collect(Collectors.toList());
-    }*/
+    }
 
+    @CounterRequests
     @GetMapping("/{id}/check_subject")
     public boolean checkSubject(@RequestBody final String name,
             @PathVariable(name = "id") final long id
@@ -113,22 +120,22 @@ public class StudentController {
                 .anyMatch((x)->x.getName().equals(name));
     }
 
+    @CounterRequests
     @PostMapping()
     public StudentResponse createStudent(@RequestBody StudentRequest request) throws Exception {
-       /* Student student = studentBuilder(request);
-        return new StudentResponse(studentComponent.commit(student));*/
-
-        return studentResponseComponent.commit(studentBuilder(request));
+        Student student = studentBuilder(request);
+        return new StudentResponse(studentComponent.commit(student));
     }
 
+    @CounterRequests
     @DeleteMapping("/{id}")
     public void deleteById(
             @PathVariable(name = "id") final long id
     ) throws Exception {
-       // studentComponent.deleteStudentById(id);
-        studentResponseComponent.deleteStudentById(id);
+        studentComponent.deleteStudentById(id);
     }
 
+    @CounterRequests
     @PutMapping("/{id}")
     public void updateStudent(
             @RequestBody StudentRequest request,
@@ -136,6 +143,7 @@ public class StudentController {
     ) throws Exception {
         studentComponent.updateStudentById(id, studentBuilder(request));
     }
+
 
     public Student studentBuilder(StudentRequest request) throws Exception {
         Student student = new Student();
