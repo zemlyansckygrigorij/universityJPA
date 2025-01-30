@@ -19,10 +19,10 @@ import java.util.concurrent.TimeUnit;
 @Slf4j
 @Aspect
 @Component
-//@RequiredArgsConstructor
 public class TaskLogger {
 
     private final Counter customMetricCounter;
+    private final Counter countRequest;
     private final Timer timer;
     long start;
 
@@ -32,10 +32,13 @@ public class TaskLogger {
                 .description("Description of custom metric")
                 .tags("environment", "development")
                 .register(meterRegistry);
-
-        this.timer =  meterRegistry.timer("app.timer", "type", "ping");
-
+        this.countRequest =  Counter.builder("custom_count_requests")
+                .description("Count of web-requests")
+                .tags("environment", "request")
+                .register(meterRegistry);
+        this.timer =  meterRegistry.timer("app.timer1", "type", "ping");
     }
+
     /**
      * Логирует время до выполнения метода отмеченного аннотаций {@link TaskBeginFinishLogging}.
      * @param joinPoint точка применения аспекта.
@@ -55,6 +58,16 @@ public class TaskLogger {
     public void logScheduledTasksAfterExecution(final JoinPoint joinPoint) {
         timer.record(System.currentTimeMillis() - start, TimeUnit.MILLISECONDS);
         log.info("...Task {} ended at [{}]  timer- {}", getJoinPointName(joinPoint), new Date(), timer.count());
+    }
+
+    /**
+     * Логирует запрос.
+     * @param joinPoint точка применения аспекта.
+     */
+    @Before("@annotation(com.learn.universityjpa.logging.CounterRequests)")
+    public void countRequest(final JoinPoint joinPoint){
+        countRequest.increment();
+        log.info("was calling method {}  at [{}]  timer- {}", joinPoint.toShortString(), new Date(), timer.count());
     }
 
     private String getJoinPointName(final JoinPoint joinPoint) {
