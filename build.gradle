@@ -23,8 +23,10 @@ dependencies {
     // https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-actuator
     implementation group: 'org.springframework.boot', name: 'spring-boot-starter-actuator', version: '3.4.1'
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
-    implementation 'org.springframework.boot:spring-boot-starter-web'
+    // https://mvnrepository.com/artifact/org.springframework.data/spring-data-redis
+    implementation group: 'org.springframework.data', name: 'spring-data-redis'
 
+    implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.liquibase:liquibase-core'
     implementation 'org.springframework.kafka:spring-kafka'
     // https://mvnrepository.com/artifact/com.vladmihalcea/hibernate-types-52
@@ -37,6 +39,8 @@ dependencies {
     implementation group: 'com.googlecode.json-simple', name: 'json-simple', version: '1.1.1'
 // https://mvnrepository.com/artifact/io.swagger.core.v3/swagger-annotations
     implementation group: 'io.swagger.core.v3', name: 'swagger-annotations', version: '2.2.0'
+    // https://mvnrepository.com/artifact/redis.clients/jedis
+    implementation group: 'redis.clients', name: 'jedis'
 
 // https://mvnrepository.com/artifact/io.micrometer/micrometer-registry-prometheus
     implementation group: 'io.micrometer', name: 'micrometer-registry-prometheus'

@@ -1,6 +1,6 @@
-package com.learn.universityjpa.repo;
+package com.learn.universityjpa.db.repo;
 
-import com.learn.universityjpa.entity.Subject;
+import com.learn.universityjpa.db.entity.Subject;
 import com.learn.universityjpa.exceptions.SubjectNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;

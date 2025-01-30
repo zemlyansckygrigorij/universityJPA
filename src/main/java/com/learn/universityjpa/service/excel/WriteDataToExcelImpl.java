@@ -1,13 +1,13 @@
 package com.learn.universityjpa.service.excel;
 
-import com.learn.universityjpa.entity.Group;
-import com.learn.universityjpa.entity.Student;
-import com.learn.universityjpa.entity.Subject;
-import com.learn.universityjpa.entity.Teacher;
-import com.learn.universityjpa.repo.GroupComponent;
-import com.learn.universityjpa.repo.StudentComponent;
-import com.learn.universityjpa.repo.SubjectComponent;
-import com.learn.universityjpa.repo.TeacherComponent;
+import com.learn.universityjpa.db.entity.Group;
+import com.learn.universityjpa.db.entity.Student;
+import com.learn.universityjpa.db.entity.Subject;
+import com.learn.universityjpa.db.entity.Teacher;
+import com.learn.universityjpa.db.repo.GroupComponent;
+import com.learn.universityjpa.db.repo.StudentComponent;
+import com.learn.universityjpa.db.repo.SubjectComponent;
+import com.learn.universityjpa.db.repo.TeacherComponent;
 import org.apache.poi.ss.usermodel.BorderStyle;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellStyle;

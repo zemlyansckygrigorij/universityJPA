@@ -1,17 +1,19 @@
 package com.learn.universityjpa.controller;
 
+import com.learn.universityjpa.cache.component.StudentResponseComponent;
 import com.learn.universityjpa.controller.model.request.StudentRequest;
 import com.learn.universityjpa.controller.model.response.GroupResponse;
 import com.learn.universityjpa.controller.model.response.StudentResponse;
 import com.learn.universityjpa.controller.model.response.SubjectResponse;
-import com.learn.universityjpa.entity.Gender;
-import com.learn.universityjpa.entity.Group;
-import com.learn.universityjpa.entity.Student;
 import com.learn.universityjpa.logging.CounterRequests;
-import com.learn.universityjpa.repo.GroupComponent;
-import com.learn.universityjpa.repo.StudentComponent;
+import com.learn.universityjpa.db.entity.Gender;
+import com.learn.universityjpa.db.entity.Group;
+import com.learn.universityjpa.db.entity.Student;
+import com.learn.universityjpa.db.repo.GroupComponent;
+import com.learn.universityjpa.db.repo.StudentComponent;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -38,6 +40,8 @@ import java.util.stream.Collectors;
 public class StudentController {
     private final StudentComponent studentComponent;
     private final GroupComponent groupComponent;
+    @Autowired
+    StudentResponseComponent studentResponseComponent;
 
     @CounterRequests
     @GetMapping()

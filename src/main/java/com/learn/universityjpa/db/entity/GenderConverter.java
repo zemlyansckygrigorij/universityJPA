@@ -1,4 +1,4 @@
-package com.learn.universityjpa.entity;
+package com.learn.universityjpa.db.entity;
 
 import org.hibernate.HibernateException;
 import org.hibernate.engine.spi.SharedSessionContractImplementor;

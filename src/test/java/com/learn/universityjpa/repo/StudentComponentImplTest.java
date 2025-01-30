@@ -1,10 +1,13 @@
 package com.learn.universityjpa.repo;
 
 import com.learn.universityjpa.annotations.SqlTest;
-import com.learn.universityjpa.entity.Gender;
-import com.learn.universityjpa.entity.Group;
-import com.learn.universityjpa.entity.Student;
-import com.learn.universityjpa.entity.Subject;
+import com.learn.universityjpa.cache.component.StudentResponseComponent;
+import com.learn.universityjpa.db.entity.Gender;
+import com.learn.universityjpa.db.entity.Group;
+import com.learn.universityjpa.db.entity.Student;
+import com.learn.universityjpa.db.entity.Subject;
+import com.learn.universityjpa.db.repo.GroupComponent;
+import com.learn.universityjpa.db.repo.StudentComponent;
 import com.learn.universityjpa.exceptions.PersonNotFoundException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -39,7 +42,8 @@ class StudentComponentImplTest {
     private StudentComponent component;
     @Autowired
     private GroupComponent groupComponent;
-
+    @Autowired
+    StudentResponseComponent studentResponseComponent;
     @DisplayName("1. Проверка подключения элемента component.")
     @Test
     public void checkStudentComponentNotNull() {

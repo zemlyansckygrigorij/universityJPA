@@ -3,10 +3,10 @@ package com.learn.universityjpa.controller;
 import com.learn.universityjpa.controller.model.request.TeacherRequest;
 import com.learn.universityjpa.controller.model.response.SubjectResponse;
 import com.learn.universityjpa.controller.model.response.TeacherResponse;
-import com.learn.universityjpa.entity.Gender;
-import com.learn.universityjpa.entity.Teacher;
+import com.learn.universityjpa.db.entity.Gender;
+import com.learn.universityjpa.db.entity.Teacher;
+import com.learn.universityjpa.db.repo.TeacherComponent;
 import com.learn.universityjpa.logging.CounterRequests;
-import com.learn.universityjpa.repo.TeacherComponent;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,6 +35,7 @@ import java.util.stream.Collectors;
 @RequestMapping("/teachers")
 @RequiredArgsConstructor
 public class TeacherController {
+
     private TeacherComponent teacherComponent;
     public TeacherController(@Autowired TeacherComponent teacherComponent) {
        this.teacherComponent = teacherComponent;
