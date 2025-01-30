@@ -52,11 +52,26 @@ public class Subject {
     @Override
     public String toString() {
         return "subject {"
-                +"id=" + this.getId()
-                +", name='" + this.name+ '\''
-                +", description='" + this.description + '\''
-                +" groups-["+groups.stream().map(g->"  "+g.getId()+"-"+g.getName()).collect(Collectors.toSet())+"] "
-                +" teachers-["+teachers.stream().map(t->"  "+t.getId()+"-"+t.getFirstName()+" "+t.getSecondName()+" "+t.getLastName()).collect(Collectors.toSet())+"] "+
-                '}';
+                + "id=" + this.getId()
+                + ", name='" + this.name + '\''
+                + ", description='" + this.description + '\''
+                + " groups-["
+                    + groups
+                      .stream()
+                      .map(g->"  " + g.getId() + "-" + g.getName())
+                      .collect(Collectors.toSet()) + "] "
+                + " teachers-["
+                    + teachers
+                      .stream()
+                      .map(t->"  "
+                              + t.getId()
+                              + "-"
+                              + t.getFirstName()
+                              + " "
+                              + t.getSecondName()
+                              + " "
+                              + t.getLastName())
+                      .collect(Collectors.toSet()) + "] "
+                + '}';
     }
 }

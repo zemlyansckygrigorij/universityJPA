@@ -5,6 +5,7 @@ import com.learn.universityjpa.controller.model.request.StudentRequest;
 import com.learn.universityjpa.controller.model.response.GroupResponse;
 import com.learn.universityjpa.controller.model.response.StudentResponse;
 import com.learn.universityjpa.controller.model.response.SubjectResponse;
+import com.learn.universityjpa.logging.CounterRequests;
 import com.learn.universityjpa.db.entity.Gender;
 import com.learn.universityjpa.db.entity.Group;
 import com.learn.universityjpa.db.entity.Student;
@@ -37,23 +38,33 @@ import java.util.stream.Collectors;
 @RequestMapping("/students")
 @RequiredArgsConstructor
 public class StudentController {
- //   private final StudentComponent studentComponent;
+    private final StudentComponent studentComponent;
     private final GroupComponent groupComponent;
-
     @Autowired
     StudentResponseComponent studentResponseComponent;
 
+    @CounterRequests
+
     @GetMapping()
     public List<StudentResponse>  getAllStudents() {
-        return studentResponseComponent.findAll();
+        return studentComponent
+                .findAll()
+                .stream()
+                .map(StudentResponse::new)
+                .collect(Collectors.toList());
     }
 
+    @CounterRequests
     @GetMapping("/{id}")
     public StudentResponse getStudentById(
             @PathVariable(name = "id") final long id
     ) throws Exception {
         return studentResponseComponent.findByIdOrDie(id);
+        return new StudentResponse(studentComponent.findByIdOrDie(id));
     }
+
+    @CounterRequests
+    @GetMapping("/group/{id}")
 /*
     @GetMapping("/group/{id}")
     public List<StudentResponse> getStudentByGroupId(
@@ -65,6 +76,9 @@ public class StudentController {
                 .map(StudentResponse::new)
                 .collect(Collectors.toList());
     }
+
+    @CounterRequests
+    }
 */
     /*
     @GetMapping("/{id}/group")
@@ -73,6 +87,8 @@ public class StudentController {
     ) throws Exception {
         return new GroupResponse(studentResponseComponent.findByIdOrDie(id).getGroup());
     }
+
+    @CounterRequests
 *//*
     @GetMapping("/{id}/subjects")
     public List<SubjectResponse> findAllSubjects(
@@ -86,6 +102,9 @@ public class StudentController {
                 .map(SubjectResponse::new)
                 .collect(Collectors.toList());
     }
+
+    @CounterRequests
+    @GetMapping("/name/{name}")
 */
    /* @GetMapping("/name/{name}")
     public  List<StudentResponse> findStudentsByName(
@@ -96,6 +115,9 @@ public class StudentController {
                 .stream()
                 .map(StudentResponse::new)
                 .collect(Collectors.toList());
+    }
+
+    @CounterRequests
     }*/
 /*
     @GetMapping("/{id}/check_subject")
@@ -109,20 +131,25 @@ public class StudentController {
                 .stream()
                 .anyMatch((x)->x.getName().equals(name));
     }
+
+    @CounterRequests
 */
     @PostMapping()
     public StudentResponse createStudent(@RequestBody StudentRequest request) throws Exception {
         return studentResponseComponent.commit(studentBuilder(request));
+        Student student = studentBuilder(request);
+        return new StudentResponse(studentComponent.commit(student));
     }
 
+    @CounterRequests
     @DeleteMapping("/{id}")
     public void deleteById(
             @PathVariable(name = "id") final long id
     ) throws Exception {
-       // studentComponent.deleteStudentById(id);
-        studentResponseComponent.deleteStudentById(id);
+        studentComponent.deleteStudentById(id);
     }
 
+    @CounterRequests
     @PutMapping("/{id}")
     public void updateStudent(
             @RequestBody StudentRequest request,
@@ -130,6 +157,7 @@ public class StudentController {
     ) throws Exception {
         studentResponseComponent.updateStudentById(id, studentBuilder(request));
     }
+
 
     public Student studentBuilder(StudentRequest request) throws Exception {
         Student student = new Student();

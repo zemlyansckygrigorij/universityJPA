@@ -1,9 +1,8 @@
-package com.learn.universityjpa.db.component;
+package com.learn.universityjpa.db.repo;
 
 import com.learn.universityjpa.db.entity.Subject;
 import com.learn.universityjpa.db.entity.Group;
 import com.learn.universityjpa.db.entity.Student;
-import com.learn.universityjpa.db.repo.StudentRepository;
 import com.learn.universityjpa.exceptions.PersonNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -23,7 +22,7 @@ public class StudentComponentImpl implements StudentComponent {
     private GroupComponent groupComponent;
 
     @Autowired
-    public StudentComponentImpl(StudentRepository repo){
+    public StudentComponentImpl(StudentRepository repo/*,GroupComponent groupComponent*/) {
         this.repo = repo;
        // this.groupComponent = groupComponent;
     }

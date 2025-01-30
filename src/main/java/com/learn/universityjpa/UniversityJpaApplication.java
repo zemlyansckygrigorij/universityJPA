@@ -2,6 +2,7 @@ package com.learn.universityjpa;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.scheduling.annotation.EnableScheduling;
 
 /**
  * @author Grigoriy Zemlyanskiy
@@ -11,6 +12,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  */
 
 @SpringBootApplication
+@EnableScheduling
 public class UniversityJpaApplication {
     public static void main(String[] args) {
         SpringApplication.run(UniversityJpaApplication.class, args);

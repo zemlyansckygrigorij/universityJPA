@@ -205,7 +205,7 @@ class GroupControllerTest {
     @DisplayName("9. Проверка изменения группы по Id.")
     @SqlTest
     public void changeGroup() throws Exception {
-        GroupRequest groupRequest = new GroupRequest(1L,"testName3","testSpecification3");
+        GroupRequest groupRequest = new GroupRequest(1L, "testName3", "testSpecification3");
         mockMvc.perform(MockMvcRequestBuilders
                         .put("/groups/1")
                         .content(asJsonString(groupRequest))

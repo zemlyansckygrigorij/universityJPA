@@ -3,8 +3,9 @@ package com.learn.universityjpa.service.json;
 import org.json.simple.JSONArray;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.Optional;
@@ -16,6 +17,7 @@ import java.util.Optional;
  */
 @Component
 public class ReaderJsonImpl implements ReaderJson {
+    private static final Logger logger = LoggerFactory.getLogger(ReaderJsonImpl.class);
     @Override
     public JSONArray readFileJson(String path) throws Exception {
         //JSON parser object to parse read file
@@ -25,12 +27,8 @@ public class ReaderJsonImpl implements ReaderJson {
             //Read JSON file
             Object obj = jsonParser.parse(reader);
             employeeList = (JSONArray) obj;
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (ParseException e) {
-            e.printStackTrace();
+        } catch (ParseException | IOException e) {
+            logger.info(e.getMessage());
         }
 
         Optional<JSONArray> employeeListOpt = Optional.ofNullable(employeeList);
