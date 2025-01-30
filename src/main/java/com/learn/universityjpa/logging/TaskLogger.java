@@ -65,7 +65,7 @@ public class TaskLogger {
      * @param joinPoint точка применения аспекта.
      */
     @Before("@annotation(com.learn.universityjpa.logging.CounterRequests)")
-    public void countRequest(final JoinPoint joinPoint){
+    public void countRequest(final JoinPoint joinPoint) {
         countRequest.increment();
         log.info("was calling method {}  at [{}]  timer- {}", joinPoint.toShortString(), new Date(), timer.count());
     }
