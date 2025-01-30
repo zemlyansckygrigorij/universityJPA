@@ -3,6 +3,7 @@ package com.learn.universityjpa.controller;
 import com.learn.universityjpa.controller.model.request.SubjectRequest;
 import com.learn.universityjpa.controller.model.response.SubjectResponse;
 import com.learn.universityjpa.entity.Subject;
+import com.learn.universityjpa.logging.CounterRequests;
 import com.learn.universityjpa.repo.GroupComponent;
 import com.learn.universityjpa.repo.SubjectComponent;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -25,6 +26,8 @@ import java.util.stream.Collectors;
  * @version 1.0
  * class SubjectController
  * для работы с web сайтом /subjects
+ *
+ * localhost:8080/subjects
  */
 @RestController
 @Validated
@@ -35,6 +38,7 @@ public class SubjectController {
     private final SubjectComponent subjectComponent;
     private final GroupComponent groupComponent;
 
+    @CounterRequests
     @GetMapping()
     public List<SubjectResponse> getAllSubjects() {
         return subjectComponent
@@ -44,6 +48,7 @@ public class SubjectController {
                 .collect(Collectors.toList());
     }
 
+    @CounterRequests
     @GetMapping("/name/{name}")
     public List<SubjectResponse> findSubjectsByName(@PathVariable(name = "name") final String name) throws Exception {
         return subjectComponent
@@ -53,6 +58,7 @@ public class SubjectController {
                 .collect(Collectors.toList());
     }
 
+    @CounterRequests
     @GetMapping("/{id}")
     public SubjectResponse getSubjectById(
             @PathVariable(name = "id") final long id
@@ -60,11 +66,13 @@ public class SubjectController {
         return new SubjectResponse(subjectComponent.findByIdOrDie(id));
     }
 
+    @CounterRequests
     @PostMapping()
     public SubjectResponse createSubject(@RequestBody SubjectRequest request) {
         return new SubjectResponse(subjectComponent.commit(subjectBuilder(request)));
     }
 
+    @CounterRequests
     @DeleteMapping("/{id}")
     public void deleteById(
             @PathVariable(name = "id") final long id
@@ -72,6 +80,7 @@ public class SubjectController {
         subjectComponent.deleteSubjectById(id);
     }
 
+    @CounterRequests
     @PutMapping("/{id}")
     public void updateSubject(@RequestBody SubjectRequest request,
                               @PathVariable(name = "id") final long id

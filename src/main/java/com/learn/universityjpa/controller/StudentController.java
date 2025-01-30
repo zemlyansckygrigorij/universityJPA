@@ -7,6 +7,7 @@ import com.learn.universityjpa.controller.model.response.SubjectResponse;
 import com.learn.universityjpa.entity.Gender;
 import com.learn.universityjpa.entity.Group;
 import com.learn.universityjpa.entity.Student;
+import com.learn.universityjpa.logging.CounterRequests;
 import com.learn.universityjpa.repo.GroupComponent;
 import com.learn.universityjpa.repo.StudentComponent;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -38,6 +39,7 @@ public class StudentController {
     private final StudentComponent studentComponent;
     private final GroupComponent groupComponent;
 
+    @CounterRequests
     @GetMapping()
     public List<StudentResponse>  getAllStudents() {
         return studentComponent
@@ -47,6 +49,7 @@ public class StudentController {
                 .collect(Collectors.toList());
     }
 
+    @CounterRequests
     @GetMapping("/{id}")
     public StudentResponse getStudentById(
             @PathVariable(name = "id") final long id
@@ -54,6 +57,7 @@ public class StudentController {
         return new StudentResponse(studentComponent.findByIdOrDie(id));
     }
 
+    @CounterRequests
     @GetMapping("/group/{id}")
     public List<StudentResponse> getStudentByGroupId(
             @PathVariable(name = "id") final long id
@@ -65,6 +69,7 @@ public class StudentController {
                 .collect(Collectors.toList());
     }
 
+    @CounterRequests
     @GetMapping("/{id}/group")
     public GroupResponse findGroup(
             @PathVariable(name = "id") final long id
@@ -72,6 +77,7 @@ public class StudentController {
         return new GroupResponse(studentComponent.findByIdOrDie(id).getGroup());
     }
 
+    @CounterRequests
     @GetMapping("/{id}/subjects")
     public List<SubjectResponse> findAllSubjects(
             @PathVariable(name = "id") final long id
@@ -85,6 +91,7 @@ public class StudentController {
                 .collect(Collectors.toList());
     }
 
+    @CounterRequests
     @GetMapping("/name/{name}")
     public  List<StudentResponse> findStudentsByName(
             @PathVariable(name = "name") final String name
@@ -96,6 +103,7 @@ public class StudentController {
                 .collect(Collectors.toList());
     }
 
+    @CounterRequests
     @GetMapping("/{id}/check_subject")
     public boolean checkSubject(@RequestBody final String name,
             @PathVariable(name = "id") final long id
@@ -108,12 +116,14 @@ public class StudentController {
                 .anyMatch((x)->x.getName().equals(name));
     }
 
+    @CounterRequests
     @PostMapping()
     public StudentResponse createStudent(@RequestBody StudentRequest request) throws Exception {
         Student student = studentBuilder(request);
         return new StudentResponse(studentComponent.commit(student));
     }
 
+    @CounterRequests
     @DeleteMapping("/{id}")
     public void deleteById(
             @PathVariable(name = "id") final long id
@@ -121,6 +131,7 @@ public class StudentController {
         studentComponent.deleteStudentById(id);
     }
 
+    @CounterRequests
     @PutMapping("/{id}")
     public void updateStudent(
             @RequestBody StudentRequest request,
@@ -128,6 +139,7 @@ public class StudentController {
     ) throws Exception {
         studentComponent.updateStudentById(id, studentBuilder(request));
     }
+
 
     public Student studentBuilder(StudentRequest request) throws Exception {
         Student student = new Student();

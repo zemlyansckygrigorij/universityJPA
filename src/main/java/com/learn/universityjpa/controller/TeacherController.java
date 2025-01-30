@@ -5,6 +5,7 @@ import com.learn.universityjpa.controller.model.response.SubjectResponse;
 import com.learn.universityjpa.controller.model.response.TeacherResponse;
 import com.learn.universityjpa.entity.Gender;
 import com.learn.universityjpa.entity.Teacher;
+import com.learn.universityjpa.logging.CounterRequests;
 import com.learn.universityjpa.repo.TeacherComponent;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
@@ -39,6 +40,7 @@ public class TeacherController {
        this.teacherComponent = teacherComponent;
     }
 
+    @CounterRequests
     @GetMapping()
     public List<TeacherResponse> getAllTeachers() {
         return teacherComponent
@@ -48,6 +50,7 @@ public class TeacherController {
                 .collect(Collectors.toList());
     }
 
+    @CounterRequests
     @GetMapping("/{id}")
     public TeacherResponse getTeacherById(
             @PathVariable(name = "id") final long id
@@ -55,6 +58,7 @@ public class TeacherController {
         return new TeacherResponse(teacherComponent.findByIdOrDie(id));
     }
 
+    @CounterRequests
     @GetMapping("/name/{name}")
     public List<TeacherResponse> findTeachersByName(@PathVariable(name = "name") final String name) throws Exception {
         return teacherComponent
@@ -64,11 +68,13 @@ public class TeacherController {
                 .collect(Collectors.toList());
     }
 
+    @CounterRequests
     @PostMapping()
     public TeacherResponse createTeacher(@RequestBody TeacherRequest request) {
         return new TeacherResponse(teacherComponent.commit(teacherBuilder(request)));
     }
 
+    @CounterRequests
     @DeleteMapping("/{id}")
     public void deleteById(
             @PathVariable(name = "id") final long id
@@ -76,6 +82,7 @@ public class TeacherController {
         teacherComponent.deleteTeacherById(id);
     }
 
+    @CounterRequests
     @PutMapping("/{id}")
     public void updateTeacher(@RequestBody TeacherRequest request,
                             @PathVariable(name = "id") final long id
@@ -83,6 +90,7 @@ public class TeacherController {
         teacherComponent.updateTeacherById(id, teacherBuilder(request));
     }
 
+    @CounterRequests
     @GetMapping("/{id}/subjects")
     public List<SubjectResponse> findAllSubjects(
             @PathVariable(name = "id") final long id
@@ -95,6 +103,7 @@ public class TeacherController {
                 .collect(Collectors.toList());
     }
 
+    @CounterRequests
     @GetMapping("/{id}/check_subject")
     public boolean checkSubject(@RequestBody final String name,
                                 @PathVariable(name = "id") final long id
@@ -106,6 +115,7 @@ public class TeacherController {
                 .anyMatch((x)->x.getName().equals(name));
     }
 
+    @CounterRequests
     @PutMapping("/{id}/addSubject/{idSubject}")
     public void addSubject(
             @PathVariable(name = "id") final long id,
@@ -114,6 +124,7 @@ public class TeacherController {
         teacherComponent.addSubject(id, idSubject);
     }
 
+    @CounterRequests
     @PutMapping("/{id}/deleteSubject/{idSubject}")
     @Transactional
     public void deleteSubject(
