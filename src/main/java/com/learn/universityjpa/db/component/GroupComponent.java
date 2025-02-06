@@ -58,18 +58,18 @@ public interface GroupComponent {
 
     /**
      * Добавляет предмет в данную группу.
-     * @param  group группа
-     * @param  subject предмет
+     * @param groupId идентификатор группы.
+     * @param subjectId идентификатор предмета
      */
-    Subject addSubject(Group group, Subject subject);
+    Subject addSubject(Long groupId, Long subjectId) throws Exception;
 
     /**
      * Удаляет предмет из данной группы.
      *
-     * @param  group группа в которой нужно удалить предмет
-     * @param  subject предмет
+     * @param groupId идентификатор группы.
+     * @param subjectId идентификатор предмета
      */
-    Subject deleteSubject(Group group, Subject subject);
+    Subject deleteSubject(Long groupId, Long subjectId)  throws Exception;
 
     /**
      * Найти группу по имени и падает по ошибке, если не нашел.
