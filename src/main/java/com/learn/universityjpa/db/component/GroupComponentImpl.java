@@ -23,6 +23,8 @@ public class GroupComponentImpl implements GroupComponent {
     private final GroupRepository repo;
     @Autowired
     private StudentComponent studentComponent;
+    @Autowired
+    private SubjectComponent subjectComponent;
 
     @Autowired
     public GroupComponentImpl(GroupRepository repo) {
@@ -61,16 +63,16 @@ public class GroupComponentImpl implements GroupComponent {
     }
 
     @Override
-    public Subject addSubject(Group group, Subject subject) {
-        group.getSubjects().add(subject);
-        this.repo.save(group);
+    public Subject addSubject(Long groupId, Long subjectId) throws Exception{
+        Subject subject = subjectComponent.findByIdOrDie(subjectId);
+        this.repo.addSubject(groupId, subjectId);
         return subject;
     }
 
     @Override
-    public Subject deleteSubject(Group group, Subject subject) {
-        group.getSubjects().remove(subject);
-        this.repo.save(group);
+    public Subject deleteSubject(Long groupId, Long subjectId) throws Exception {
+        Subject subject = subjectComponent.findByIdOrDie(subjectId);
+        this.repo.deleteSubject(groupId, subjectId);
         return subject;
     }
 
