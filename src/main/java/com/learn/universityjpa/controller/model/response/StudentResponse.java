@@ -6,8 +6,8 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.springframework.data.redis.core.RedisHash;
-
 import java.io.Serializable;
 
 /**
@@ -16,6 +16,7 @@ import java.io.Serializable;
 @Schema(description = "Данные студента")
 @Data
 @Getter
+@Setter
 @NoArgsConstructor
 @RedisHash("StudentResponse")
 public class StudentResponse implements Serializable {
