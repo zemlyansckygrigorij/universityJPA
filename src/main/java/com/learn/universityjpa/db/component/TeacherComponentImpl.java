@@ -119,6 +119,7 @@ public class TeacherComponentImpl implements TeacherComponent {
         if (!teacher.getSubjects().contains(subject)) {
             return subject;
         }
+
         subject.getTeachers().remove(teacher);
         teacher.getSubjects().remove(subject);
         this.subjectRepo.save(subject);
