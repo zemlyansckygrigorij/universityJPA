@@ -7,16 +7,23 @@ import com.learn.universityjpa.db.entity.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import java.text.ParseException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
+/**
+ * @author Grigoriy Zemlyanskiy
+ * @version 1.0
+ * class SubjectResponseComponentImpl for work with cache repository
+ */
 @Component
-public class SubjectResponseComponentImpl implements SubjectResponseComponent{
+public class SubjectResponseComponentImpl implements SubjectResponseComponent {
     @Autowired
     private SubjectResponseRepository repo;
 
     @Autowired
-    private SubjectComponent studentComponent;
+    private SubjectComponent subjectComponent;
     @Override
     public Optional<SubjectResponse> findById(Long id) {
         return repo.findById(String.valueOf(id));
@@ -29,26 +36,34 @@ public class SubjectResponseComponentImpl implements SubjectResponseComponent{
 
     @Override
     public SubjectResponse commit(Subject subject) {
-        return null;
+        return repo.save(new SubjectResponse(subjectComponent.commit(subject)));
     }
 
     @Override
     public List<SubjectResponse> findAll() {
-        return List.of();
+        List<SubjectResponse> subjects = new ArrayList<>();
+        repo.findAll().forEach(subjects::add);
+        return subjects;
     }
 
     @Override
-    public List<SubjectResponse> getSubjectsByName(String nameSubject) throws Exception {
-        return List.of();
+    public List<SubjectResponse> getSubjectsByName(String name) throws Exception {
+        return findAll()
+                .stream()
+                .filter(s->s.getName().contains(name))
+                .collect(Collectors.toList());
     }
 
     @Override
     public void deleteSubjectById(Long id) {
-
+        subjectComponent.deleteSubjectById(id);
+        repo.deleteById(String.valueOf(id));
     }
 
     @Override
     public void updateSubjectById(Long id, Subject subject) throws ParseException {
-
+        subjectComponent.updateSubjectById(id,  subject);
+        subject.setId(id);
+        repo.save(new SubjectResponse(subject));
     }
 }
