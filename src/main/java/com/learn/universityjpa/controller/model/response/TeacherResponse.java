@@ -1,12 +1,15 @@
 package com.learn.universityjpa.controller.model.response;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.learn.universityjpa.db.entity.Subject;
+import com.learn.universityjpa.controller.model.json.SubjectJson;
 import com.learn.universityjpa.db.entity.Teacher;
 import io.swagger.v3.oas.annotations.media.Schema;
-import lombok.*;
+import lombok.Data;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.springframework.data.redis.core.RedisHash;
-
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -17,6 +20,7 @@ import java.util.stream.Collectors;
 @Schema(description = "Данные об преподавателе")
 @Data
 @Getter
+@Setter
 @NoArgsConstructor
 @RedisHash("TeacherResponse")
 public class TeacherResponse {
@@ -50,20 +54,7 @@ public class TeacherResponse {
 
     @Schema(description = "Предметы преподавателя")
     @JsonProperty(value = "subjects")
-    private List<SubjectJson> subjects;
-
-    @Getter
-    @Setter
-    static class SubjectJson {
-        private Long id;
-        private String name;
-        private String description;
-        SubjectJson(Subject subject) {
-            this.id = subject.getId();
-            this.name = subject.getName();
-            this.description = subject.getDescription();
-        }
-    }
+    private List<SubjectJson> subjects = new ArrayList<>();
 
     public TeacherResponse(Teacher teacher) {
         this.id = teacher.getId();
