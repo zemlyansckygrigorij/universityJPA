@@ -1,16 +1,13 @@
 package com.learn.universityjpa.cache.component;
 
-import com.learn.universityjpa.controller.model.response.SubjectResponse;
+import com.learn.universityjpa.controller.model.json.SubjectJson;
 import com.learn.universityjpa.controller.model.response.TeacherResponse;
-import com.learn.universityjpa.db.entity.Subject;
 import com.learn.universityjpa.db.entity.Teacher;
-
-import java.text.ParseException;
 import java.util.List;
 import java.util.Optional;
 
 /**
- * Компонент работы с данными преподавателей.
+ * Компонент работы с данными преподавателей  сохраняемые в кэше.
  */
 public interface TeacherResponseComponent {
     /**
@@ -71,45 +68,30 @@ public interface TeacherResponseComponent {
      *
      * @return список предметов.
      */
-    List<SubjectResponse> findAllSubjects(Teacher teacher);
+    List<SubjectJson>  findAllSubjects(Long id) throws Exception;
 
     /**
      * Проверяет наличие предмета у данного преподавателя.
      *
-     * @param subject предмет.
+     * @param teacherId идентификатор преподавателя.
+     * @param subjectId идентификатор предмета.
      * @return наличие предмета у данного преподавателя.
      */
-    boolean checkSubject(Teacher teacher, Subject subject);
-
-    /**
-     * Добавляет предмет преподавателю.
-     *
-     * @param teacher преподаватель.
-     * @param subject предмет.
-     */
-    SubjectResponse addSubject(Teacher teacher, Subject subject);
+    boolean checkSubject(Long teacherId , Long subjectId) throws Exception;
 
     /**
      * Удаляет предмет у преподавателя.
      *
-     * @param teacher преподаватель.
-     * @param subject предмет.
+     * @param teacherId идентификатор преподавателя.
+     * @param subjectId идентификатор предмета.
      */
-    SubjectResponse deleteSubject(Teacher teacher, Subject subject) throws ParseException;
-
-    /**
-     * Удаляет предмет у преподавателя.
-     *
-     * @param idTeacher идентификатор преподавателя.
-     * @param idSubject идентификатор предмета.
-     */
-    SubjectResponse deleteSubject(long idTeacher, long idSubject) throws Exception;
+    SubjectJson deleteSubject(Long teacherId , Long subjectId) throws Exception;
 
     /**
      * Добавляет предмет преподавателю.
      *
-     * @param idTeacher идентификатор преподавателя.
-     * @param idSubject идентификатор предмета.
+     * @param teacherId идентификатор преподавателя.
+     * @param subjectId идентификатор предмета.
      */
-    SubjectResponse addSubject(long idTeacher, long idSubject) throws Exception;
+    SubjectJson addSubject(Long teacherId , Long subjectId) throws Exception;
 }
