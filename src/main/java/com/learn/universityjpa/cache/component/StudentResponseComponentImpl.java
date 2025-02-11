@@ -2,21 +2,23 @@ package com.learn.universityjpa.cache.component;
 
 import com.learn.universityjpa.cache.repo.StudentResponseRepository;
 import com.learn.universityjpa.controller.model.response.StudentResponse;
-import com.learn.universityjpa.db.entity.Student;
 import com.learn.universityjpa.db.component.StudentComponent;
+import com.learn.universityjpa.db.entity.Student;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 /**
  * @author Grigoriy Zemlyanskiy
  * @version 1.0
- * class GroupComponentImpl
+ * class StudentResponseComponentImpl for work with cache repository
  */
 @Component
-public class StudentResponseComponentImpl implements StudentResponseComponent{
+public class StudentResponseComponentImpl implements StudentResponseComponent {
     @Autowired
     private StudentResponseRepository repo;
 
@@ -42,8 +44,7 @@ public class StudentResponseComponentImpl implements StudentResponseComponent{
 
     @Override
     public StudentResponse commit(Student student) {
-        StudentResponse sr = new StudentResponse(student);
-        return repo.save(sr);
+        return repo.save(new StudentResponse(studentComponent.commit(student)));
     }
 
     @Override
@@ -53,7 +54,17 @@ public class StudentResponseComponentImpl implements StudentResponseComponent{
     }
 
    @Override
-    public void updateStudentById(Long id, Student student) {
-        repo.save(new StudentResponse(student));
+    public void updateStudentById(Long id, Student student) throws ParseException {
+       studentComponent.updateStudentById(id,  student);
+       student.setId(id);
+       repo.save(new StudentResponse(student));
+    }
+
+    @Override
+    public List<StudentResponse> findStudentsByName(String name) throws Exception {
+        return findAll()
+                .stream()
+                .filter(s->s.getFirstName().contains(name))
+                .collect(Collectors.toList());
     }
 }
