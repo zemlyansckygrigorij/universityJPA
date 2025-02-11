@@ -1,13 +1,13 @@
 package com.learn.universityjpa.service.json;
 
-import com.learn.universityjpa.db.entity.Group;
-import com.learn.universityjpa.db.entity.Student;
-import com.learn.universityjpa.db.entity.Subject;
-import com.learn.universityjpa.db.entity.Teacher;
 import com.learn.universityjpa.db.component.GroupComponent;
 import com.learn.universityjpa.db.component.StudentComponent;
 import com.learn.universityjpa.db.component.SubjectComponent;
 import com.learn.universityjpa.db.component.TeacherComponent;
+import com.learn.universityjpa.db.entity.Group;
+import com.learn.universityjpa.db.entity.Student;
+import com.learn.universityjpa.db.entity.Subject;
+import com.learn.universityjpa.db.entity.Teacher;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.slf4j.Logger;
