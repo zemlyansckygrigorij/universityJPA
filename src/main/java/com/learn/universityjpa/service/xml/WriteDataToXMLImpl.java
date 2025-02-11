@@ -1,13 +1,13 @@
 package com.learn.universityjpa.service.xml;
 
+import com.learn.universityjpa.db.component.GroupComponent;
+import com.learn.universityjpa.db.component.StudentComponent;
+import com.learn.universityjpa.db.component.SubjectComponent;
+import com.learn.universityjpa.db.component.TeacherComponent;
 import com.learn.universityjpa.db.entity.Group;
 import com.learn.universityjpa.db.entity.Student;
 import com.learn.universityjpa.db.entity.Subject;
 import com.learn.universityjpa.db.entity.Teacher;
-import com.learn.universityjpa.db.repo.GroupComponent;
-import com.learn.universityjpa.db.repo.StudentComponent;
-import com.learn.universityjpa.db.repo.SubjectComponent;
-import com.learn.universityjpa.db.repo.TeacherComponent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
