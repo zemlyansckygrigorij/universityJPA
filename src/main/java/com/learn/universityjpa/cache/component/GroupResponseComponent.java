@@ -5,7 +5,6 @@ import com.learn.universityjpa.controller.model.json.SubjectJson;
 import com.learn.universityjpa.controller.model.response.GroupResponse;
 import com.learn.universityjpa.db.entity.Group;
 import com.learn.universityjpa.db.entity.Subject;
-
 import java.util.List;
 import java.util.Optional;
 
