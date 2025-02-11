@@ -1,8 +1,8 @@
 package com.learn.universityjpa.db.component;
 
-import com.learn.universityjpa.db.entity.Subject;
 import com.learn.universityjpa.db.entity.Group;
 import com.learn.universityjpa.db.entity.Student;
+import com.learn.universityjpa.db.entity.Subject;
 import com.learn.universityjpa.db.repo.GroupRepository;
 import com.learn.universityjpa.exceptions.GroupHasStudentsException;
 import com.learn.universityjpa.exceptions.GroupNotFoundException;
@@ -11,7 +11,6 @@ import org.springframework.stereotype.Component;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
-
 
 /**
  * @author Grigoriy Zemlyanskiy
@@ -63,7 +62,7 @@ public class GroupComponentImpl implements GroupComponent {
     }
 
     @Override
-    public Subject addSubject(Long groupId, Long subjectId) throws Exception{
+    public Subject addSubject(Long groupId, Long subjectId) throws Exception {
         Subject subject = subjectComponent.findByIdOrDie(subjectId);
         this.repo.addSubject(groupId, subjectId);
         return subject;
