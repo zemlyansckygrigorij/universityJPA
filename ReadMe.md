@@ -3,11 +3,15 @@ Stack: Gradle, postgreSQL,Spring JPA,Liquibase,Kafka,Spring Web,Rest,Lombock,Jun
 checking code: checkstyle
 
 
-redis
+-------redis----------
 start run Ubuntu 20.04 on windows
 redis-server --daemonize yes
 redis-cli
 
+
+get all data
+keys *
+hgetall "StudentResponse:7"
 https://habr.com/ru/articles/535816/
 http://localhost:8080/actuator/prometheus
 grafana
