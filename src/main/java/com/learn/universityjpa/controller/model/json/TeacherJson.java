@@ -42,16 +42,4 @@ public class TeacherJson {
         this.gender = response.getGender().toString();
         this.category = response.getCategory();
     }
- /*   public TeacherResponse getTeacherResponse(){
-        TeacherResponse response = new  TeacherResponse();
-        response.setId(this.id);
-        response.setFirstName(this.firstName);
-        response.setSecondName(this.secondName);
-        response.setLastName(this.lastName);
-        response.setDateBirth(this.dateBirth);
-        response.setGender(this.gender);
-        response.setCategory(this.category);
-
-        return response;
-    }*/
 }
