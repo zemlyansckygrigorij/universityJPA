@@ -11,7 +11,15 @@ import com.learn.universityjpa.logging.CounterRequests;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
 import java.util.List;
 import java.util.Optional;
 
@@ -99,21 +107,20 @@ public class GroupController {
     }
 
     @CounterRequests
-    @PutMapping("/{id}/addSubject/{idSubject}")
+    @PutMapping("/{id}/addSubject/{subjectId}")
     public void addSubject(
             @PathVariable(name = "id") final long id,
-            @PathVariable(name = "idSubject") final long idSubject
+            @PathVariable(name = "subjectId") final long subjectId
     ) throws Exception {
-        groupResponseComponent.addSubject(id,idSubject);
+        groupResponseComponent.addSubject(id, subjectId);
     }
 
     @CounterRequests
-    @PutMapping("/{id}/deleteSubject/{idSubject}")
+    @PutMapping("/{id}/deleteSubject/{subjectId}")
     public void deleteSubject(
             @PathVariable(name = "id") final long id,
-            @PathVariable(name = "idSubject") final long idSubject
-    ) throws Exception {
-        groupResponseComponent.deleteSubject(id,idSubject);
+            @PathVariable(name = "subjectId") final long subjectId) throws Exception {
+        groupResponseComponent.deleteSubject(id, subjectId);
     }
 
     public Group builder(GroupRequest request) {
