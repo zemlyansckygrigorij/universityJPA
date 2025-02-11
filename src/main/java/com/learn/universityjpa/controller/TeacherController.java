@@ -126,9 +126,11 @@ public class TeacherController {
         if (request.getGender().equals("FEMALE")) {
             teacher.setGender(Gender.FEMALE);
         }
+
         if (request.getGender().equals("MALE")) {
             teacher.setGender(Gender.MALE);
         }
+
         teacher.setDateBirth(request.getDateBirth());
         teacher.setCategory(request.getCategory());
         return teacher;
