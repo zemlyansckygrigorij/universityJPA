@@ -34,4 +34,16 @@ public interface GroupRepository extends JpaRepository<Group, Long> {
     @Transactional // @Modifying annotation should be wrapped up with @Transactional
     @Query("update Group g set g.name = ?1 , g.specification = ?2  where g.id = ?3")
     void updateGroupById(String name, String specification, Long id);
+
+    @Modifying
+    @Query(value = "insert into public.group_subject (group_id,subject_id) VALUES (:groupId,:subjectId)"
+            , nativeQuery = true)
+    @Transactional
+    void addSubject(@Param("groupId") Long groupId, @Param("subjectId") Long subjectId);
+
+    @Modifying
+    @Query(value = "delete from public.group_subject where group_id=:groupId and subject_id=:subjectId"
+            , nativeQuery = true)
+    @Transactional
+    void deleteSubject(@Param("groupId") Long groupId, @Param("subjectId") Long subjectId);
 }
