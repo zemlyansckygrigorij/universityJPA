@@ -3,9 +3,9 @@ package com.learn.universityjpa.controller;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.learn.universityjpa.annotations.SqlTest;
 import com.learn.universityjpa.controller.model.request.GroupRequest;
+import com.learn.universityjpa.db.component.GroupComponent;
 import com.learn.universityjpa.db.entity.Group;
 import com.learn.universityjpa.exceptions.GroupHasStudentsException;
-import com.learn.universityjpa.db.repo.GroupComponent;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -205,7 +205,7 @@ class GroupControllerTest {
     @DisplayName("9. Проверка изменения группы по Id.")
     @SqlTest
     public void changeGroup() throws Exception {
-        GroupRequest groupRequest = new GroupRequest(1L,"testName3","testSpecification3");
+        GroupRequest groupRequest = new GroupRequest(1L, "testName3", "testSpecification3");
         mockMvc.perform(MockMvcRequestBuilders
                         .put("/groups/1")
                         .content(asJsonString(groupRequest))

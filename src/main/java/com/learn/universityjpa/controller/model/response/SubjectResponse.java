@@ -1,16 +1,18 @@
 package com.learn.universityjpa.controller.model.response;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.learn.universityjpa.controller.model.json.GroupJson;
+import com.learn.universityjpa.controller.model.json.TeacherJson;
 import com.learn.universityjpa.db.entity.Subject;
 import io.swagger.v3.oas.annotations.media.Schema;
-import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import org.springframework.data.redis.core.RedisHash;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
-import com.learn.universityjpa.db.entity.Group;
-import com.learn.universityjpa.db.entity.Teacher;
+
 
 /**
  * Данные полученные с контроллера о предмете.
@@ -19,45 +21,40 @@ import com.learn.universityjpa.db.entity.Teacher;
 @Schema(description = "Данные предметов")
 @Data
 @Getter
-@AllArgsConstructor
+@Setter
+@NoArgsConstructor
+@RedisHash("SubjectResponse")
 public class SubjectResponse {
     @Schema(description = "Идентификатор предмета")
     @JsonProperty("id")
     private Long id;
 
     @Schema(description = "Название предмета")
-    @JsonProperty("name")
+    @JsonProperty("name1")
     private String name;
 
     @Schema(description = "Описание предмета")
-    @JsonProperty("description")
+    @JsonProperty("description1")
     private String description;
 
     @Schema(description = "Группы, содержащие данный предмет")
     @JsonProperty(value = "groups")
-    private List<Long> groups;
+    private List<GroupJson> groups = new ArrayList<>();
 
     @Schema(description = "Преподаватели, обучающие данному предмету")
     @JsonProperty(value = "teachers")
-    private List<Long> teachers;
+    private List<TeacherJson> teachers = new ArrayList<>();
 
     public SubjectResponse(Subject subject) {
         this.id = subject.getId();
         this.name = subject.getName();
         this.description = subject.getDescription();
-        if (Optional.ofNullable(subject.getGroups()).isPresent()) {
-            this.groups = subject
-                    .getGroups()
-                    .stream()
-                    .map(Group::getId)
-                    .collect(Collectors.toList());
+        if (subject.getGroups() != null) {
+            this.groups = subject.getGroups().stream().map(GroupJson::new).toList();
         }
-        if (Optional.ofNullable(subject.getTeachers()).isPresent()) {
-            this.teachers = subject
-                    .getTeachers()
-                    .stream()
-                    .map(Teacher::getId)
-                    .collect(Collectors.toList());
+
+        if (subject.getTeachers() != null) {
+            this.teachers = subject.getTeachers().stream().map(TeacherJson::new).toList();
         }
     }
 }

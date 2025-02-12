@@ -13,3 +13,22 @@ spring:
   jpa:
     hibernate:
       ddl-auto: update
+## Prometheus
+management:
+  endpoints:
+    web:
+      exposure:
+        include: prometheus,health,info,metric # Включить конечные точки Prometheus
+  metrics:
+    export:
+      prometheus:
+        enabled: true # Включить экспорт prometheus
+    distribution:
+      percentiles-histogram:
+        "[http.server.requests]": true # включить гистограмму на основе процентилей для http запросов
+      sla:
+        http:
+          server:
+            requests: 100 мс, 150 мс, 250 мс, 500 мс, 1 с
+    enable:
+      jvm: true

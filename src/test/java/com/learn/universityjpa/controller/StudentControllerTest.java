@@ -1,10 +1,10 @@
 package com.learn.universityjpa.controller;
 
 import com.learn.universityjpa.annotations.SqlTest;
+import com.learn.universityjpa.db.component.StudentComponent;
 import com.learn.universityjpa.db.entity.Gender;
 import com.learn.universityjpa.db.entity.Student;
 import com.learn.universityjpa.exceptions.PersonNotFoundException;
-import com.learn.universityjpa.db.repo.StudentComponent;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -57,7 +57,7 @@ class StudentControllerTest {
 
     @DisplayName("1. Загрузка контекста.")
     @Test
-    public void contextLoads(){
+    public void contextLoads() {
         assertThat(controller).isNotNull();
     }
 

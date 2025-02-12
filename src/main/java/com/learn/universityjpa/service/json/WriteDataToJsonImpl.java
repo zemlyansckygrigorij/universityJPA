@@ -1,15 +1,17 @@
 package com.learn.universityjpa.service.json;
 
+import com.learn.universityjpa.db.component.GroupComponent;
+import com.learn.universityjpa.db.component.StudentComponent;
+import com.learn.universityjpa.db.component.SubjectComponent;
+import com.learn.universityjpa.db.component.TeacherComponent;
 import com.learn.universityjpa.db.entity.Group;
 import com.learn.universityjpa.db.entity.Student;
 import com.learn.universityjpa.db.entity.Subject;
 import com.learn.universityjpa.db.entity.Teacher;
-import com.learn.universityjpa.db.repo.GroupComponent;
-import com.learn.universityjpa.db.repo.StudentComponent;
-import com.learn.universityjpa.db.repo.SubjectComponent;
-import com.learn.universityjpa.db.repo.TeacherComponent;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
@@ -27,6 +29,7 @@ import java.util.List;
 @Component
 @PropertySource("classpath:values.properties")
 public class WriteDataToJsonImpl implements WriteDataToJson {
+    private static final Logger logger = LoggerFactory.getLogger(WriteDataToJsonImpl.class);
     @Autowired
     private GroupComponent groupComponent;
     @Autowired
@@ -49,7 +52,7 @@ public class WriteDataToJsonImpl implements WriteDataToJson {
     private void createJsonFileTeachers() {
         JSONArray teacherList = new JSONArray();
         List<Teacher> teachers = teacherComponent.findAll();
-        for (Teacher teacher: teachers ) {
+        for (Teacher teacher: teachers) {
             JSONObject teacherDetails = new JSONObject();
             teacherDetails.put("id", teacher.getId());
             teacherDetails.put("firstName", teacher.getFirstName());
@@ -67,7 +70,7 @@ public class WriteDataToJsonImpl implements WriteDataToJson {
         JSONArray subjectList = new JSONArray();
         List<Subject> subjects = subjectComponent.findAll();
 
-        for (Subject subject: subjects ) {
+        for (Subject subject: subjects) {
             JSONObject subjectDetails = new JSONObject();
             subjectDetails.put("id", subject.getId());
             subjectDetails.put("name", subject.getName());
@@ -114,7 +117,7 @@ public class WriteDataToJsonImpl implements WriteDataToJson {
             file.flush();
 
         } catch (IOException e) {
-            e.printStackTrace();
+            logger.info(e.getMessage());
         }
     }
 }

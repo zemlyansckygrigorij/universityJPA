@@ -3,7 +3,6 @@ package com.learn.universityjpa.db.entity;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -29,12 +28,12 @@ public class Teacher extends Person {
     @Column(name = "category", nullable = false)
     private String category;
 
-    @ManyToMany(cascade = CascadeType.MERGE, fetch = FetchType.LAZY)
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinTable(
             name = "teacher_subject",
             joinColumns = @JoinColumn(name = "teacher_id"),
             inverseJoinColumns = @JoinColumn(name = "subject_id"))
-    List<Subject> subjects = new ArrayList<>();
+    List<Subject> subjects;
 
     @Override
     public String toString() {

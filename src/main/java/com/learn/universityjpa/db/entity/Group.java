@@ -3,6 +3,8 @@ package com.learn.universityjpa.db.entity;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -41,7 +43,8 @@ public class Group {
     @Column(name = "specification", nullable = false)
     private String specification;
 
-    @ManyToMany(cascade = CascadeType.MERGE, fetch = FetchType.LAZY)
+    @LazyCollection(LazyCollectionOption.FALSE)
+    @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(
             name = "group_subject",
             joinColumns = @JoinColumn(name = "group_id"),
@@ -51,10 +54,28 @@ public class Group {
     @OneToMany(mappedBy = "group", orphanRemoval = true, fetch = FetchType.EAGER)
     private List<Student> students = new ArrayList<>();
 
-    public String toString(){
-        return "Group["+"name-"+name
-                +" specification-"+specification
-                +" subjects-["+subjects.stream().map(s->"  "+s.getId()+"-"+s.getName()).collect(Collectors.toSet())+"] "
-                +" students-["+students.stream().map(s->"  "+s.getId()+"-"+s.getFirstName()+" "+s.getSecondName()+" "+s.getLastName()).collect(Collectors.toSet())+"]";
+    public String toString() {
+        return "Group[" + "name-" + name
+                + " specification-"
+                + specification
+                + " subjects-["
+                    + subjects
+                      .stream()
+                      .map(s->"  " + s.getId() + "-" + s.getName())
+                      .collect(Collectors.toSet())
+                    + "] "
+                + " students-["
+                    + students
+                      .stream()
+                      .map(s->"  "
+                              + s.getId()
+                              + "-"
+                              + s.getFirstName()
+                              + " "
+                              + s.getSecondName()
+                              + " "
+                              + s.getLastName())
+                      .collect(Collectors.toSet())
+                + "]";
     }
 }

@@ -1,6 +1,7 @@
-package com.learn.universityjpa.db.repo;
+package com.learn.universityjpa.db.component;
 
 import com.learn.universityjpa.db.entity.Subject;
+import com.learn.universityjpa.db.repo.SubjectRepository;
 import com.learn.universityjpa.exceptions.SubjectNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -14,7 +15,7 @@ import java.util.Optional;
  */
 @RequiredArgsConstructor
 @Component
-public class SubjectComponentImpl implements  SubjectComponent {
+public class SubjectComponentImpl implements SubjectComponent {
 
     private final SubjectRepository repo;
 

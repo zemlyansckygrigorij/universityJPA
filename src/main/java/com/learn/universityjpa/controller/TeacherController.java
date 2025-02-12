@@ -1,11 +1,12 @@
 package com.learn.universityjpa.controller;
 
+import com.learn.universityjpa.cache.component.TeacherResponseComponent;
+import com.learn.universityjpa.controller.model.json.SubjectJson;
 import com.learn.universityjpa.controller.model.request.TeacherRequest;
-import com.learn.universityjpa.controller.model.response.SubjectResponse;
 import com.learn.universityjpa.controller.model.response.TeacherResponse;
 import com.learn.universityjpa.db.entity.Gender;
 import com.learn.universityjpa.db.entity.Teacher;
-import com.learn.universityjpa.db.repo.TeacherComponent;
+import com.learn.universityjpa.logging.CounterRequests;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,12 +21,12 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * @author Grigoriy Zemlyanskiy
  * @version 1.0
  * class TeacherController
+ *  http://localhost:8080/teachers
  */
 
 @RestController
@@ -35,90 +36,85 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class TeacherController {
     @Autowired
-    private TeacherComponent teacherComponent;
+    private TeacherResponseComponent component;
 
+
+    @CounterRequests
     @GetMapping()
     public List<TeacherResponse> getAllTeachers() {
-        return teacherComponent
-                .findAll()
-                .stream()
-                .map(TeacherResponse::new)
-                .collect(Collectors.toList());
+        return component.findAll();
     }
 
+    @CounterRequests
     @GetMapping("/{id}")
     public TeacherResponse getTeacherById(
             @PathVariable(name = "id") final long id
     ) throws Exception {
-        return new TeacherResponse(teacherComponent.findByIdOrDie(id));
+        return component.findByIdOrDie(id);
     }
 
+    @CounterRequests
     @GetMapping("/name/{name}")
     public List<TeacherResponse> findTeachersByName(@PathVariable(name = "name") final String name) throws Exception {
-        return teacherComponent
-                .getTeachersByName(name)
-                .stream()
-                .map(TeacherResponse::new)
-                .collect(Collectors.toList());
+        return component.getTeachersByName(name);
     }
 
+    @CounterRequests
     @PostMapping()
     public TeacherResponse createTeacher(@RequestBody TeacherRequest request) {
-        return new TeacherResponse(teacherComponent.commit(teacherBuilder(request)));
+        return component.commit(teacherBuilder(request));
     }
 
+    @CounterRequests
     @DeleteMapping("/{id}")
     public void deleteById(
             @PathVariable(name = "id") final long id
     ) throws Exception {
-        teacherComponent.deleteTeacherById(id);
+        component.deleteTeacherById(id);
     }
 
+    @CounterRequests
     @PutMapping("/{id}")
     public void updateTeacher(@RequestBody TeacherRequest request,
                             @PathVariable(name = "id") final long id
     ) {
-        teacherComponent.updateTeacherById(id, teacherBuilder(request));
+        component.updateTeacherById(id, teacherBuilder(request));
     }
 
+    @CounterRequests
     @GetMapping("/{id}/subjects")
-    public List<SubjectResponse> findAllSubjects(
+    public List<SubjectJson> findAllSubjects(
             @PathVariable(name = "id") final long id
     ) throws Exception {
-        return teacherComponent
-                .findByIdOrDie(id)
-                .getSubjects()
-                .stream()
-                .map(SubjectResponse::new)
-                .collect(Collectors.toList());
+        return component.findAllSubjects(id);
     }
 
-    @GetMapping("/{id}/check_subject")
-    public boolean checkSubject(@RequestBody final String name,
-                                @PathVariable(name = "id") final long id
+    @CounterRequests
+    @GetMapping("/{teacherId}/check_subject/{subjectid}")
+    public boolean checkSubject(
+                                @PathVariable(name = "teacherId") final long teacherId,
+                                @PathVariable(name = "subjectid") final long subjectid
     ) throws Exception {
-        return teacherComponent
-                .findByIdOrDie(id)
-                .getSubjects()
-                .stream()
-                .anyMatch((x)->x.getName().equals(name));
+        return component.checkSubject(teacherId , subjectid);
     }
 
-    @PutMapping("/{id}/addSubject/{idSubject}")
+    @CounterRequests
+    @PutMapping("/{teacherId}/addSubject/{subjectid}")
     public void addSubject(
-            @PathVariable(name = "id") final long id,
-            @PathVariable(name = "idSubject") final long idSubject
+            @PathVariable(name = "teacherId") final long teacherId,
+            @PathVariable(name = "subjectid") final long subjectid
     ) throws Exception {
-        teacherComponent.addSubject(id, idSubject);
+        component.addSubject(teacherId , subjectid);
     }
 
-    @PutMapping("/{id}/deleteSubject/{idSubject}")
+    @CounterRequests
+    @PutMapping("/{teacherId}/deleteSubject/{subjectid}")
     @Transactional
     public void deleteSubject(
-            @PathVariable(name = "id") final long id,
-            @PathVariable(name = "idSubject") final long idSubject
+            @PathVariable(name = "teacherId") final long teacherId,
+            @PathVariable(name = "subjectid") final long subjectid
     ) throws Exception {
-       teacherComponent.deleteSubject(id, idSubject);
+        component.deleteSubject(teacherId , subjectid);
     }
 
     public Teacher teacherBuilder(TeacherRequest request) {
@@ -130,9 +126,11 @@ public class TeacherController {
         if (request.getGender().equals("FEMALE")) {
             teacher.setGender(Gender.FEMALE);
         }
+
         if (request.getGender().equals("MALE")) {
             teacher.setGender(Gender.MALE);
         }
+
         teacher.setDateBirth(request.getDateBirth());
         teacher.setCategory(request.getCategory());
         return teacher;

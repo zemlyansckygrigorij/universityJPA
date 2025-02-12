@@ -18,7 +18,7 @@ import javax.transaction.Transactional;
  * interface TeacherRepository
  */
 @Repository
-interface TeacherRepository extends JpaRepository<Teacher, Long> {
+public interface TeacherRepository extends JpaRepository<Teacher, Long> {
     @Query("SELECT t FROM  Teacher t " +
             "WHERE t.firstName LIKE %:name% " +
             "or t.secondName LIKE %:name% " +

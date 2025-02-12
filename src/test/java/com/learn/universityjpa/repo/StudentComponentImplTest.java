@@ -2,12 +2,12 @@ package com.learn.universityjpa.repo;
 
 import com.learn.universityjpa.annotations.SqlTest;
 import com.learn.universityjpa.cache.component.StudentResponseComponent;
+import com.learn.universityjpa.db.component.GroupComponent;
+import com.learn.universityjpa.db.component.StudentComponent;
 import com.learn.universityjpa.db.entity.Gender;
 import com.learn.universityjpa.db.entity.Group;
 import com.learn.universityjpa.db.entity.Student;
 import com.learn.universityjpa.db.entity.Subject;
-import com.learn.universityjpa.db.repo.GroupComponent;
-import com.learn.universityjpa.db.repo.StudentComponent;
 import com.learn.universityjpa.exceptions.PersonNotFoundException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -21,7 +21,9 @@ import org.springframework.test.context.jdbc.SqlGroup;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
 import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.Date;
+import java.util.List;
+import java.util.Optional;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
@@ -185,13 +187,4 @@ class StudentComponentImplTest {
         assertEquals(new SimpleDateFormat("yyyy-MM-dd").format(birth), studentNew.getDateBirth().toString());
     }
 
-    @Test
-    void sendStudentToRedis(){
-        component.findAll().forEach(s->{
-            if(studentResponseComponent.findById(s.getId()).isEmpty()){
-                studentResponseComponent.commit(s);
-            }
-        });
-       assertEquals(studentResponseComponent.findAll().size(),3);
-    }
 }

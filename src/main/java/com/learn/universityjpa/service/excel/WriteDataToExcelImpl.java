@@ -1,13 +1,13 @@
 package com.learn.universityjpa.service.excel;
 
+import com.learn.universityjpa.db.component.GroupComponent;
+import com.learn.universityjpa.db.component.StudentComponent;
+import com.learn.universityjpa.db.component.SubjectComponent;
+import com.learn.universityjpa.db.component.TeacherComponent;
 import com.learn.universityjpa.db.entity.Group;
 import com.learn.universityjpa.db.entity.Student;
 import com.learn.universityjpa.db.entity.Subject;
 import com.learn.universityjpa.db.entity.Teacher;
-import com.learn.universityjpa.db.repo.GroupComponent;
-import com.learn.universityjpa.db.repo.StudentComponent;
-import com.learn.universityjpa.db.repo.SubjectComponent;
-import com.learn.universityjpa.db.repo.TeacherComponent;
 import org.apache.poi.ss.usermodel.BorderStyle;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellStyle;
@@ -58,7 +58,7 @@ public class WriteDataToExcelImpl implements WriteDataToExcel {
     public WriteDataToExcelImpl(GroupComponent groupComponent,
                                 SubjectComponent subjectComponent,
                                 StudentComponent studentComponent,
-                                TeacherComponent teacherComponent){
+                                TeacherComponent teacherComponent) {
         this.groupComponent = groupComponent;
         this.subjectComponent = subjectComponent;
         this.studentComponent = studentComponent;
@@ -67,7 +67,7 @@ public class WriteDataToExcelImpl implements WriteDataToExcel {
         this.cellStyle = initCellStyle();
     }
 
-    private CellStyle initHeaderStyle(){
+    private CellStyle initHeaderStyle() {
         CellStyle headerStyle = workbook.createCellStyle();
         headerStyle.setFillForegroundColor(IndexedColors.LIGHT_BLUE.getIndex());
         headerStyle.setFillPattern(FillPatternType.SOLID_FOREGROUND);
@@ -75,7 +75,7 @@ public class WriteDataToExcelImpl implements WriteDataToExcel {
         return headerStyle;
     }
 
-    private XSSFFont initFHeaderFont(){
+    private XSSFFont initFHeaderFont() {
         XSSFFont font = ((XSSFWorkbook) workbook).createFont();
         font.setFontName("Arial");
         font.setFontHeightInPoints((short) 16);
@@ -83,7 +83,7 @@ public class WriteDataToExcelImpl implements WriteDataToExcel {
         return font;
     }
 
-    private CellStyle initCellStyle(){
+    private CellStyle initCellStyle() {
         CellStyle cellStyle = workbook.createCellStyle();
         cellStyle.setFillForegroundColor(IndexedColors.LIGHT_GREEN.getIndex());
         cellStyle.setFillPattern(FillPatternType.SOLID_FOREGROUND);
@@ -96,7 +96,7 @@ public class WriteDataToExcelImpl implements WriteDataToExcel {
         return cellStyle;
     }
 
-    private XSSFFont initFontRow(){
+    private XSSFFont initFontRow() {
         XSSFFont fontRow = ((XSSFWorkbook) workbook).createFont();
         fontRow.setFontName("Arial");
         fontRow.setFontHeightInPoints((short) 10);

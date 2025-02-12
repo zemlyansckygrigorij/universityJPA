@@ -1,8 +1,9 @@
-package com.learn.universityjpa.db.repo;
+package com.learn.universityjpa.db.component;
 
-import com.learn.universityjpa.db.entity.Subject;
 import com.learn.universityjpa.db.entity.Group;
 import com.learn.universityjpa.db.entity.Student;
+import com.learn.universityjpa.db.entity.Subject;
+import com.learn.universityjpa.db.repo.GroupRepository;
 import com.learn.universityjpa.exceptions.GroupHasStudentsException;
 import com.learn.universityjpa.exceptions.GroupNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,7 +11,6 @@ import org.springframework.stereotype.Component;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 /**
  * @author Grigoriy Zemlyanskiy
@@ -21,10 +21,12 @@ import java.util.stream.Collectors;
 public class GroupComponentImpl implements GroupComponent {
     private final GroupRepository repo;
     @Autowired
-    private  StudentComponent studentComponent;
+    private StudentComponent studentComponent;
+    @Autowired
+    private SubjectComponent subjectComponent;
 
     @Autowired
-    public GroupComponentImpl(GroupRepository repo){
+    public GroupComponentImpl(GroupRepository repo) {
         this.repo = repo;
     }
 
@@ -60,16 +62,16 @@ public class GroupComponentImpl implements GroupComponent {
     }
 
     @Override
-    public Subject addSubject(Group group, Subject subject) {
-        group.getSubjects().add(subject);
-        this.repo.save(group);
+    public Subject addSubject(Long groupId, Long subjectId) throws Exception {
+        Subject subject = subjectComponent.findByIdOrDie(subjectId);
+        this.repo.addSubject(groupId, subjectId);
         return subject;
     }
 
     @Override
-    public Subject deleteSubject(Group group, Subject subject) {
-        group.getSubjects().remove(subject);
-        this.repo.save(group);
+    public Subject deleteSubject(Long groupId, Long subjectId) throws Exception {
+        Subject subject = subjectComponent.findByIdOrDie(subjectId);
+        this.repo.deleteSubject(groupId, subjectId);
         return subject;
     }
 
@@ -92,7 +94,7 @@ public class GroupComponentImpl implements GroupComponent {
         List<Student> students = studentComponent.findAll();
         List<Student> studentsByIdGroup = students.stream()
                 .filter((s) -> Objects.equals(s.getGroup().getId(), id))
-                .collect(Collectors.toList());
+                .toList();
         if (!studentsByIdGroup.isEmpty()) {
            throw new GroupHasStudentsException();
         }

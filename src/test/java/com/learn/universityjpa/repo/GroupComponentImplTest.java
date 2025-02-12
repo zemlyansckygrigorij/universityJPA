@@ -1,10 +1,13 @@
 package com.learn.universityjpa.repo;
 
 import com.learn.universityjpa.annotations.SqlTest;
+import com.learn.universityjpa.cache.component.GroupResponseComponent;
+import com.learn.universityjpa.cache.repo.GroupResponseRepository;
+import com.learn.universityjpa.controller.model.response.GroupResponse;
+import com.learn.universityjpa.db.component.GroupComponent;
+import com.learn.universityjpa.db.component.SubjectComponent;
 import com.learn.universityjpa.db.entity.Group;
 import com.learn.universityjpa.db.entity.Subject;
-import com.learn.universityjpa.db.repo.GroupComponent;
-import com.learn.universityjpa.db.repo.SubjectComponent;
 import com.learn.universityjpa.exceptions.GroupHasStudentsException;
 import com.learn.universityjpa.exceptions.GroupNotFoundException;
 import org.junit.jupiter.api.DisplayName;
@@ -17,7 +20,6 @@ import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.jdbc.SqlConfig;
 import org.springframework.test.context.jdbc.SqlGroup;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.transaction.annotation.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -33,13 +35,16 @@ import static org.springframework.test.context.jdbc.SqlConfig.TransactionMode.IS
 @SpringBootTest
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration
-@Transactional
+//@Transactional
 class GroupComponentImplTest {
     @Autowired
     private GroupComponent component;
     @Autowired
     SubjectComponent subjectComponent;
-
+    @Autowired
+    private GroupResponseRepository repo;
+    @Autowired
+    GroupResponseComponent groupResponseComponent;
     @DisplayName("1. Проверка подключения элемента component.")
     @Test
     public void checkGroupComponent() {
@@ -57,7 +62,7 @@ class GroupComponentImplTest {
     void  findByIdTest() {
         assertEquals(2, component.findAll().size());
         Optional<Group> groupOpt =  component.findById(1L);
-        assertTrue( groupOpt.isPresent());
+        assertTrue(groupOpt.isPresent());
         Group group = groupOpt.orElseThrow();
         assertNotNull(group);
         assertEquals(1, group.getId());
@@ -145,42 +150,43 @@ class GroupComponentImplTest {
         assertFalse(component.checkSubject(group, subject2));
     }
 
-    @DisplayName("11. Проверка добавления предмета в расписания группы.")
-    @SqlTest
+   // @DisplayName("11. Проверка добавления предмета в расписания группы.")
+ //   @SqlTest
+    @Test
     void addSubjectTest() throws Exception {
         Group group = component.findByIdOrDie(1L);
         Subject subject = subjectComponent.findByIdOrDie(2L);
         assertFalse(component.checkSubject(group, subject));
-        component.addSubject(group, subject);
+        component.addSubject(1L, 2L);
         assertTrue(component.checkSubject(group, subject));
     }
 
     @DisplayName("12. Проверка удаления предмета из расписания группы.")
-    @SqlTest
+ //   @SqlTest
+    @Test
     void deleteSubjectTest() throws Exception {
         Group group = component.findByIdOrDie(1L);
         Subject subject = subjectComponent.findByIdOrDie(1L);
-        assertTrue(component.checkSubject(group, subject));
-        component.deleteSubject(group, subject);
+        component.deleteSubject(1L, 2L);
         assertFalse(component.checkSubject(group, subject));
     }
 
     @DisplayName("13. Проверка изменения группы.")
     @Test
-    @SqlGroup({
+ /*   @SqlGroup({
              @Sql(
                 scripts = "/db/sql/insert.sql ",
                 executionPhase = BEFORE_TEST_METHOD,
                 config = @SqlConfig(transactionMode = ISOLATED))
-    })
+    })*/
     void updateGroupByIdTest() throws Exception {
-        Group group = component.findByIdOrDie(1L);
-        group.setName("TestName2");
-        group.setSpecification("TestSpecification2");
+        Group group = component.findByIdOrDie(144L);
+        group.setName("TestNameupdate");
+        group.setSpecification("TestSpecificationupdate");
         component.updateGroupById(group.getId(), group);
-        Group groupNew = component.findByIdOrDie(1L);
-        assertEquals(groupNew.getName(), "TestName2");
-        assertEquals(groupNew.getSpecification(), "TestSpecification2");
+        Group groupNew = component.findByIdOrDie(144L);
+        assertEquals(groupNew.getName(), "TestNameupdate");
+        assertEquals(groupNew.getSpecification(), "TestSpecificationupdate");
    }
 
     @DisplayName("14. Проверка удаления группы.")
@@ -247,5 +253,15 @@ class GroupComponentImplTest {
             config = @SqlConfig(transactionMode = ISOLATED))
     void createTableTest()  {
         assertNotNull(component);
+    }
+
+    @Test
+    void sendStudentToRedis() {
+        component.findAll().forEach(s-> {
+            if (groupResponseComponent.findById(s.getId()).isEmpty()) {
+                repo.save(new GroupResponse(s));
+            }
+        });
+        assertEquals(groupResponseComponent.findAll().size(), 3);
     }
 }

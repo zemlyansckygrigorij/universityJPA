@@ -4,6 +4,8 @@ import com.learn.universityjpa.annotations.SqlTest;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.runner.RunWith;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -32,6 +34,7 @@ import javax.xml.transform.TransformerException;
 @Transactional
 @PropertySource("classpath:values.properties")
 class WriteDataToXMLImplTest {
+    private static final Logger logger = LoggerFactory.getLogger(WriteDataToXMLImplTest.class);
 
     @Value("${spring.dir.xml}")
     private String filePath;
@@ -94,7 +97,7 @@ class WriteDataToXMLImplTest {
             assertEquals(9, list.getLength());
 
         } catch (ParserConfigurationException | SAXException | IOException e) {
-            e.printStackTrace();
+            logger.info(e.getMessage());
         }
     }
 }

@@ -2,6 +2,8 @@ package com.learn.universityjpa.db.entity;
 
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
 import java.util.List;
 import java.util.stream.Collectors;
 import javax.persistence.CascadeType;
@@ -35,14 +37,15 @@ public class Subject {
     @Column(name = "description", nullable = false)
     private String description;
 
-    @ManyToMany(cascade = CascadeType.MERGE, fetch = FetchType.LAZY)
+    @LazyCollection(LazyCollectionOption.FALSE)
+    @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(
             name = "group_subject",
             joinColumns = @JoinColumn(name = "subject_id"),
             inverseJoinColumns = @JoinColumn(name = "group_id"))
     List<Group> groups;
 
-    @ManyToMany(cascade = CascadeType.MERGE, fetch = FetchType.LAZY)
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinTable(
             name = "teacher_subject",
             joinColumns = @JoinColumn(name = "subject_id"),
@@ -52,11 +55,26 @@ public class Subject {
     @Override
     public String toString() {
         return "subject {"
-                +"id=" + this.getId()
-                +", name='" + this.name+ '\''
-                +", description='" + this.description + '\''
-                +" groups-["+groups.stream().map(g->"  "+g.getId()+"-"+g.getName()).collect(Collectors.toSet())+"] "
-                +" teachers-["+teachers.stream().map(t->"  "+t.getId()+"-"+t.getFirstName()+" "+t.getSecondName()+" "+t.getLastName()).collect(Collectors.toSet())+"] "+
-                '}';
+                + "id=" + this.getId()
+                + ", name='" + this.name + '\''
+                + ", description='" + this.description + '\''
+                + " groups-["
+                    + groups
+                      .stream()
+                      .map(g->"  " + g.getId() + "-" + g.getName())
+                      .collect(Collectors.toSet()) + "] "
+                + " teachers-["
+                    + teachers
+                      .stream()
+                      .map(t->"  "
+                              + t.getId()
+                              + "-"
+                              + t.getFirstName()
+                              + " "
+                              + t.getSecondName()
+                              + " "
+                              + t.getLastName())
+                      .collect(Collectors.toSet()) + "] "
+                + '}';
     }
 }
