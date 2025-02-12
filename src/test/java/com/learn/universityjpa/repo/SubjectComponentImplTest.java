@@ -1,9 +1,9 @@
 package com.learn.universityjpa.repo;
 
 import com.learn.universityjpa.annotations.SqlTest;
+import com.learn.universityjpa.db.component.GroupComponent;
+import com.learn.universityjpa.db.component.SubjectComponent;
 import com.learn.universityjpa.db.entity.Subject;
-import com.learn.universityjpa.db.repo.GroupComponent;
-import com.learn.universityjpa.db.repo.SubjectComponent;
 import com.learn.universityjpa.exceptions.SubjectNotFoundException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

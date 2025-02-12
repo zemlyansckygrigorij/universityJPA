@@ -1,7 +1,9 @@
-package com.learn.universityjpa.db.repo;
+package com.learn.universityjpa.db.component;
 
 import com.learn.universityjpa.db.entity.Subject;
 import com.learn.universityjpa.db.entity.Teacher;
+import com.learn.universityjpa.db.repo.SubjectRepository;
+import com.learn.universityjpa.db.repo.TeacherRepository;
 import com.learn.universityjpa.exceptions.PersonNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -117,6 +119,7 @@ public class TeacherComponentImpl implements TeacherComponent {
         if (!teacher.getSubjects().contains(subject)) {
             return subject;
         }
+
         subject.getTeachers().remove(teacher);
         teacher.getSubjects().remove(subject);
         this.subjectRepo.save(subject);

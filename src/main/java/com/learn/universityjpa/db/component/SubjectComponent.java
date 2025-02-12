@@ -1,7 +1,6 @@
-package com.learn.universityjpa.db.repo;
+package com.learn.universityjpa.db.component;
 
 import com.learn.universityjpa.db.entity.Subject;
-
 import java.text.ParseException;
 import java.util.List;
 import java.util.Optional;

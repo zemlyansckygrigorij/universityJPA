@@ -1,24 +1,22 @@
-package com.learn.universityjpa.db.repo;
+package com.learn.universityjpa.cache.component;
 
-import com.learn.universityjpa.db.entity.Subject;
+import com.learn.universityjpa.controller.model.json.SubjectJson;
+import com.learn.universityjpa.controller.model.response.TeacherResponse;
 import com.learn.universityjpa.db.entity.Teacher;
-
-import java.text.ParseException;
 import java.util.List;
 import java.util.Optional;
 
 /**
- * Компонент работы с данными преподавателей.
+ * Компонент работы с данными преподавателей  сохраняемые в кэше.
  */
-public interface TeacherComponent {
-
+public interface TeacherResponseComponent {
     /**
      * Ищет преподавателя по идентификатору.
      *
      * @param id идентификатор преподавателя.
      * @return преподаватель.
      */
-    Optional<Teacher> findById(Long id);
+    Optional<TeacherResponse> findById(Long id);
 
     /**
      * Ищет преподавателя по идентификатору и падает по ошибке, если не нашел.
@@ -26,7 +24,7 @@ public interface TeacherComponent {
      * @param id идентификатор преподавателя.
      * @return преподаватель.
      */
-    Teacher findByIdOrDie(Long id) throws Exception;
+    TeacherResponse findByIdOrDie(Long id) throws Exception;
 
     /**
      * Сохраняет преподавателя.
@@ -34,21 +32,21 @@ public interface TeacherComponent {
      * @param teacher преподаватель для сохранения.
      * @return сохраненный преподаватель.
      */
-    Teacher commit(Teacher teacher);
+    TeacherResponse commit(Teacher teacher);
 
     /**
      * Находит всех преподавателей.
      *
      * @return список преподавателей.
      */
-    List<Teacher> findAll();
+    List<TeacherResponse> findAll();
 
     /**
      * Находит всех преподавателей по введенному имени.
      *
      * @return список преподавателей.
      */
-    List<Teacher> getTeachersByName(String name) throws Exception;
+    List<TeacherResponse> getTeachersByName(String name) throws Exception;
 
     /**
      * Удалить преподавателя по идентификатору.
@@ -60,8 +58,8 @@ public interface TeacherComponent {
     /**
      * Обновить преподавателя по идентификатору.
      *
-     * @param id идентификатор преподавателя.
-     * @param  teacher преподаватель.
+     * @param id      идентификатор преподавателя.
+     * @param teacher преподаватель.
      */
     void updateTeacherById(Long id, Teacher teacher);
 
@@ -70,44 +68,30 @@ public interface TeacherComponent {
      *
      * @return список предметов.
      */
-    List<Subject> findAllSubjects(Teacher teacher);
+    List<SubjectJson>  findAllSubjects(Long id) throws Exception;
 
     /**
      * Проверяет наличие предмета у данного преподавателя.
      *
-     * @param  subject предмет.
+     * @param teacherId идентификатор преподавателя.
+     * @param subjectId идентификатор предмета.
      * @return наличие предмета у данного преподавателя.
      */
-    boolean checkSubject(Teacher teacher, Subject subject);
-
-    /**
-     * Добавляет предмет преподавателю.
-     * @param  teacher преподаватель.
-     * @param  subject предмет.
-     */
-    Subject addSubject(Teacher teacher, Subject subject);
+    boolean checkSubject(Long teacherId , Long subjectId) throws Exception;
 
     /**
      * Удаляет предмет у преподавателя.
      *
-     * @param  teacher преподаватель.
-     * @param  subject предмет.
+     * @param teacherId идентификатор преподавателя.
+     * @param subjectId идентификатор предмета.
      */
-    Subject deleteSubject(Teacher teacher, Subject subject) throws ParseException;
-
-    /**
-     * Удаляет предмет у преподавателя.
-     *
-     * @param  idTeacher идентификатор преподавателя.
-     * @param  idSubject идентификатор предмета.
-     */
-    Subject deleteSubject(long idTeacher, long idSubject) throws Exception;
+    SubjectJson deleteSubject(Long teacherId , Long subjectId) throws Exception;
 
     /**
      * Добавляет предмет преподавателю.
      *
-     * @param  idTeacher идентификатор преподавателя.
-     * @param  idSubject идентификатор предмета.
+     * @param teacherId идентификатор преподавателя.
+     * @param subjectId идентификатор предмета.
      */
-    Subject addSubject(long idTeacher, long idSubject) throws Exception;
+    SubjectJson addSubject(Long teacherId , Long subjectId) throws Exception;
 }

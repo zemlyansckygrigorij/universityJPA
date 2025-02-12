@@ -1,16 +1,13 @@
 package com.learn.universityjpa.cache.component;
 
 import com.learn.universityjpa.controller.model.response.StudentResponse;
-import com.learn.universityjpa.db.entity.Group;
 import com.learn.universityjpa.db.entity.Student;
-import com.learn.universityjpa.db.entity.Subject;
-
 import java.text.ParseException;
 import java.util.List;
 import java.util.Optional;
 
 /**
- * Компонент работы с данными студентов.
+ * Компонент работы с данными студентов сохраняемые в кэше.
  */
 public interface StudentResponseComponent {
     /**
@@ -58,4 +55,11 @@ public interface StudentResponseComponent {
      * @param  student студент.
      */
     void updateStudentById(Long id, Student student) throws ParseException;
+
+    /**
+     * Находит всех студентов по введеному имени.
+     * @param name имя студента.
+     * @return список студентов.
+     */
+    List<StudentResponse> findStudentsByName(String name) throws Exception;
 }

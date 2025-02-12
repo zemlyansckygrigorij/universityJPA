@@ -1,13 +1,14 @@
 package com.learn.universityjpa.controller;
 
+import com.learn.universityjpa.cache.component.SubjectResponseComponent;
 import com.learn.universityjpa.controller.model.request.SubjectRequest;
 import com.learn.universityjpa.controller.model.response.SubjectResponse;
-import com.learn.universityjpa.logging.CounterRequests;
+import com.learn.universityjpa.db.component.GroupComponent;
 import com.learn.universityjpa.db.entity.Subject;
-import com.learn.universityjpa.db.repo.GroupComponent;
-import com.learn.universityjpa.db.repo.SubjectComponent;
+import com.learn.universityjpa.logging.CounterRequests;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -35,27 +36,23 @@ import java.util.stream.Collectors;
 @RequestMapping("/subjects")
 @RequiredArgsConstructor
 public class SubjectController {
-    private final SubjectComponent subjectComponent;
-    private final GroupComponent groupComponent;
+    @Autowired
+    private GroupComponent groupComponent;
+
+    @Autowired
+    SubjectResponseComponent component;
 
     @CounterRequests
     @GetMapping()
     public List<SubjectResponse> getAllSubjects() {
-        return subjectComponent
-                .findAll()
-                .stream()
-                .map(SubjectResponse::new)
-                .collect(Collectors.toList());
+        return component.findAll();
     }
 
     @CounterRequests
     @GetMapping("/name/{name}")
-    public List<SubjectResponse> findSubjectsByName(@PathVariable(name = "name") final String name) throws Exception {
-        return subjectComponent
-                .getSubjectsByName(name)
-                .stream()
-                .map(SubjectResponse::new)
-                .collect(Collectors.toList());
+    public List<SubjectResponse> findSubjectsByName(
+            @PathVariable(name = "name") final String name) throws Exception {
+        return component.getSubjectsByName(name);
     }
 
     @CounterRequests
@@ -63,13 +60,13 @@ public class SubjectController {
     public SubjectResponse getSubjectById(
             @PathVariable(name = "id") final long id
     ) throws Exception {
-        return new SubjectResponse(subjectComponent.findByIdOrDie(id));
+        return component.findByIdOrDie(id);
     }
 
     @CounterRequests
     @PostMapping()
     public SubjectResponse createSubject(@RequestBody SubjectRequest request) {
-        return new SubjectResponse(subjectComponent.commit(subjectBuilder(request)));
+        return component.commit(subjectBuilder(request));
     }
 
     @CounterRequests
@@ -77,7 +74,7 @@ public class SubjectController {
     public void deleteById(
             @PathVariable(name = "id") final long id
     ) throws Exception {
-        subjectComponent.deleteSubjectById(id);
+        component.deleteSubjectById(id);
     }
 
     @CounterRequests
@@ -85,7 +82,7 @@ public class SubjectController {
     public void updateSubject(@RequestBody SubjectRequest request,
                               @PathVariable(name = "id") final long id
     ) throws Exception {
-        subjectComponent.updateSubjectById(id, subjectBuilder(request));
+       component.updateSubjectById(id, subjectBuilder(request));
     }
 
     public Subject subjectBuilder(SubjectRequest request) {

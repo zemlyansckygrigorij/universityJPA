@@ -1,13 +1,12 @@
 package com.learn.universityjpa.controller;
 
+import com.learn.universityjpa.cache.component.GroupResponseComponent;
+import com.learn.universityjpa.controller.model.json.StudentJson;
+import com.learn.universityjpa.controller.model.json.SubjectJson;
 import com.learn.universityjpa.controller.model.request.GroupRequest;
 import com.learn.universityjpa.controller.model.response.GroupResponse;
-import com.learn.universityjpa.controller.model.response.StudentResponse;
-import com.learn.universityjpa.controller.model.response.SubjectResponse;
+import com.learn.universityjpa.db.component.GroupComponent;
 import com.learn.universityjpa.db.entity.Group;
-import com.learn.universityjpa.db.repo.GroupComponent;
-import com.learn.universityjpa.db.repo.StudentComponent;
-import com.learn.universityjpa.db.repo.SubjectComponent;
 import com.learn.universityjpa.logging.CounterRequests;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,13 +21,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 /**
  * @author Grigoriy Zemlyanskiy
  * @version 1.0
  * class GroupController
  * для работы с web сайтом /groups
+ * http://localhost:8080/groups
  */
 @RestController
 @Validated
@@ -36,26 +35,19 @@ import java.util.stream.Collectors;
 @RequestMapping("/groups")
 public class GroupController {
     private final GroupComponent groupComponent;
-    private final StudentComponent studentComponent;
-    private final SubjectComponent subjectComponent;
 
     @Autowired
-    public GroupController(GroupComponent groupComponent,
-                           StudentComponent studentComponent,
-                           SubjectComponent subjectComponent) {
+    GroupResponseComponent groupResponseComponent;
+
+    @Autowired
+    public GroupController(GroupComponent groupComponent) {
         this.groupComponent = groupComponent;
-        this.studentComponent = studentComponent;
-        this.subjectComponent = subjectComponent;
     }
 
     @CounterRequests
     @GetMapping()
     public List<GroupResponse> getAllGroups() {
-        return groupComponent
-                .findAll()
-                .stream()
-                .map(GroupResponse::new)
-                .collect(Collectors.toList());
+        return groupResponseComponent.findAll();
     }
 
     @CounterRequests
@@ -63,50 +55,38 @@ public class GroupController {
     public GroupResponse getGroupById(
             @PathVariable(name = "id") final long id
     ) throws Exception {
-        return new GroupResponse(groupComponent.findByIdOrDie(id));
+        return groupResponseComponent.findByIdOrDie(id);
     }
 
     @CounterRequests
     @GetMapping("/{id}/subjects")
-    public List<SubjectResponse> getSubjectsByGroupId(
+    public List<SubjectJson> getAllSubjectsByGroupId(
             @PathVariable(name = "id") final long id
     ) throws Exception {
-        return groupComponent
-                .findByIdOrDie(id)
-                .getSubjects()
-                .stream()
-                .map(SubjectResponse::new)
-                .collect(Collectors.toList());
+        return groupResponseComponent.findAllSubjectsByGroupId(id);
     }
 
     @CounterRequests
     @GetMapping("/{id}/check_subject")
-    public boolean checkSubject(@RequestBody final String name,
+    public boolean checkSubject(
+            @RequestBody final String name,
             @PathVariable(name = "id") final long id
     ) throws Exception {
-        return groupComponent
-                .findByIdOrDie(id)
-                .getSubjects()
-                .stream()
-                .anyMatch((x)->x.getName().equals(name));
+        return  groupResponseComponent.checkSubjectByGroupId(id, name);
     }
 
     @CounterRequests
     @GetMapping("/{id}/students")
-    public List<StudentResponse> getStudentsByGroupId(
+    public List<StudentJson> findAllStudentsByGroupId(
             @PathVariable(name = "id") final long id
     ) throws Exception {
-        return studentComponent
-                .findAllByGroupId(id)
-                .stream()
-                .map(StudentResponse::new)
-                .collect(Collectors.toList());
+        return  groupResponseComponent.findAllStudentsByGroupId(id);
     }
 
     @CounterRequests
     @PostMapping()
-    public GroupResponse createGroup(@RequestBody GroupRequest request) {
-        return  new GroupResponse(groupComponent.commit(builder(request)));
+    public GroupResponse createGroup(@RequestBody GroupRequest request) throws Exception {
+        return groupResponseComponent.commit(builder(request));
     }
 
     @CounterRequests
@@ -114,7 +94,7 @@ public class GroupController {
     public void deleteById(
             @PathVariable(name = "id") final long id
     ) throws Exception {
-        groupComponent.deleteGroupById(id);
+        groupResponseComponent.deleteGroupById(id);
     }
 
     @CounterRequests
@@ -122,25 +102,24 @@ public class GroupController {
     public void updateGroup(@RequestBody GroupRequest request,
             @PathVariable(name = "id") final long id
     ) {
-        groupComponent.updateGroupById(id, builder(request));
+        groupResponseComponent.updateGroupById(id, builder(request));
     }
 
     @CounterRequests
-    @PutMapping("/{id}/addSubject/{idSubject}")
+    @PutMapping("/{id}/addSubject/{subjectId}")
     public void addSubject(
             @PathVariable(name = "id") final long id,
-            @PathVariable(name = "idSubject") final long idSubject
+            @PathVariable(name = "subjectId") final long subjectId
     ) throws Exception {
-        groupComponent.addSubject(groupComponent.findByIdOrDie(id), subjectComponent.findByIdOrDie(idSubject));
+        groupResponseComponent.addSubject(id, subjectId);
     }
 
     @CounterRequests
-    @PutMapping("/{id}/deleteSubject/{idSubject}")
+    @PutMapping("/{id}/deleteSubject/{subjectId}")
     public void deleteSubject(
             @PathVariable(name = "id") final long id,
-            @PathVariable(name = "idSubject") final long idSubject
-    ) throws Exception {
-        groupComponent.deleteSubject(groupComponent.findByIdOrDie(id), subjectComponent.findByIdOrDie(idSubject));
+            @PathVariable(name = "subjectId") final long subjectId) throws Exception {
+        groupResponseComponent.deleteSubject(id, subjectId);
     }
 
     public Group builder(GroupRequest request) {

@@ -7,17 +7,17 @@ import org.springframework.data.redis.connection.jedis.JedisConnectionFactory;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.repository.configuration.EnableRedisRepositories;
 
+/**
+ * @author Grigoriy Zemlyanskiy
+ * @version 1.0
+ * Configuration RedisConfiguration for work with cache repository
+ */
 @Configuration
 @ComponentScan("com.learn.universityjpa")
-@EnableRedisRepositories(basePackages = "com.learn.universityjpa.entity")
+@EnableRedisRepositories(basePackages = "com.learn.universityjpa.cache.repo")
 public class RedisConfiguration {
     @Bean
     JedisConnectionFactory jedisConnectionFactory() {
-        // JedisConnectionFactory jedisConFactory
-        //      = new JedisConnectionFactory();
-        //  jedisConFactory.setHostName("localhost");
-        // jedisConFactory.setPort(6379);
-        // return jedisConFactory;
         return new JedisConnectionFactory();
     }
 
