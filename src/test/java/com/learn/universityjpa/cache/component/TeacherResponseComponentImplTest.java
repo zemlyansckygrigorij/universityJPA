@@ -9,8 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import static org.junit.jupiter.api.Assertions.*;
 @SpringBootTest
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration
@@ -73,9 +73,7 @@ class TeacherResponseComponentImplTest {
     @Test
     void insertAllSubject() {
         repo.deleteAll();
-        component.findAll().forEach(t->{
-            repo.save(new TeacherResponse(t));
-        });
-        assertEquals(repo.count(),12);
+        component.findAll().forEach(t-> repo.save(new TeacherResponse(t)));
+        assertEquals(repo.count(), 12);
     }
 }

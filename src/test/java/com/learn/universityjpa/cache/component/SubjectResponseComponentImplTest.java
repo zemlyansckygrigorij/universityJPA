@@ -10,8 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import static org.junit.jupiter.api.Assertions.*;
 @SpringBootTest
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration
@@ -50,10 +50,7 @@ class SubjectResponseComponentImplTest {
         @Test
     void insertAllSubject() {
         repo.deleteAll();
-        component.findAll().forEach(s->{
-          //  System.out.println(s.toString());
-            repo.save(new SubjectResponse(s));
-        });
-        assertEquals(repo.count(),12);
+        component.findAll().forEach(s-> repo.save(new SubjectResponse(s)));
+        assertEquals(repo.count(), 12);
     }
 }

@@ -4,10 +4,10 @@ import com.learn.universityjpa.annotations.SqlTest;
 import com.learn.universityjpa.cache.component.GroupResponseComponent;
 import com.learn.universityjpa.cache.repo.GroupResponseRepository;
 import com.learn.universityjpa.controller.model.response.GroupResponse;
-import com.learn.universityjpa.db.entity.Group;
-import com.learn.universityjpa.db.entity.Subject;
 import com.learn.universityjpa.db.component.GroupComponent;
 import com.learn.universityjpa.db.component.SubjectComponent;
+import com.learn.universityjpa.db.entity.Group;
+import com.learn.universityjpa.db.entity.Subject;
 import com.learn.universityjpa.exceptions.GroupHasStudentsException;
 import com.learn.universityjpa.exceptions.GroupNotFoundException;
 import org.junit.jupiter.api.DisplayName;
@@ -20,7 +20,6 @@ import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.jdbc.SqlConfig;
 import org.springframework.test.context.jdbc.SqlGroup;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.transaction.annotation.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -168,7 +167,6 @@ class GroupComponentImplTest {
     void deleteSubjectTest() throws Exception {
         Group group = component.findByIdOrDie(1L);
         Subject subject = subjectComponent.findByIdOrDie(1L);
-       // assertTrue(component.checkSubject(group, subject));
         component.deleteSubject(1L, 2L);
         assertFalse(component.checkSubject(group, subject));
     }
@@ -258,15 +256,12 @@ class GroupComponentImplTest {
     }
 
     @Test
-    void sendStudentToRedis(){
-      //  assertEquals(component.findAll().size(),14);
-        component.findAll().forEach(s->{
-            System.out.println(s.getName());
-            if(groupResponseComponent.findById(s.getId()).isEmpty()){
-                System.out.println(s.getId());
+    void sendStudentToRedis() {
+        component.findAll().forEach(s-> {
+            if (groupResponseComponent.findById(s.getId()).isEmpty()) {
                 repo.save(new GroupResponse(s));
             }
         });
-        assertEquals(groupResponseComponent.findAll().size(),3);
+        assertEquals(groupResponseComponent.findAll().size(), 3);
     }
 }
