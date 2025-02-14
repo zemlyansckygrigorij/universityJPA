@@ -4,7 +4,6 @@ import com.learn.universityjpa.config.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
-
 import java.util.List;
 import java.util.Optional;
 
@@ -13,14 +12,13 @@ import java.util.Optional;
  * @version 1.0
  * class UserComponentImpl
  */
-
 @Component
-public class UserComponentImpl implements UserComponent{
+public class UserComponentImpl implements UserComponent {
     @Autowired
     UserRepo repo;
 
-  /*  @Autowired
-    PasswordEncoder passwordEncoder;*/
+    @Autowired
+    PasswordEncoder passwordEncoder;
 
     private Optional<User> findById(Long id) {
         return this.repo.findById(id);
@@ -32,8 +30,7 @@ public class UserComponentImpl implements UserComponent{
 
     @Override
     public User commit(User user) throws Exception {
-   ///     user.setPassword(passwordEncoder.encode(user.getPassword()));
-        System.out.println("user.getPassword() - "+user.getPassword());
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
         return repo.save(user);
     }
 

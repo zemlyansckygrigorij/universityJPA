@@ -1,9 +1,13 @@
 package com.learn.universityjpa.db.repo;
 
 import com.learn.universityjpa.config.User;
-
 import java.util.List;
 
+/**
+ * @author Grigoriy Zemlyanskiy
+ * @version 1.0
+ * interface UserComponent
+ */
 public interface UserComponent {
     /**
      * Ищет пользователя по идентификатору и падает по ошибке, если не нашел.
