@@ -10,6 +10,7 @@ import com.learn.universityjpa.db.entity.Group;
 import com.learn.universityjpa.logging.CounterRequests;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -27,7 +28,7 @@ import java.util.Optional;
  * @version 1.0
  * class GroupController
  * для работы с web сайтом /groups
- * http://localhost:8080/groups
+ * http://localhost:8082/groups
  */
 @RestController
 @Validated
@@ -44,12 +45,14 @@ public class GroupController {
         this.groupComponent = groupComponent;
     }
 
+    @PreAuthorize("hasRole('USER')")
     @CounterRequests
     @GetMapping()
     public List<GroupResponse> getAllGroups() {
         return groupResponseComponent.findAll();
     }
 
+    @PreAuthorize("hasRole('USER')")
     @CounterRequests
     @GetMapping("/{id}")
     public GroupResponse getGroupById(
@@ -58,6 +61,7 @@ public class GroupController {
         return groupResponseComponent.findByIdOrDie(id);
     }
 
+    @PreAuthorize("hasRole('USER')")
     @CounterRequests
     @GetMapping("/{id}/subjects")
     public List<SubjectJson> getAllSubjectsByGroupId(
@@ -66,6 +70,7 @@ public class GroupController {
         return groupResponseComponent.findAllSubjectsByGroupId(id);
     }
 
+    @PreAuthorize("hasRole('USER')")
     @CounterRequests
     @GetMapping("/{id}/check_subject")
     public boolean checkSubject(
@@ -75,6 +80,7 @@ public class GroupController {
         return  groupResponseComponent.checkSubjectByGroupId(id, name);
     }
 
+    @PreAuthorize("hasRole('USER')")
     @CounterRequests
     @GetMapping("/{id}/students")
     public List<StudentJson> findAllStudentsByGroupId(
@@ -83,12 +89,14 @@ public class GroupController {
         return  groupResponseComponent.findAllStudentsByGroupId(id);
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @CounterRequests
     @PostMapping()
     public GroupResponse createGroup(@RequestBody GroupRequest request) throws Exception {
         return groupResponseComponent.commit(builder(request));
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @CounterRequests
     @DeleteMapping("/{id}")
     public void deleteById(
@@ -97,6 +105,7 @@ public class GroupController {
         groupResponseComponent.deleteGroupById(id);
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @CounterRequests
     @PutMapping("/{id}")
     public void updateGroup(@RequestBody GroupRequest request,
@@ -105,6 +114,7 @@ public class GroupController {
         groupResponseComponent.updateGroupById(id, builder(request));
     }
 
+    @PreAuthorize("hasRole('MANAGER')")
     @CounterRequests
     @PutMapping("/{id}/addSubject/{subjectId}")
     public void addSubject(
@@ -114,6 +124,7 @@ public class GroupController {
         groupResponseComponent.addSubject(id, subjectId);
     }
 
+    @PreAuthorize("hasRole('MANAGER')")
     @CounterRequests
     @PutMapping("/{id}/deleteSubject/{subjectId}")
     public void deleteSubject(

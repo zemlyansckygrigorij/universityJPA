@@ -47,7 +47,9 @@ public class TeacherResponseComponentImpl implements TeacherResponseComponent {
 
     @Override
     public List<TeacherResponse> findAll() {
-        return List.of();
+        List<TeacherResponse> teacherResponses = new ArrayList<>();
+        repo.findAll().forEach(teacherResponses::add);
+        return teacherResponses;
     }
 
     @Override

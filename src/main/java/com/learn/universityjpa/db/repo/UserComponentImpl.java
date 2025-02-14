@@ -19,8 +19,8 @@ public class UserComponentImpl implements UserComponent{
     @Autowired
     UserRepo repo;
 
-    @Autowired
-    PasswordEncoder passwordEncoder;
+  /*  @Autowired
+    PasswordEncoder passwordEncoder;*/
 
     private Optional<User> findById(Long id) {
         return this.repo.findById(id);
@@ -32,7 +32,7 @@ public class UserComponentImpl implements UserComponent{
 
     @Override
     public User commit(User user) throws Exception {
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
+   ///     user.setPassword(passwordEncoder.encode(user.getPassword()));
         System.out.println("user.getPassword() - "+user.getPassword());
         return repo.save(user);
     }

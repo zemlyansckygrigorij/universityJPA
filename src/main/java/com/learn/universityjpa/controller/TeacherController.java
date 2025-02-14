@@ -10,6 +10,7 @@ import com.learn.universityjpa.logging.CounterRequests;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -38,13 +39,14 @@ public class TeacherController {
     @Autowired
     private TeacherResponseComponent component;
 
-
+    @PreAuthorize("hasRole('USER')")
     @CounterRequests
     @GetMapping()
     public List<TeacherResponse> getAllTeachers() {
         return component.findAll();
     }
 
+    @PreAuthorize("hasRole('USER')")
     @CounterRequests
     @GetMapping("/{id}")
     public TeacherResponse getTeacherById(
@@ -53,18 +55,21 @@ public class TeacherController {
         return component.findByIdOrDie(id);
     }
 
+    @PreAuthorize("hasRole('USER')")
     @CounterRequests
     @GetMapping("/name/{name}")
     public List<TeacherResponse> findTeachersByName(@PathVariable(name = "name") final String name) throws Exception {
         return component.getTeachersByName(name);
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @CounterRequests
     @PostMapping()
     public TeacherResponse createTeacher(@RequestBody TeacherRequest request) {
         return component.commit(teacherBuilder(request));
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @CounterRequests
     @DeleteMapping("/{id}")
     public void deleteById(
@@ -73,6 +78,7 @@ public class TeacherController {
         component.deleteTeacherById(id);
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @CounterRequests
     @PutMapping("/{id}")
     public void updateTeacher(@RequestBody TeacherRequest request,
@@ -81,6 +87,7 @@ public class TeacherController {
         component.updateTeacherById(id, teacherBuilder(request));
     }
 
+    @PreAuthorize("hasRole('MANAGER')")
     @CounterRequests
     @GetMapping("/{id}/subjects")
     public List<SubjectJson> findAllSubjects(
@@ -89,6 +96,7 @@ public class TeacherController {
         return component.findAllSubjects(id);
     }
 
+    @PreAuthorize("hasRole('MANAGER')")
     @CounterRequests
     @GetMapping("/{teacherId}/check_subject/{subjectid}")
     public boolean checkSubject(
@@ -98,6 +106,7 @@ public class TeacherController {
         return component.checkSubject(teacherId , subjectid);
     }
 
+    @PreAuthorize("hasRole('MANAGER')")
     @CounterRequests
     @PutMapping("/{teacherId}/addSubject/{subjectid}")
     public void addSubject(
@@ -107,6 +116,7 @@ public class TeacherController {
         component.addSubject(teacherId , subjectid);
     }
 
+    @PreAuthorize("hasRole('MANAGER')")
     @CounterRequests
     @PutMapping("/{teacherId}/deleteSubject/{subjectid}")
     @Transactional

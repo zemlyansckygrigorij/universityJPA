@@ -11,6 +11,7 @@ import com.learn.universityjpa.logging.CounterRequests;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -27,7 +28,7 @@ import java.util.List;
  * @version 1.0
  * class StudentController
  * для работы с web сайтом /students
- *  http://localhost:8080/students
+ *  http://localhost:8082/students
  */
 @RestController
 @Validated
@@ -40,12 +41,15 @@ public class StudentController {
     StudentResponseComponent studentResponseComponent;
     @Autowired
     GroupComponent groupComponent;
+
+    @PreAuthorize("hasRole('USER')")
     @CounterRequests
     @GetMapping()
     public List<StudentResponse>  getAllStudents() {
         return studentResponseComponent.findAll();
     }
 
+    @PreAuthorize("hasRole('USER')")
     @CounterRequests
     @GetMapping("/{id}")
     public StudentResponse getStudentById(
@@ -54,6 +58,7 @@ public class StudentController {
         return studentResponseComponent.findByIdOrDie(id);
     }
 
+    @PreAuthorize("hasRole('USER')")
     @GetMapping("/{id}/group")
     public String findGroup(
             @PathVariable(name = "id") final long id
@@ -61,6 +66,7 @@ public class StudentController {
         return studentResponseComponent.findByIdOrDie(id).getGroupName();
     }
 
+    @PreAuthorize("hasRole('USER')")
     @CounterRequests
     @GetMapping("/name/{name}")
     public  List<StudentResponse> findStudentsByName(
@@ -69,12 +75,14 @@ public class StudentController {
         return studentResponseComponent.findStudentsByName(name);
     }
 
+    @PreAuthorize("hasRole('MANAGER')")
     @CounterRequests
     @PostMapping()
     public StudentResponse createStudent(@RequestBody StudentRequest request) throws Exception {
         return studentResponseComponent.commit(studentBuilder(request));
     }
 
+    @PreAuthorize("hasRole('MANAGER')")
     @CounterRequests
     @DeleteMapping("/{id}")
     public void deleteById(
@@ -83,6 +91,7 @@ public class StudentController {
         studentResponseComponent.deleteStudentById(id);
     }
 
+    @PreAuthorize("hasRole('MANAGER')")
     @CounterRequests
     @PutMapping("/{id}")
     public void updateStudent(

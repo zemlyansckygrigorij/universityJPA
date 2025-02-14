@@ -2,6 +2,19 @@ this project was  created for educational purposes.
 Stack: Gradle, postgreSQL,Spring JPA,Liquibase,Kafka,Spring Web,Rest,Lombock,Junit,Mockito
 checking code: checkstyle
 
+http://localhost:8082/groups
+http://localhost:8082/public/groups
+
+http://localhost:8082/students
+http://localhost:8082/public/students
+
+http://localhost:8082/subjects
+http://localhost:8082/public/subjects
+
+http://localhost:8082/teachers
+http://localhost:8082/public/teachers
+
+http://localhost:8082/login
 
 -------redis----------
 start run Ubuntu 20.04 on windows
@@ -41,3 +54,49 @@ cd scripts
 docker compose up
 
 
+-------------------------keycloak-------------------------------
+
+edwin
+Faqwer!2%23g345we!@#
+
+
+KEYCLOAK_ADMIN=zemlyansckygrigorij;KEYCLOAK_ADMIN_PASSWORD=rfnfdfcbz123!
+zemlyansckygrigorij
+rfnfdfcbz123!
+
+localhost:8080
+
+
+run
+cd C:\Program Files\keycloak\keycloak-26.1.0\bin
+kc.bat start-dev
+
+
+
+client-admin
+bc5eye5SdOLjRuEAMVGpUKsWgZiNJDcT
+ROLE_ADMIN
+
+client-manager
+OnZiVEIwzG0UwHGrLouejw6KtVmsCWnx
+ROLE_MANAGER
+
+client-user
+zYDQgg4nA5drDxDw7w5dKE1x7SpbpCVA
+ROLE_USER
+
+springsecurity
+fqIYtltRkPDnFv01NEPePlM2av68XMFd
+ROLE_ADMIN
+ROLE_MANAGER
+ROLE_USER
+
+admin
+rfnfdfcbz123!
+
+j.daniels
+rfnfdfcbz123!
+
+// localhost:8081
+// localhost:8081/manager.html
+// localhost:8081/user.html

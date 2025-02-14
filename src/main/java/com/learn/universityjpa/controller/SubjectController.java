@@ -9,6 +9,7 @@ import com.learn.universityjpa.logging.CounterRequests;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -28,7 +29,7 @@ import java.util.stream.Collectors;
  * class SubjectController
  * для работы с web сайтом /subjects
  *
- * localhost:8080/subjects
+ * localhost:8082/subjects
  */
 @RestController
 @Validated
@@ -42,12 +43,14 @@ public class SubjectController {
     @Autowired
     SubjectResponseComponent component;
 
+    @PreAuthorize("hasRole('USER')")
     @CounterRequests
     @GetMapping()
     public List<SubjectResponse> getAllSubjects() {
         return component.findAll();
     }
 
+    @PreAuthorize("hasRole('USER')")
     @CounterRequests
     @GetMapping("/name/{name}")
     public List<SubjectResponse> findSubjectsByName(
@@ -55,6 +58,7 @@ public class SubjectController {
         return component.getSubjectsByName(name);
     }
 
+    @PreAuthorize("hasRole('USER')")
     @CounterRequests
     @GetMapping("/{id}")
     public SubjectResponse getSubjectById(
@@ -63,12 +67,14 @@ public class SubjectController {
         return component.findByIdOrDie(id);
     }
 
+    @PreAuthorize("hasRole('MANAGER')")
     @CounterRequests
     @PostMapping()
     public SubjectResponse createSubject(@RequestBody SubjectRequest request) {
         return component.commit(subjectBuilder(request));
     }
 
+    @PreAuthorize("hasRole('MANAGER')")
     @CounterRequests
     @DeleteMapping("/{id}")
     public void deleteById(
@@ -77,6 +83,7 @@ public class SubjectController {
         component.deleteSubjectById(id);
     }
 
+    @PreAuthorize("hasRole('MANAGER')")
     @CounterRequests
     @PutMapping("/{id}")
     public void updateSubject(@RequestBody SubjectRequest request,
